@@ -1,0 +1,464 @@
+{{ block content }}
+<style>
+    .otree-title {
+        display: none !important;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .otree-body {
+        max-width: 100%;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FFFFFF;
+        padding: 10px;
+    }
+    
+    .outer-container {
+        background-color: #FFFFFF;
+        border: 2px solid #696969;
+        border-radius: 4px;
+        padding: 10px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    /* Header */
+    .header {
+        background-color: #4A5F7F;
+        color: white;
+        text-align: center;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    
+    .header .round-info {
+        font-size: 14px;
+        font-weight: normal;
+        position: absolute;
+        left: 20px;
+    }
+    
+    .header .instructions-link {
+        color: #87CEEB;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    /* Main Grid */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+    /* Box styling */
+    .info-box {
+        background-color: #FFFFFF;
+        border: 2px solid #000000;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .info-box h3 {
+        text-align: center;
+        background-color: #FFFFFF;
+        padding: 8px;
+        margin: 0;
+        font-size: 14px;
+        font-weight: bold;
+        border-bottom: 2px solid #000000;
+        flex-shrink: 0;
+    }
+    
+    .info-box-content {
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* General Information */
+    .general-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        font-size: 13px;
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+    }
+    
+    .info-label {
+        color: #000;
+    }
+    
+    .info-value {
+        font-weight: normal;
+        color: #0000FF;
+    }
+    
+    .info-value.highlight {
+        color: #8B0000;
+    }
+    
+    /* Disruption Information */
+    .disruption-content {
+        text-align: center;
+        padding: 20px 0;
+    }
+    
+    .disruption-status {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+    
+    .disruption-status .status-text {
+        font-weight: bold;
+        font-size: 16px;
+    }
+    
+    .status-yes {
+        color: #FF0000;
+    }
+    
+    .status-no {
+        color: #0000FF;
+    }
+    
+    .disruption-cost {
+        font-size: 14px;
+    }
+    
+    .cost-value {
+        font-weight: bold;
+        color: #0000FF;
+    }
+    
+    /* Performance History Table */
+    .table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+        border: none;
+        height: 100%;
+        min-height: 300px;
+        max-height: 450px;
+    }
+    
+    .performance-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 12px;
+        background-color: white;
+    }
+    
+    .performance-table th {
+        background-color: #C0C0C0;
+        padding: 10px 4px;
+        text-align: center;
+        border-right: 1px solid #000000;
+        border-top: none;
+        border-left: none;
+        border-bottom: 1px solid #000000;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+    }
+    
+    .performance-table th:last-child {
+        border-right: none;
+    }
+    
+    .performance-table td {
+        padding: 10px 4px;
+        text-align: center;
+        border-right: 1px solid #808080;
+        border-top: none;
+        border-left: none;
+        border-bottom: 1px solid #808080;
+        background-color: #FFFFFF;
+    }
+    
+    .performance-table td:last-child {
+        border-right: none;
+    }
+    
+    .performance-table tbody tr:nth-child(odd) td {
+        background-color: #F0F0F0;
+    }
+    
+    .performance-table tr.current-round td {
+        background-color: #FFFFE0 !important;
+        font-weight: bold;
+    }
+    
+    /* Spending Decision */
+    .spending-content {
+        text-align: center;
+        padding: 30px 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .spending-input-wrapper {
+        margin: 30px 0;
+    }
+    
+    .ecu-label {
+        display: inline-block;
+        margin-left: 8px;
+        font-weight: bold;
+    }
+    
+    .spending-instruction {
+        font-size: 12px;
+        line-height: 1.6;
+        margin: 20px 0;
+        color: #333;
+    }
+    
+    .spending-instruction strong {
+        font-weight: bold;
+    }
+    
+    /* Next button styling */
+    .otree-btn-next {
+        background-color: #D3D3D3 !important;
+        border: 2px solid #808080 !important;
+        padding: 8px 30px !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        color: black !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+    }
+    
+    .otree-btn-next:hover {
+        background-color: #C0C0C0 !important;
+    }
+    
+    /* Form fields */
+    .form-group {
+        margin: 0;
+        display: inline-block;
+    }
+    
+    .form-control {
+        width: 120px !important;
+        height: 35px !important;
+        font-size: 16px !important;
+        text-align: center !important;
+        border: 2px solid #000000 !important;
+        border-radius: 4px !important;
+        background-color: #E0F0FF !important;
+        display: inline-block !important;
+    }
+    
+    .form-control:focus {
+        outline: none !important;
+        border-color: #0000FF !important;
+    }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .general-info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="outer-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="round-info">Round: {{ player.round_number }} / {{ C.NUM_ROUNDS }}</div>
+        <div class="instructions-link">Instructions</div>
+    </div>
+    
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+        <!-- General Information -->
+        <div class="info-box">
+            <h3>GENERAL INFORMATION</h3>
+            <div class="info-box-content">
+                <div class="general-info-grid">
+                    <div>
+                        <div class="info-row">
+                            <span class="info-label">Disruption probability:</span>
+                            <span class="info-value">5%</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Disruption impact:</span>
+                            <span class="info-value">2000 ECU</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Revenue each round:</span>
+                            <span class="info-value">100 ECU</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="info-row">
+                            <span class="info-label">Accumulative costs:</span>
+                            <span class="info-value">{{ player.total_costs }} ECU</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Average total cost:</span>
+                            <span class="info-value">{{ average_cost }} ECU</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Accumulative profit:</span>
+                            <span class="info-value highlight">{{ current_profit }} ECU</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disruption Information -->
+        <div class="info-box">
+            <h3>DISRUPTION INFORMATION</h3>
+            <div class="info-box-content">
+                <div class="disruption-content">
+                    <div class="disruption-status">
+                        Disruption happening in this round: 
+                        {{ if last_result }}
+                            {{ if last_result.is_disrupted }}
+                                <span class="status-text status-yes">YES</span>
+                            {{ else }}
+                                <span class="status-text status-no">NO</span>
+                            {{ endif }}
+                        {{ else }}
+                            <span class="status-text status-no">NO</span>
+                        {{ endif }}
+                    </div>
+                    <div class="disruption-cost">
+                        Disruption cost in this round: 
+                        {{ if last_result }}
+                            <span class="cost-value">{{ last_result.cost_of_disruption }} ECU</span>
+                        {{ else }}
+                            <span class="cost-value">0 ECU</span>
+                        {{ endif }}
+                        <span style="color: #0000FF;">/ 0 ECU</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Second Row Grid -->
+    <div class="content-grid">
+        <!-- Performance History -->
+        <div class="info-box">
+            <h3>ROUNDS' PERFORMANCE HISTORY</h3>
+            <div class="info-box-content" style="padding: 0;">
+                <div class="table-container">
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Round</th>
+                                <th>Revenue</th>
+                                <th>SC resilience<br>cost</th>
+                                <th>Cost of<br>disruption</th>
+                                <th>Total<br>costs</th>
+                                <th>Profit this<br>round</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ for result in combined_result }}
+                            <tr {{ if result.player.round_number == player.round_number }}class="current-round"{{ endif }}>
+                                <td>{{ result.player.round_number }}</td>
+                                <td>100</td>
+                                <td>{{ result.investment }}</td>
+                                <td>{{ if result.cost_of_disruption == 0 }}-{{ else }}{{ result.cost_of_disruption }}{{ endif }}</td>
+                                <td>{{ result.total_costs }}</td>
+                                <td>{{ result.expected_profit }}</td>
+                            </tr>
+                            {{ endfor }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Spending Decision -->
+        <div class="info-box">
+            <h3>YOUR SPENDING DECISION</h3>
+            <div class="info-box-content">
+                <div class="spending-content">
+                    <div class="spending-input-wrapper">
+                        {{ formfields }}
+                        <span class="ecu-label">(ECU)</span>
+                    </div>
+                    
+                    <div class="spending-instruction">
+                        Enter the amount (from 0 to 100) that you would like to<br>
+                        spend to reduce both the <strong>probability</strong> and the <strong>impact</strong> of<br>
+                        disruption to <strong>maximize your profit</strong>
+                    </div>
+                    
+                    {{ next_button }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle Enter key submission
+        const moneyInput = document.querySelector('input[name="money_input"]');
+        if (moneyInput) {
+            // Input validation
+            moneyInput.addEventListener('input', function(e) {
+                let value = parseInt(e.target.value);
+                if (value < 0) e.target.value = 0;
+                if (value > 100) e.target.value = 100;
+            });
+            
+            // Enter key handling
+            moneyInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const submitButton = document.querySelector('.otree-btn-next');
+                    if (submitButton && !submitButton.disabled) {
+                        submitButton.click();
+                    }
+                }
+            });
+            
+            // Focus the input
+            moneyInput.focus();
+        }
+        
+        // Change button text
+        const nextBtn = document.querySelector('.otree-btn-next');
+        if (nextBtn) {
+            nextBtn.textContent = 'Submit';
+        }
+    });
+</script>
+
+{{ endblock }}
