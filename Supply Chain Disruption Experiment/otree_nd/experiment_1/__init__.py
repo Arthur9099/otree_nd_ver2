@@ -8,7 +8,7 @@ Investment Game - Supply Chain Resilience
 class C(BaseConstants):
     NAME_IN_URL = 'otree_nd'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 100
+    NUM_ROUNDS = 11
     INITIAL_PROFIT = 10000  # C₀
     DISRUPTION_COST = 2000  # C_I (base disruption cost)
     BASIC_PROBABILITY = 5   # p₀ (base probability in %)
@@ -262,6 +262,80 @@ class Results(Page):
         return player.round_number == C.NUM_ROUNDS
     
     @staticmethod
+    def vars_for_template(player: Player):
+        all_players = player.in_all_rounds()
+        all_results = []
+        for p in all_players:
+            player_results = CombinedResult.filter(player=p)
+            all_results.extend(player_results)
+
+        all_results = sorted(all_results, key=lambda x: x.player.round_number)
+        
+        total_investment = sum(r.investment for r in all_results)
+        total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
+        final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
+        num_disruptions = sum(1 for r in all_results if r.is_disrupted)
+        
+        return dict(
+            all_results=all_results,
+            num_disruptions=num_disruptions,
+            total_disruption_cost=total_disruption_cost,
+            total_investment=total_investment,
+            final_profit=final_profit,
+            initial_profit=C.INITIAL_PROFIT,
+        )
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        all_players = player.in_all_rounds()
+        all_results = []
+        for p in all_players:
+            player_results = CombinedResult.filter(player=p)
+            all_results.extend(player_results)
+
+        all_results = sorted(all_results, key=lambda x: x.player.round_number)
+        
+        total_investment = sum(r.investment for r in all_results)
+        total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
+        final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
+        num_disruptions = sum(1 for r in all_results if r.is_disrupted)
+        
+        # Payment calculation
+        # Ví dụ: Show-up fee = 3€, conversion rate = 1€ per 1000 ECU profit
+        show_up_fee = 3
+        conversion_rate = 1 / 1000  # 1€ cho mỗi 1000 ECU
+        
+        # Tính performance payment dựa trên profit thực tế (có thể âm hoặc dương)
+        # Nếu final_profit > initial_profit thì có thưởng, ngược lại không có
+        profit_change = final_profit - C.INITIAL_PROFIT
+        performance_payment = max(0, profit_change * conversion_rate)
+        performance_payment = round(performance_payment, 2)
+        
+        total_payment = show_up_fee + performance_payment
+        total_payment = round(total_payment, 2)
+        
+        # Lưu payment vào participant
+        player.participant.payoff = total_payment
+        
+        return dict(
+            all_results=all_results,
+            num_disruptions=num_disruptions,
+            total_disruption_cost=total_disruption_cost,
+            total_investment=total_investment,
+            final_profit=final_profit,
+            initial_profit=C.INITIAL_PROFIT,
+            show_up_fee=show_up_fee,
+            performance_payment=performance_payment,
+            total_payment=total_payment,
+        )
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+    
+    @staticmethod
     def before_next_page(player: Player, timeout_happened):
         # Lấy số trang từ query parameter
         page = player.participant.vars.get('page', 1)
@@ -301,5 +375,37 @@ class Results(Page):
             num_disruptions=num_disruptions,
             profit_change=profit_change,
         )
+    
+
+# Export Excel
+def custom_export(players):
+    # Sắp xếp players theo player_id rồi theo round_number
+    players = sorted(players, key=lambda p: (p.id_in_group, p.round_number))
+
+    # Header
+    yield [
+        'player_id',
+        'round_number',
+        'investment',
+        'is_disrupted',
+        'cost_of_disruption',
+        'total_costs',
+        'expected_profit',
+    ]
+
+    for p in players:
+        # Lấy bản ghi CombinedResult của player trong round đó
+        results = CombinedResult.filter(player=p)
+        for r in results:
+            yield [
+                p.id_in_group,
+                p.round_number,
+                r.investment,
+                1 if r.is_disrupted else 0,
+                r.cost_of_disruption,
+                r.total_costs,
+                r.expected_profit,
+            ]
+  
     
 page_sequence = [LandingPage, GamePage, Results]

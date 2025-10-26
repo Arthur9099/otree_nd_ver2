@@ -57,6 +57,94 @@
         font-size: 14px;
     }
     
+    /* Modal styles */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-overlay.active {
+        display: flex;
+    }
+    
+    .modal-content {
+        background-color: white;
+        border: 3px solid #000;
+        border-radius: 8px;
+        max-width: 1200px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .modal-header {
+        background-color: #D3D3D3;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        position: relative;
+    }
+    
+    .modal-header h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+    }
+    
+    .modal-close:hover {
+        color: #666;
+    }
+    
+    .modal-body {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .instruction-section {
+        border: 2px dashed #000;
+        padding: 20px;
+        background-color: #FAFAFA;
+    }
+    
+    .instruction-section h3 {
+        margin: 0 0 15px 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .instruction-section p {
+        margin: 10px 0;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+    
     /* Main Grid */
     .content-grid {
         display: grid;
@@ -288,10 +376,46 @@
         .general-info-grid {
             grid-template-columns: 1fr;
         }
+        
+        .modal-body {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
 <div class="outer-container">
+    <!-- Instructions Modal -->
+    <div class="modal-overlay" id="instructionsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>INSTRUCTIONS</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="instruction-section">
+                    <h3>Welcoming and general information about the experiment</h3>
+                    <p>- Welcoming and general information about the experiment (e.g., what kind of experiment, how many rounds it has, the information about disruption, how much revenue endowed each round, the objective of the experiment...)</p>
+                </div>
+                <div class="instruction-section">
+                    <h3>Feedback provided at the end of each round</h3>
+                    <p>- What information will be seen after decision being made each round, explaining the meanings of these parameters, assuring that the profit will return to positive (in case disruption happens in the early rounds)...</p>
+                </div>
+                <div class="instruction-section">
+                    <h3>How to maximize profit</h3>
+                    <p>- Giving an example to illustrate the profit function</p>
+                    <p>- Explaining how spending decision are made and its benefit on reducing the potential losses caused by disruptions</p>
+                    <p>- Giving an example to elaborate the trade-off between the cost of SC resilience spending and the cost due to disruptions,</p>
+                </div>
+                <div class="instruction-section">
+                    <h3>Payment determination</h3>
+                    <p>- Info about the participant fee</p>
+                    <p>- Explaining how the final profit will be converted into real money</p>
+                    <p>- How earning will be paid</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Header -->
     <div class="header">
         <div class="round-info">Round: {{ player.round_number }} / {{ C.NUM_ROUNDS }}</div>
@@ -428,6 +552,29 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Modal functionality
+        const modal = document.getElementById('instructionsModal');
+        const instructionsLink = document.querySelector('.instructions-link');
+        const closeModal = document.getElementById('closeModal');
+        
+        // Open modal
+        instructionsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+        });
+        
+        // Close modal with X button
+        closeModal.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+        
         // Handle Enter key submission
         const moneyInput = document.querySelector('input[name="money_input"]');
         if (moneyInput) {
@@ -458,6 +605,7 @@
         if (nextBtn) {
             nextBtn.textContent = 'Submit';
         }
+        
     });
 </script>
 
