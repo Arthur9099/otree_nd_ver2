@@ -16,54 +16,54 @@ class C(BaseConstants):
     # Quiz questions and answers
     QUIZ_QUESTIONS = [
         {
-            'question': 'What does the probability of supply chain disruption depend on?',
+            'question': 'Câu hỏi 1: (Đáp án a)',
             'options': {
-                'a': 'Market prices',
-                'b': 'Level of investment in resilience',
-                'c': 'Number of employees',
-                'd': 'Weather conditions'
-            },
-            'correct': 'b'
-        },
-        {
-            'question': 'When you invest more in resilience, what happens?',
-            'options': {
-                'a': 'Probability of disruption decreases',
-                'b': 'Probability of disruption increases',
-                'c': 'No effect',
-                'd': 'Costs always double'
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
             },
             'correct': 'a'
         },
         {
-            'question': 'What is the goal of this game?',
+            'question': 'Câu hỏi 2: (Đáp án b)',
             'options': {
-                'a': 'Invest as much as possible',
-                'b': 'Do not invest anything',
-                'c': 'Maximize final profit',
-                'd': 'Complete as quickly as possible'
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'Câu hỏi 3: (Đáp án c)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
             },
             'correct': 'c'
         },
         {
-            'question': 'How does the disruption cost (if it occurs) change when you invest more?',
+            'question': 'Câu hỏi 4: (Đáp án d)',
             'options': {
-                'a': 'Increases',
-                'b': 'Stays the same',
-                'c': 'Doubles',
-                'd': 'Decreases'
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
             },
             'correct': 'd'
         },
         {
-            'question': 'How many decision rounds will you make in this game?',
+            'question': 'Câu hỏi 5: (Đáp án a)',
             'options': {
-                'a': '5 rounds',
-                'b': '11 rounds',
-                'c': '10 rounds',
-                'd': '20 rounds'
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
             },
-            'correct': 'b'
+            'correct': 'a'
         }
     ]
 
@@ -94,57 +94,21 @@ class Player(BasePlayer):
     )
     round_calculated = models.BooleanField(initial=False)
     
-    # Quiz fields with choices for radio buttons
-    quiz_q1 = models.StringField(
-        blank=True,
-        choices=[
-            ['a', 'a) Market prices'],
-            ['b', 'b) Level of investment in resilience'],
-            ['c', 'c) Number of employees'],
-            ['d', 'd) Weather conditions']
-        ],
-        widget=widgets.RadioSelect
-    )
-    quiz_q2 = models.StringField(
-        blank=True,
-        choices=[
-            ['a', 'a) Probability of disruption decreases'],
-            ['b', 'b) Probability of disruption increases'],
-            ['c', 'c) No effect'],
-            ['d', 'd) Costs always double']
-        ],
-        widget=widgets.RadioSelect
-    )
-    quiz_q3 = models.StringField(
-        blank=True,
-        choices=[
-            ['a', 'a) Invest as much as possible'],
-            ['b', 'b) Do not invest anything'],
-            ['c', 'c) Maximize final profit'],
-            ['d', 'd) Complete as quickly as possible']
-        ],
-        widget=widgets.RadioSelect
-    )
-    quiz_q4 = models.StringField(
-        blank=True,
-        choices=[
-            ['a', 'a) Increases'],
-            ['b', 'b) Stays the same'],
-            ['c', 'c) Doubles'],
-            ['d', 'd) Decreases']
-        ],
-        widget=widgets.RadioSelect
-    )
-    quiz_q5 = models.StringField(
-        blank=True,
-        choices=[
-            ['a', 'a) 5 rounds'],
-            ['b', 'b) 11 rounds'],
-            ['c', 'c) 10 rounds'],
-            ['d', 'd) 20 rounds']
-        ],
-        widget=widgets.RadioSelect
-    )
+    # Quiz fields - choices generated dynamically from QUIZ_QUESTIONS
+    def make_field(question_data):
+        choices = [[key, f"{key}) {value}"] for key, value in question_data['options'].items()]
+        return models.StringField(
+            blank=True,
+            choices=choices,
+            widget=widgets.RadioSelect
+        )
+    
+    quiz_q1 = make_field(C.QUIZ_QUESTIONS[0])
+    quiz_q2 = make_field(C.QUIZ_QUESTIONS[1])
+    quiz_q3 = make_field(C.QUIZ_QUESTIONS[2])
+    quiz_q4 = make_field(C.QUIZ_QUESTIONS[3])
+    quiz_q5 = make_field(C.QUIZ_QUESTIONS[4])
+    
     quiz_attempts = models.IntegerField(initial=0)
 
 class CombinedResult(ExtraModel):
