@@ -79,11 +79,12 @@
         background-color: white;
         border: 3px solid #000;
         border-radius: 8px;
-        max-width: 1200px;
+        max-width: 800px;
         width: 90%;
         max-height: 90vh;
-        overflow-y: auto;
         position: relative;
+        display: flex;
+        flex-direction: column;
     }
     
     .modal-header {
@@ -92,6 +93,9 @@
         text-align: center;
         border-bottom: 2px solid #000;
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .modal-header h2 {
@@ -102,8 +106,9 @@
     
     .modal-close {
         position: absolute;
-        top: 10px;
+        top: 50%;
         right: 15px;
+        transform: translateY(-50%);
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
@@ -122,8 +127,10 @@
     .modal-body {
         padding: 30px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 20px;
+        max-height: calc(90vh - 100px);
+        overflow-y: auto;
     }
     
     .instruction-section {
@@ -235,7 +242,11 @@
         font-size: 14px;
     }
     
-    .cost-value {
+    .cost-value-yes {
+        font-weight: bold;
+        color: #FF0000;
+    }
+    .cost-value-no {
         font-weight: bold;
         color: #0000FF;
     }
@@ -310,12 +321,109 @@
     
     .spending-input-wrapper {
         margin: 30px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        position: relative;
+    }
+    
+    .calculator-icon {
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        fill: #4A5F7F;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    .calculator-icon:hover {
+        fill: #2E3D54;
+        transform: scale(1.1);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+    
+    .calculator-icon:active {
+        transform: scale(0.95);
     }
     
     .ecu-label {
         display: inline-block;
-        margin-left: 8px;
         font-weight: bold;
+        font-size: 16px;
+        line-height: 35px;
+    }
+    
+    /* Calculator Modal */
+    .calculator-modal {
+        display: none;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 10px;
+        background-color: white;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 12px 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        width: 300px;
+        min-height: 100px;
+    }
+    
+    .calculator-modal.active {
+        display: block;
+    }
+    
+    .calculator-modal-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+    }
+    
+    .calculator-modal-title {
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .calculator-modal-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: #666;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    
+    .calculator-modal-close:hover {
+        color: #000;
+    }
+    
+    .calculator-modal-content {
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.6;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .calculator-result {
+        width: 100%;
     }
     
     .spending-instruction {
@@ -374,10 +482,6 @@
         }
         
         .general-info-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .modal-body {
             grid-template-columns: 1fr;
         }
     }
@@ -446,14 +550,14 @@
                     <div>
                         <div class="info-row">
                             <span class="info-label">Accumulative costs:</span>
-                            <span class="info-value">{{ player.total_costs }} ECU</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Average total cost:</span>
-                            <span class="info-value">{{ average_cost }} ECU</span>
+                            <span class="info-value">{{ accumulative_costs }} ECU</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Accumulative profit:</span>
+                            <span class="info-value">{{ accumulative_profit }} ECU</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Potential final profit:</span>
                             <span class="info-value highlight">{{ current_profit }} ECU</span>
                         </div>
                     </div>
@@ -481,11 +585,14 @@
                     <div class="disruption-cost">
                         Disruption cost in this round: 
                         {{ if last_result }}
-                            <span class="cost-value">{{ last_result.cost_of_disruption }} ECU</span>
+                            {{ if last_result.is_disrupted }}
+                            <span class="cost-value-yes">{{ last_result.cost_of_disruption }} ECU</span>
+                            {{ else }}
+                            <span class="cost-value-no">0 ECU</span>
+                            {{ endif }}
                         {{ else }}
-                            <span class="cost-value">0 ECU</span>
+                            <span class="cost-value-no">0 ECU</span>
                         {{ endif }}
-                        <span style="color: #0000FF;">/ 0 ECU</span>
                     </div>
                 </div>
             </div>
@@ -517,8 +624,8 @@
                                 <td>100</td>
                                 <td>{{ result.investment }}</td>
                                 <td>{{ if result.cost_of_disruption == 0 }}-{{ else }}{{ result.cost_of_disruption }}{{ endif }}</td>
-                                <td>{{ result.total_costs }}</td>
-                                <td>{{ result.expected_profit }}</td>
+                                <td>{{ result.round_total_costs }}</td>
+                                <td>{{ result.round_profit }}</td>
                             </tr>
                             {{ endfor }}
                         </tbody>
@@ -533,8 +640,32 @@
             <div class="info-box-content">
                 <div class="spending-content">
                     <div class="spending-input-wrapper">
+                        <svg class="calculator-icon" id="calculatorIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                            <path d="M192 64C156.7 64 128 92.7 128 128L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 128C512 92.7 483.3 64 448 64L192 64zM224 128L416 128C433.7 128 448 142.3 448 160L448 192C448 209.7 433.7 224 416 224L224 224C206.3 224 192 209.7 192 192L192 160C192 142.3 206.3 128 224 128zM240 296C240 309.3 229.3 320 216 320C202.7 320 192 309.3 192 296C192 282.7 202.7 272 216 272C229.3 272 240 282.7 240 296zM320 320C306.7 320 296 309.3 296 296C296 282.7 306.7 272 320 272C333.3 272 344 282.7 344 296C344 309.3 333.3 320 320 320zM448 296C448 309.3 437.3 320 424 320C410.7 320 400 309.3 400 296C400 282.7 410.7 272 424 272C437.3 272 448 282.7 448 296zM216 416C202.7 416 192 405.3 192 392C192 378.7 202.7 368 216 368C229.3 368 240 378.7 240 392C240 405.3 229.3 416 216 416zM344 392C344 405.3 333.3 416 320 416C306.7 416 296 405.3 296 392C296 378.7 306.7 368 320 368C333.3 368 344 378.7 344 392zM424 416C410.7 416 400 405.3 400 392C400 378.7 410.7 368 424 368C437.3 368 448 378.7 448 392C448 405.3 437.3 416 424 416zM192 488C192 474.7 202.7 464 216 464L328 464C341.3 464 352 474.7 352 488C352 501.3 341.3 512 328 512L216 512C202.7 512 192 501.3 192 488zM424 464C437.3 464 448 474.7 448 488C448 501.3 437.3 512 424 512C410.7 512 400 501.3 400 488C400 474.7 410.7 464 424 464z"/>
+                        </svg>
                         {{ formfields }}
                         <span class="ecu-label">(ECU)</span>
+                        
+                        <!-- Calculator Modal -->
+                        <div class="calculator-modal" id="calculatorModal">
+                            <div class="calculator-modal-header">
+                                <span class="calculator-modal-title">Calculator</span>
+                                <button class="calculator-modal-close" id="closeCalculatorModal">&times;</button>
+                            </div>
+                            <div class="calculator-modal-content">
+                                <div class="calculator-result" id="calculatorResult" style="display: none;">
+                                    <div style="margin-bottom: 10px;">
+                                        <strong>Disruption probability:</strong> <span id="calcProbability">-</span>%
+                                    </div>
+                                    <div>
+                                        <strong>Disruption impact:</strong> <span id="calcImpact">-</span> ECU
+                                    </div>
+                                </div>
+                                <div id="calculatorPlaceholder" style="color: #999;">
+                                    Enter an amount to see calculations
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="spending-instruction">
@@ -575,20 +706,80 @@
             }
         });
         
-        // Handle Enter key submission
+        // Calculator Modal functionality
+        const calculatorModal = document.getElementById('calculatorModal');
+        const calculatorIcon = document.getElementById('calculatorIcon');
+        const closeCalculatorModal = document.getElementById('closeCalculatorModal');
+        let isCalculatorOpen = false;
+        
+        // Open calculator modal
+        calculatorIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            calculatorModal.classList.add('active');
+            isCalculatorOpen = true;
+        });
+        
+        // Close calculator modal with X button only
+        closeCalculatorModal.addEventListener('click', function(e) {
+            e.stopPropagation();
+            calculatorModal.classList.remove('active');
+            isCalculatorOpen = false;
+        });
+        
+        // Prevent modal from closing when clicking inside it
+        calculatorModal.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Calculator function
+        function calculateDisruption(investment) {
+            const BASIC_PROBABILITY = 5;
+            const DISRUPTION_COST = 2000;
+            
+            // p(x) = p₀ * (1 - x/100)
+            const probability = BASIC_PROBABILITY * (1 - investment / 100);
+            
+            // C_I(x) = C_I * (1 - x/100)
+            const impact = DISRUPTION_COST * (1 - investment / 100);
+            
+            return {
+                probability: Math.max(0, probability).toFixed(2),
+                impact: Math.max(0, Math.round(impact))
+            };
+        }
+        
+        // Handle Enter key submission and calculator update
         const moneyInput = document.querySelector('input[name="money_input"]');
+        const calculatorResult = document.getElementById('calculatorResult');
+        const calculatorPlaceholder = document.getElementById('calculatorPlaceholder');
+        const calcProbability = document.getElementById('calcProbability');
+        const calcImpact = document.getElementById('calcImpact');
+        
         if (moneyInput) {
-            // Input validation
+            // Input validation and calculator update
             moneyInput.addEventListener('input', function(e) {
                 let value = parseInt(e.target.value);
                 if (value < 0) e.target.value = 0;
                 if (value > 100) e.target.value = 100;
+                
+                // Update calculator
+                if (e.target.value === '' || isNaN(value)) {
+                    calculatorResult.style.display = 'none';
+                    calculatorPlaceholder.style.display = 'block';
+                } else {
+                    const result = calculateDisruption(value);
+                    calcProbability.textContent = result.probability;
+                    calcImpact.textContent = result.impact;
+                    calculatorResult.style.display = 'block';
+                    calculatorPlaceholder.style.display = 'none';
+                }
             });
             
             // Enter key handling
             moneyInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
+                    e.stopPropagation();
                     const submitButton = document.querySelector('.otree-btn-next');
                     if (submitButton && !submitButton.disabled) {
                         submitButton.click();
@@ -598,12 +789,40 @@
             
             // Focus the input
             moneyInput.focus();
+            
+            // Initialize calculator if there's already a value
+            if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
+                const value = parseInt(moneyInput.value);
+                const result = calculateDisruption(value);
+                calcProbability.textContent = result.probability;
+                calcImpact.textContent = result.impact;
+                calculatorResult.style.display = 'block';
+                calculatorPlaceholder.style.display = 'none';
+            }
         }
         
-        // Change button text
+        // Change button text and prevent modal closing on submit
         const nextBtn = document.querySelector('.otree-btn-next');
         if (nextBtn) {
             nextBtn.textContent = 'Submit';
+        }
+        
+        // Handle form submission to keep calculator open
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                if (isCalculatorOpen) {
+                    // Store calculator state before form submission
+                    sessionStorage.setItem('calculatorWasOpen', 'true');
+                }
+            });
+        }
+        
+        // Restore calculator state after page load
+        if (sessionStorage.getItem('calculatorWasOpen') === 'true') {
+            calculatorModal.classList.add('active');
+            isCalculatorOpen = true;
+            sessionStorage.removeItem('calculatorWasOpen');
         }
         
     });
