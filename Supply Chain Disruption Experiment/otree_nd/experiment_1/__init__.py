@@ -8,10 +8,64 @@ Investment Game - Supply Chain Resilience
 class C(BaseConstants):
     NAME_IN_URL = 'otree_nd'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 100
+    NUM_ROUNDS = 11
     INITIAL_PROFIT = 10000  # C₀
     DISRUPTION_COST = 2000  # C_I (base disruption cost)
     BASIC_PROBABILITY = 5   # p₀ (base probability in %)
+    
+    # Quiz questions and answers
+    QUIZ_QUESTIONS = [
+        {
+            'question': 'What does the probability of supply chain disruption depend on?',
+            'options': {
+                'a': 'Market prices',
+                'b': 'Level of investment in resilience',
+                'c': 'Number of employees',
+                'd': 'Weather conditions'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'When you invest more in resilience, what happens?',
+            'options': {
+                'a': 'Probability of disruption decreases',
+                'b': 'Probability of disruption increases',
+                'c': 'No effect',
+                'd': 'Costs always double'
+            },
+            'correct': 'a'
+        },
+        {
+            'question': 'What is the goal of this game?',
+            'options': {
+                'a': 'Invest as much as possible',
+                'b': 'Do not invest anything',
+                'c': 'Maximize final profit',
+                'd': 'Complete as quickly as possible'
+            },
+            'correct': 'c'
+        },
+        {
+            'question': 'How does the disruption cost (if it occurs) change when you invest more?',
+            'options': {
+                'a': 'Increases',
+                'b': 'Stays the same',
+                'c': 'Doubles',
+                'd': 'Decreases'
+            },
+            'correct': 'd'
+        },
+        {
+            'question': 'How many decision rounds will you make in this game?',
+            'options': {
+                'a': '5 rounds',
+                'b': '11 rounds',
+                'c': '10 rounds',
+                'd': '20 rounds'
+            },
+            'correct': 'b'
+        }
+    ]
 
 class Subsession(BaseSubsession):
     pass
@@ -23,7 +77,7 @@ class Player(BasePlayer):
     money_input = models.IntegerField(
         min=0,
         max=100,
-        label="Spending Amount",
+        label="",
         blank=False,
     )
     is_disrupted = models.BooleanField(
@@ -39,6 +93,59 @@ class Player(BasePlayer):
         initial=C.INITIAL_PROFIT,
     )
     round_calculated = models.BooleanField(initial=False)
+    
+    # Quiz fields with choices for radio buttons
+    quiz_q1 = models.StringField(
+        blank=True,
+        choices=[
+            ['a', 'a) Market prices'],
+            ['b', 'b) Level of investment in resilience'],
+            ['c', 'c) Number of employees'],
+            ['d', 'd) Weather conditions']
+        ],
+        widget=widgets.RadioSelect
+    )
+    quiz_q2 = models.StringField(
+        blank=True,
+        choices=[
+            ['a', 'a) Probability of disruption decreases'],
+            ['b', 'b) Probability of disruption increases'],
+            ['c', 'c) No effect'],
+            ['d', 'd) Costs always double']
+        ],
+        widget=widgets.RadioSelect
+    )
+    quiz_q3 = models.StringField(
+        blank=True,
+        choices=[
+            ['a', 'a) Invest as much as possible'],
+            ['b', 'b) Do not invest anything'],
+            ['c', 'c) Maximize final profit'],
+            ['d', 'd) Complete as quickly as possible']
+        ],
+        widget=widgets.RadioSelect
+    )
+    quiz_q4 = models.StringField(
+        blank=True,
+        choices=[
+            ['a', 'a) Increases'],
+            ['b', 'b) Stays the same'],
+            ['c', 'c) Doubles'],
+            ['d', 'd) Decreases']
+        ],
+        widget=widgets.RadioSelect
+    )
+    quiz_q5 = models.StringField(
+        blank=True,
+        choices=[
+            ['a', 'a) 5 rounds'],
+            ['b', 'b) 11 rounds'],
+            ['c', 'c) 10 rounds'],
+            ['d', 'd) 20 rounds']
+        ],
+        widget=widgets.RadioSelect
+    )
+    quiz_attempts = models.IntegerField(initial=0)
 
 class CombinedResult(ExtraModel):
     player = models.Link(Player)
@@ -54,6 +161,34 @@ class LandingPage(Page):
     def is_displayed(player: Player):
         return player.round_number == 1
 
+class QuizPage(Page):
+    form_model = 'player'
+    form_fields = ['quiz_q1', 'quiz_q2', 'quiz_q3', 'quiz_q4', 'quiz_q5']
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            questions=C.QUIZ_QUESTIONS,
+            attempt_number=player.quiz_attempts + 1
+        )
+    
+    @staticmethod
+    def error_message(player: Player, values):
+        player.quiz_attempts += 1
+        
+        errors = []
+        for i, q in enumerate(C.QUIZ_QUESTIONS, 1):
+            field_name = f'quiz_q{i}'
+            if values[field_name] != q['correct']:
+                errors.append(f"Question {i}")
+        
+        if errors:
+            return f"Please review your answers. Incorrect: {', '.join(errors)}"
+
 class GamePage(Page):
     form_model = 'player'
     form_fields = ['money_input']
@@ -64,6 +199,9 @@ class GamePage(Page):
         results = []
         for p in all_players[:player.round_number]:
             player_results = CombinedResult.filter(player=p)
+            for r in player_results:
+                r.round_total_costs = r.investment + r.cost_of_disruption
+                r.round_profit = 100 - r.investment - r.cost_of_disruption
             results.extend(player_results)
         
         results = sorted(results, key=lambda x: x.player.round_number, reverse=True)
@@ -76,10 +214,13 @@ class GamePage(Page):
         
         last_result = results[0] if results else None
         
-        avg_cost = 0
+        accumulative_costs = 0
         if results:
-            total_costs_sum = sum(r.total_costs for r in results)
-            avg_cost = total_costs_sum // len(results)
+            accumulative_costs = sum(r.investment + r.cost_of_disruption for r in results)
+        
+        accumulative_profit = 0
+        if results:
+            accumulative_profit = sum(100 - r.investment - r.cost_of_disruption for r in results)
         
         current_profit = last_result.expected_profit if last_result else C.INITIAL_PROFIT
         
@@ -99,22 +240,19 @@ class GamePage(Page):
                 'initial_profit': C.INITIAL_PROFIT,
                 'all_results': results,
             }
-        num_rounds_plus_one = player.round_number + 1
-        num_rounds_minus_one = player.round_number - 1
         
         return dict(
             combined_result=results,
             current_round_result=current_round_result,
             last_result=last_result,
-            average_cost=avg_cost,
+            accumulative_costs=accumulative_costs,
+            accumulative_profit=accumulative_profit,
             initial_profit=C.INITIAL_PROFIT,
             current_profit=current_profit,
             is_final_round=player.round_number == C.NUM_ROUNDS,
             game_completed=game_completed,
             final_stats=final_stats,
             round_calculated=player.round_calculated,
-            num_rounds_plus_one=num_rounds_plus_one,
-            num_rounds_minus_one=num_rounds_minus_one,
         )
     
     @staticmethod
@@ -127,31 +265,22 @@ class GamePage(Page):
             
             player.money_input = investment
             
-            # CORRECTED LOGIC: Following the mathematical formulas
-            # p(x) = p₀ - p₀ * (x/100) = 5 - 5 * (x/100) = 5 * (1 - x/100)
             disruption_probability = C.BASIC_PROBABILITY * (1 - investment / 100)
             disruption_probability = max(0, disruption_probability)
             
-            # C_I(x) = C_I - C_I * (x/100) = C_I * (1 - x/100)
             disruption_impact = C.DISRUPTION_COST * (1 - investment / 100)
-            disruption_impact = max(0, int(disruption_impact))  # Ensure non-negative integer
+            disruption_impact = max(0, int(disruption_impact))
             
-            # Generate random number (0-100) to check for disruption
             random_number = random.uniform(0, 100)
             
             if random_number < disruption_probability:
-                # Disruption occurs
                 player.is_disrupted = True
                 player.cost_of_disruption = disruption_impact
             else:
-                # No disruption
                 player.is_disrupted = False
                 player.cost_of_disruption = 0
             
-            # Calculate profit: Π(x) = C₀ - x - p(x) * C_I(x)
-            # But since we already determined if disruption occurred, we use actual cost
             if player.round_number > 1:
-                # Get previous round's profit
                 prev_player = player.in_round(player.round_number - 1)
                 prev_results = CombinedResult.filter(player=prev_player)
                 if prev_results:
@@ -161,20 +290,16 @@ class GamePage(Page):
                     prev_expected_profit = C.INITIAL_PROFIT
                     prev_total_costs = 0
                 
-                # Calculate new profit based on previous round
                 player.expected_profit = prev_expected_profit - investment - player.cost_of_disruption
                 player.total_costs = prev_total_costs + investment + player.cost_of_disruption
             else:
-                # First round - calculate from initial profit
                 player.expected_profit = C.INITIAL_PROFIT - investment - player.cost_of_disruption
                 player.total_costs = investment + player.cost_of_disruption
             
-            # Delete existing result for this round if any
             existing_results = CombinedResult.filter(player=player)
             for result in existing_results:
                 result.delete()
             
-            # Create the combined result record
             CombinedResult.create(
                 player=player,
                 investment=investment,
@@ -206,11 +331,9 @@ class GamePage(Page):
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # Fallback calculation if live_method wasn't used
         if not player.round_calculated and player.money_input is not None:
             investment = player.money_input
             
-            # CORRECTED LOGIC: Following the mathematical formulas
             disruption_probability = C.BASIC_PROBABILITY * (1 - investment / 100)
             disruption_probability = max(0, disruption_probability)
             
@@ -262,18 +385,6 @@ class Results(Page):
         return player.round_number == C.NUM_ROUNDS
     
     @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        # Lấy số trang từ query parameter
-        page = player.participant.vars.get('page', 1)
-        try:
-            page = int(page)
-            if page < 1:
-                page = 1
-        except (TypeError, ValueError):
-            page = 1
-        player.participant.vars['current_page'] = page
-
-    @staticmethod
     def vars_for_template(player: Player):
         all_players = player.in_all_rounds()
         all_results = []
@@ -290,16 +401,59 @@ class Results(Page):
         num_disruptions = sum(1 for r in all_results if r.is_disrupted)
         profit_change = final_profit - C.INITIAL_PROFIT
         
+        show_up_fee = 3
+        conversion_rate = 1 / 1000
+        
+        profit_change = final_profit - C.INITIAL_PROFIT
+        performance_payment = max(0, profit_change * conversion_rate)
+        performance_payment = round(performance_payment, 2)
+        
+        total_payment = show_up_fee + performance_payment
+        total_payment = round(total_payment, 2)
+        
+        player.participant.payoff = total_payment
+        
         return dict(
             all_results=all_results,
             total_results=len(all_results),
-            total_investment=total_investment,
+            num_disruptions=num_disruptions,
             total_disruption_cost=total_disruption_cost,
+            total_investment=total_investment,
             final_profit=final_profit,
             initial_profit=C.INITIAL_PROFIT,
             average_investment=average_investment,
-            num_disruptions=num_disruptions,
             profit_change=profit_change,
+            show_up_fee=show_up_fee,
+            performance_payment=performance_payment,
+            total_payment=total_payment,
         )
+
+
+def custom_export(players):
+    players = sorted(players, key=lambda p: (p.id_in_group, p.round_number))
+
+    yield [
+        'player_id',
+        'round_number',
+        'investment',
+        'is_disrupted',
+        'cost_of_disruption',
+        'total_costs',
+        'expected_profit',
+    ]
+
+    for p in players:
+        results = CombinedResult.filter(player=p)
+        for r in results:
+            yield [
+                p.id_in_group,
+                p.round_number,
+                r.investment,
+                1 if r.is_disrupted else 0,
+                r.cost_of_disruption,
+                r.total_costs,
+                r.expected_profit,
+            ]
+
     
-page_sequence = [LandingPage, GamePage, Results]
+page_sequence = [LandingPage, QuizPage, GamePage, Results]

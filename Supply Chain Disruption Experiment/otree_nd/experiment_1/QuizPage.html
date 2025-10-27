@@ -1,0 +1,230 @@
+{{ block content }}
+<style>
+    .otree-title {
+        display: none !important;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .otree-body {
+        max-width: 100%;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F5F5F5;
+        padding: 20px;
+    }
+    
+    .quiz-container {
+        background-color: #FFFFFF;
+        border: 3px solid #000000;
+        border-radius: 0;
+        padding: 40px 60px;
+        max-width: 1000px;
+        width: 100%;
+        margin: 30px auto;
+    }
+    
+    .quiz-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #000000;
+        letter-spacing: 2px;
+        text-align: center;
+    }
+    
+    .instruction {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #000000;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .error-message {
+        background-color: #ffebee;
+        border: 2px solid #c62828;
+        color: #c62828;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    .question-block {
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .question-block:last-of-type {
+        border-bottom: none;
+    }
+    
+    .question-text {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #000000;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    li {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        background-color: #fafafa;
+        border: 2px solid #e0e0e0;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    li:hover {
+        background-color: #f0f0f0;
+        border-color: #000000;
+    }
+    
+    input[type="radio"] {
+        margin-right: 12px;
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+    }
+    
+    label {
+        cursor: pointer;
+        flex: 1;
+        margin: 0;
+        font-size: 16px;
+        color: #000000;
+    }
+    
+    .submit-container {
+        text-align: center;
+        margin-top: 35px;
+    }
+    
+    .otree-btn-next {
+        background: #000000 !important;
+        color: white !important;
+        border: none !important;
+        padding: 18px 50px !important;
+        font-size: 18px !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+    }
+    
+    .otree-btn-next:hover {
+        background: #333333 !important;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .quiz-container {
+            padding: 40px 30px;
+        }
+        
+        .quiz-title {
+            font-size: 26px;
+        }
+        
+        .instruction,
+        .question-text {
+            font-size: 16px;
+        }
+        
+        label {
+            font-size: 15px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .quiz-container {
+            padding: 30px 20px;
+        }
+        
+        .quiz-title {
+            font-size: 22px;
+        }
+        
+        .instruction,
+        .question-text {
+            font-size: 15px;
+        }
+        
+        li {
+            padding: 10px 12px;
+        }
+        
+        label {
+            font-size: 14px;
+        }
+        
+        .otree-btn-next {
+            width: 100%;
+            padding: 15px 30px !important;
+        }
+    }
+</style>
+
+<div class="quiz-container">
+    <div class="quiz-title">COMPREHENSION CHECK</div>
+    
+    <div class="instruction">
+        Please answer all questions below. You must answer all questions correctly to continue.
+        {{ if attempt_number > 1 }}
+        <br><strong>Attempt #{{ attempt_number }}</strong>
+        {{ endif }}
+    </div>
+    
+    {{ if form.errors }}
+        <div class="error-message">
+            {{ form.errors }}
+        </div>
+    {{ endif }}
+    
+    <div class="question-block">
+        <div class="question-text">1. {{ questions.0.question }}</div>
+        {{ formfield 'quiz_q1' label="" }}
+    </div>
+    
+    <div class="question-block">
+        <div class="question-text">2. {{ questions.1.question }}</div>
+        {{ formfield 'quiz_q2' label="" }}
+    </div>
+    
+    <div class="question-block">
+        <div class="question-text">3. {{ questions.2.question }}</div>
+        {{ formfield 'quiz_q3' label="" }}
+    </div>
+    
+    <div class="question-block">
+        <div class="question-text">4. {{ questions.3.question }}</div>
+        {{ formfield 'quiz_q4' label="" }}
+    </div>
+    
+    <div class="question-block">
+        <div class="question-text">5. {{ questions.4.question }}</div>
+        {{ formfield 'quiz_q5' label="" }}
+    </div>
+    
+    <div class="submit-container">
+        {{ next_button }}
+    </div>
+</div>
+
+{{ endblock }}
