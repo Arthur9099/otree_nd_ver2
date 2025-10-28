@@ -1,0 +1,123 @@
+{{ block content }}
+<style>
+    .otree-title {
+        display: none !important;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .otree-body {
+        max-width: 100%;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F5F5F5;
+        padding: 20px;
+    }
+    
+    .unfortunately-container {
+        background-color: #FFFFFF;
+        border: 3px solid #000000;
+        border-radius: 0;
+        padding: 60px 60px;
+        max-width: 800px;
+        width: 100%;
+        margin: 50px auto;
+        text-align: center;
+    }
+    
+    .unfortunately-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #c62828;
+        letter-spacing: 2px;
+    }
+    
+    .unfortunately-message {
+        font-size: 20px;
+        line-height: 1.8;
+        color: #000000;
+        margin-bottom: 30px;
+    }
+    
+    .unfortunately-detail {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #666666;
+        margin-bottom: 20px;
+    }
+    
+    .icon-sad {
+        font-size: 80px;
+        margin-bottom: 30px;
+        color: #c62828;
+    }
+    
+    @media (max-width: 768px) {
+        .unfortunately-container {
+            padding: 40px 30px;
+        }
+        
+        .unfortunately-title {
+            font-size: 30px;
+        }
+        
+        .unfortunately-message {
+            font-size: 18px;
+        }
+        
+        .unfortunately-detail {
+            font-size: 15px;
+        }
+        
+        .icon-sad {
+            font-size: 60px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .unfortunately-container {
+            padding: 30px 20px;
+            margin: 30px auto;
+        }
+        
+        .unfortunately-title {
+            font-size: 26px;
+        }
+        
+        .unfortunately-message {
+            font-size: 16px;
+        }
+        
+        .unfortunately-detail {
+            font-size: 14px;
+        }
+        
+        .icon-sad {
+            font-size: 50px;
+        }
+    }
+</style>
+
+<div class="unfortunately-container">
+    <div class="icon-sad">☹</div>
+    
+    <div class="unfortunately-title">UNFORTUNATELY</div>
+    
+    <div class="unfortunately-message">
+        You have failed the quiz after 3 attempts.
+    </div>
+    
+    <div class="unfortunately-detail">
+        You are not eligible to continue with the experiment.<br>
+        Thank you for your time and participation.
+    </div>
+</div>
+
+{{ endblock }}

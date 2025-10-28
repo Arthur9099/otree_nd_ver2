@@ -12,6 +12,7 @@ class C(BaseConstants):
     INITIAL_PROFIT = 10000  # C₀
     DISRUPTION_COST = 2000  # C_I (base disruption cost)
     BASIC_PROBABILITY = 5   # p₀ (base probability in %)
+    MAX_QUIZ_ATTEMPTS = 3   # Maximum number of quiz attempts
     
     # Quiz questions and answers
     QUIZ_QUESTIONS = [
@@ -64,6 +65,156 @@ class C(BaseConstants):
                 'd': 'Nội dung câu d'
             },
             'correct': 'a'
+        },
+        {
+            'question': 'Câu hỏi 6: (Đáp án b)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'Câu hỏi 7: (Đáp án c)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'c'
+        },
+        {
+            'question': 'Câu hỏi 8: (Đáp án d)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'd'
+        },
+        {
+            'question': 'Câu hỏi 9: (Đáp án a)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'a'
+        },
+        {
+            'question': 'Câu hỏi 10: (Đáp án b)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'Câu hỏi 11: (Đáp án c)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'c'
+        },
+        {
+            'question': 'Câu hỏi 12: (Đáp án d)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'd'
+        },
+        {
+            'question': 'Câu hỏi 13: (Đáp án a)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'a'
+        },
+        {
+            'question': 'Câu hỏi 14: (Đáp án b)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'Câu hỏi 15: (Đáp án c)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'c'
+        },
+        {
+            'question': 'Câu hỏi 16: (Đáp án d)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'd'
+        },
+        {
+            'question': 'Câu hỏi 17: (Đáp án a)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'a'
+        },
+        {
+            'question': 'Câu hỏi 18: (Đáp án b)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'b'
+        },
+        {
+            'question': 'Câu hỏi 19: (Đáp án c)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'c'
+        },
+        {
+            'question': 'Câu hỏi 20: (Đáp án d)',
+            'options': {
+                'a': 'Nội dung câu a',
+                'b': 'Nội dung câu b',
+                'c': 'Nội dung câu c',
+                'd': 'Nội dung câu d'
+            },
+            'correct': 'd'
         }
     ]
 
@@ -94,22 +245,28 @@ class Player(BasePlayer):
     )
     round_calculated = models.BooleanField(initial=False)
     
-    # Quiz fields - choices generated dynamically from QUIZ_QUESTIONS
-    def make_field(question_data):
-        choices = [[key, f"{key}) {value}"] for key, value in question_data['options'].items()]
+    # Quiz fields - 5 questions
+    def make_field():
         return models.StringField(
             blank=True,
-            choices=choices,
+            choices=[['a', 'a'], ['b', 'b'], ['c', 'c'], ['d', 'd']],
             widget=widgets.RadioSelect
         )
     
-    quiz_q1 = make_field(C.QUIZ_QUESTIONS[0])
-    quiz_q2 = make_field(C.QUIZ_QUESTIONS[1])
-    quiz_q3 = make_field(C.QUIZ_QUESTIONS[2])
-    quiz_q4 = make_field(C.QUIZ_QUESTIONS[3])
-    quiz_q5 = make_field(C.QUIZ_QUESTIONS[4])
+    quiz_q1 = make_field()
+    quiz_q2 = make_field()
+    quiz_q3 = make_field()
+    quiz_q4 = make_field()
+    quiz_q5 = make_field()
     
     quiz_attempts = models.IntegerField(initial=0)
+    quiz_failed = models.BooleanField(initial=False)
+    
+    # Store which questions were used in previous attempts (as comma-separated indices)
+    used_question_indices = models.LongStringField(initial='')
+    
+    # Store current question indices
+    current_question_indices = models.StringField(initial='')
 
 class CombinedResult(ExtraModel):
     player = models.Link(Player)
@@ -131,31 +288,109 @@ class QuizPage(Page):
     
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 1
+        return player.round_number == 1 and not player.quiz_failed
     
     @staticmethod
     def vars_for_template(player: Player):
+        # Parse used indices
+        if player.used_question_indices:
+            used_indices = [int(x) for x in player.used_question_indices.split(',') if x]
+        else:
+            used_indices = []
+        
+        # Get available indices
+        all_indices = list(range(len(C.QUIZ_QUESTIONS)))
+        available_indices = [i for i in all_indices if i not in used_indices]
+        
+        # If less than 5 available, reset (allow reuse)
+        if len(available_indices) < 5:
+            available_indices = all_indices
+            used_indices = []
+        
+        # Random select 5 questions
+        selected_indices = random.sample(available_indices, 5)
+        
+        # Store selected indices
+        player.current_question_indices = ','.join(map(str, selected_indices))
+        
+        # Get selected questions
+        selected_questions = [C.QUIZ_QUESTIONS[i] for i in selected_indices]
+        
+        # Add index to each question for tracking
+        for i, q in enumerate(selected_questions):
+            q['display_number'] = i + 1
+            q['original_index'] = selected_indices[i]
+        
         return dict(
-            questions=C.QUIZ_QUESTIONS,
-            attempt_number=player.quiz_attempts + 1
+            questions=selected_questions,
+            attempt_number=player.quiz_attempts + 1,
+            max_attempts=C.MAX_QUIZ_ATTEMPTS,
+            remaining_attempts=C.MAX_QUIZ_ATTEMPTS - player.quiz_attempts
         )
     
     @staticmethod
     def error_message(player: Player, values):
-        player.quiz_attempts += 1
-        
-        errors = []
-        for i, q in enumerate(C.QUIZ_QUESTIONS, 1):
+        # Check if all questions are answered
+        unanswered = []
+        for i in range(1, 6):
             field_name = f'quiz_q{i}'
-            if values[field_name] != q['correct']:
-                errors.append(f"Question {i}")
+            if not values.get(field_name):
+                unanswered.append(str(i))
+        
+        if unanswered:
+            return "Please answer all questions before submitting"
+        
+        # Get current question indices
+        current_indices = [int(x) for x in player.current_question_indices.split(',')]
+        
+        # Check answers
+        errors = []
+        for i, q_index in enumerate(current_indices, 1):
+            field_name = f'quiz_q{i}'
+            correct_answer = C.QUIZ_QUESTIONS[q_index]['correct']
+            if values[field_name] != correct_answer:
+                errors.append(str(i))
         
         if errors:
-            return f"Please review your answers. Incorrect: {', '.join(errors)}"
+            # Increment attempts
+            player.quiz_attempts += 1
+            
+            # Check if this was the last attempt
+            if player.quiz_attempts >= C.MAX_QUIZ_ATTEMPTS:
+                player.quiz_failed = True
+                # Don't return error message, let them proceed to Unfortunately page
+                return None
+            
+            # Update used indices
+            if player.used_question_indices:
+                used = player.used_question_indices.split(',')
+            else:
+                used = []
+            used.extend(map(str, current_indices))
+            player.used_question_indices = ','.join(used)
+            
+            remaining = C.MAX_QUIZ_ATTEMPTS - player.quiz_attempts
+            attempt_word = "attempt" if remaining == 1 else "attempts"
+            
+            # Clean and simple error message
+            if len(errors) <= 5:
+                return f"Some answers are incorrect. You have {remaining} {attempt_word} remaining"
+            
+class Unfortunately(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1 and player.quiz_failed
 
 class GamePage(Page):
     form_model = 'player'
     form_fields = ['money_input']
+    
+    @staticmethod
+    def is_displayed(player: Player):
+        # Only show if quiz was passed (not failed)
+        if player.round_number == 1:
+            return not player.quiz_failed
+        return True
     
     @staticmethod
     def vars_for_template(player: Player):
@@ -346,7 +581,7 @@ class GamePage(Page):
 class Results(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
     
     @staticmethod
     def vars_for_template(player: Player):
@@ -420,4 +655,4 @@ def custom_export(players):
             ]
 
     
-page_sequence = [LandingPage, QuizPage, GamePage, Results]
+page_sequence = [LandingPage, QuizPage, Unfortunately, GamePage, Results]
