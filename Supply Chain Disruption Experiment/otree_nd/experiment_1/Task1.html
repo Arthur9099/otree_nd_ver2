@@ -1,0 +1,249 @@
+{{ block content }}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+    .otree-body {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .task-container {
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 30px;
+        margin: 20px 0;
+    }
+    h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .instructions {
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+        background-color: white;
+    }
+    th, td {
+        border: 1px solid #333;
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    th {
+        background-color: #e8e8e8;
+        font-weight: bold;
+        color: #333;
+    }
+    .decision-col {
+        width: 60px;
+        background-color: #e8e8e8;
+        font-weight: bold;
+    }
+    .option-header {
+        background-color: #e8e8e8;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .option-text {
+        text-align: left;
+        padding-left: 15px;
+        font-size: 14px;
+        width: 25%;
+    }
+    .label-cell {
+        width: 40px;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: #f8f8f8;
+    }
+    .radio-col {
+        width: 50px;
+        background-color: #fff;
+    }
+    input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    .otree-btn-next {
+        background: #000000 !important;
+        color: white !important;
+        border: none !important;
+        padding: 12px 36px !important;
+        font-size: 18px !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+    }
+    
+    .otree-btn-next:hover {
+        background: #333333 !important;
+        transform: translateY(-2px);
+    }
+    .submit-container {
+        text-align: right;
+        margin-top: 30px;
+    }
+    
+    /* Hide default form fields */
+    .form-group {
+        display: none !important;
+    }
+</style>
+
+<div class="task-container">
+    <h2>Task 1</h2>
+    
+    <div class="instructions">
+        <p>The table below shows ten decisions. Each decision is a paired choice between "Option A" and "Option B". In this task you will make ten choices by selecting either Option A or Option B in each row.</p>
+        
+        <p>At the end of the experiment the computer will randomly select one of the ten decisions. Then the computer draws a random number between 1 and 10, to determine what your payoff is for the option you chose, A or B, for the particular decision selected. Even though you will make ten decisions, only one of these will end up affecting your earnings. Each decision has an equal chance of being used in the end.</p>
+        
+        <p>Now, please look at Decision 1 at the top. Option A pays 4000 francs if the random number is 1, and it pays 3200 francs if random number is 2-10. Option B yields 7700 francs if the random number is 1, and it pays 200 francs if the random number is 2-10. The other decisions are similar, except that as you move down the table, the chances of the higher payoff for each option increase, at the bottom row, the random number will not be needed since each option pays the highest payoff for sure, so your choice here is between 4000 francs or 7700 francs.</p>
+        
+        <p>To summarize, you will make ten choices: for each decision row you will have to choose between Option A and Option B. You may choose A for some decision rows and B for other rows, and you may change your decisions and make them in any order. When you are finished please press submit.</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="decision-col">Decision</th>
+                <th colspan="2" class="option-header">Option A</th>
+                <th class="label-cell">A</th>
+                <th class="radio-col"></th>
+                <th class="radio-col"></th>
+                <th class="label-cell">B</th>
+                <th colspan="2" class="option-header">Option B</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="decision-col">1</td>
+                <td class="option-text"><strong>10%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>90%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d1" value="A" id="id_task1_d1_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d1" value="B" id="id_task1_d1_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>10%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>90%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">2</td>
+                <td class="option-text"><strong>20%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>80%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d2" value="A" id="id_task1_d2_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d2" value="B" id="id_task1_d2_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>20%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>80%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">3</td>
+                <td class="option-text"><strong>30%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>70%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d3" value="A" id="id_task1_d3_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d3" value="B" id="id_task1_d3_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>30%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>70%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">4</td>
+                <td class="option-text"><strong>40%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>60%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d4" value="A" id="id_task1_d4_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d4" value="B" id="id_task1_d4_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>40%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>60%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">5</td>
+                <td class="option-text"><strong>50%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>50%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d5" value="A" id="id_task1_d5_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d5" value="B" id="id_task1_d5_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>50%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>50%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">6</td>
+                <td class="option-text"><strong>60%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>40%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d6" value="A" id="id_task1_d6_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d6" value="B" id="id_task1_d6_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>60%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>40%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">7</td>
+                <td class="option-text"><strong>70%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>30%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d7" value="A" id="id_task1_d7_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d7" value="B" id="id_task1_d7_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>70%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>30%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">8</td>
+                <td class="option-text"><strong>80%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>20%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d8" value="A" id="id_task1_d8_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d8" value="B" id="id_task1_d8_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>80%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>20%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">9</td>
+                <td class="option-text"><strong>90%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>10%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d9" value="A" id="id_task1_d9_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d9" value="B" id="id_task1_d9_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>90%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>10%</strong> chance of 200 francs</td>
+            </tr>
+            <tr>
+                <td class="decision-col">10</td>
+                <td class="option-text"><strong>100%</strong> chance of 4000 francs</td>
+                <td class="option-text"><strong>0%</strong> chance of 3200 francs</td>
+                <td class="label-cell">A</td>
+                <td class="radio-col"><input type="radio" name="task1_d10" value="A" id="id_task1_d10_a" required></td>
+                <td class="radio-col"><input type="radio" name="task1_d10" value="B" id="id_task1_d10_b" required></td>
+                <td class="label-cell">B</td>
+                <td class="option-text"><strong>100%</strong> chance of 7700 francs</td>
+                <td class="option-text"><strong>0%</strong> chance of 200 francs</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="submit-container">
+        {{ next_button label="Submit" class="btn btn-primary" }}
+    </div>
+</div>
+
+{{ endblock }}

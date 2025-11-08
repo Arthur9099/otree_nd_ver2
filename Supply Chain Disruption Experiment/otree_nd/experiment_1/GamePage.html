@@ -627,7 +627,7 @@
                             <tr {{ if result.player.round_number == player.round_number }}class="current-round"{{ endif }}>
                                 <td>{{ result.player.round_number }}</td>
                                 <td>100</td>
-                                <td>{{ result.investment }}</td>
+                                <td>{{ result.spending }}</td>
                                 <td>{{ if result.cost_of_disruption == 0 }}-{{ else }}{{ result.cost_of_disruption }}{{ endif }}</td>
                                 <td>{{ result.round_total_costs }}</td>
                                 <td>{{ result.round_profit }}</td>
@@ -737,15 +737,15 @@
         });
         
         // Calculator function
-        function calculateDisruption(investment) {
+        function calculateDisruption(spending) {
             const BASIC_PROBABILITY = 5;
             const DISRUPTION_COST = 2000;
             
             // p(x) = p₀ * (1 - x/100)
-            const probability = BASIC_PROBABILITY * (1 - investment / 100);
+            const probability = BASIC_PROBABILITY * (1 - spending / 100);
             
             // C_I(x) = C_I * (1 - x/100)
-            const impact = DISRUPTION_COST * (1 - investment / 100);
+            const impact = DISRUPTION_COST * (1 - spending / 100);
             
             return {
                 probability: Math.max(0, probability).toFixed(2),

@@ -1,0 +1,195 @@
+{{ block content }}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+    .otree-body {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .task-container {
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 30px;
+        margin: 20px 0;
+    }
+    h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    .instructions {
+        line-height: 1.8;
+        margin-bottom: 20px;
+        text-align: justify;
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+        background-color: white;
+    }
+    th, td {
+        border: 1px solid #333;
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    th {
+        background-color: #e8e8e8;
+        font-weight: bold;
+        color: #333;
+    }
+    .number-col {
+        width: 60px;
+        background-color: #e8e8e8;
+        font-weight: bold;
+    }
+    .gamble-col {
+        text-align: left;
+        padding-left: 15px;
+        font-size: 14px;
+    }
+    .label-cell {
+        width: 60px;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: #f8f8f8;
+    }
+    .radio-col {
+        width: 50px;
+        background-color: #fff;
+    }
+    input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    .otree-btn-next {
+        background: #000000 !important;
+        color: white !important;
+        border: none !important;
+        padding: 12px 36px !important;
+        font-size: 18px !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+    }
+    
+    .otree-btn-next:hover {
+        background: #333333 !important;
+        transform: translateY(-2px);
+    }
+    .submit-container {
+        text-align: right;
+        margin-top: 30px;
+    }
+    
+    /* Hide default form fields */
+    .form-group {
+        display: none !important;
+    }
+</style>
+
+<div class="task-container">
+    <h2>Task 2</h2>
+    
+    <div class="instructions">
+        <p>The table below shows seven different gambles. In this task you will make seven choices by selecting for each of the gambles whether you want to play it ("Accept") or not ("Reject").</p>
+        
+        <p>Each of the seven gambles has two possible outcomes with 50% chance of occurring. Your earnings for this task will be determined by: (1) whether you accept or reject a gamble and (2) which of the two possible outcomes occur.</p>
+        
+        <p>At the end of the experiment the computer will randomly select one of the seven gambles and will randomly select one of the two possible outcomes for the selected gamble. For example, let's assume the computer randomly selects gamble 1. If you have chosen to accept gamble 1, you lose 1000 francs with 50% chance and you win 6000 francs with 50% chance. If you have chosen to reject gamble 1, you do not win or lose any money.</p>
+        
+        <p>Please select for each gamble whether you want to accept or reject it. When you are finished please press submit.</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="number-col">Gamble</th>
+                <th>Description</th>
+                <th class="label-cell">Accept</th>
+                <th class="radio-col"></th>
+                <th class="radio-col"></th>
+                <th class="label-cell">Reject</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="number-col">1</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 1000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g1" value="accept" id="id_task2_g1_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g1" value="reject" id="id_task2_g1_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">2</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 2000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g2" value="accept" id="id_task2_g2_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g2" value="reject" id="id_task2_g2_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">3</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 3000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g3" value="accept" id="id_task2_g3_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g3" value="reject" id="id_task2_g3_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">4</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 4000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g4" value="accept" id="id_task2_g4_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g4" value="reject" id="id_task2_g4_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">5</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 5000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g5" value="accept" id="id_task2_g5_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g5" value="reject" id="id_task2_g5_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">6</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 6000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g6" value="accept" id="id_task2_g6_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g6" value="reject" id="id_task2_g6_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+            
+            <tr>
+                <td class="number-col">7</td>
+                <td class="gamble-col">With 50% chance, you <strong>lose 7000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
+                <td class="label-cell">Accept</td>
+                <td class="radio-col"><input type="radio" name="task2_g7" value="accept" id="id_task2_g7_accept" required></td>
+                <td class="radio-col"><input type="radio" name="task2_g7" value="reject" id="id_task2_g7_reject" required></td>
+                <td class="label-cell">Reject</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="submit-container">
+        {{ next_button label="Submit" class="btn btn-primary" }}
+    </div>
+</div>
+
+{{ endblock }}

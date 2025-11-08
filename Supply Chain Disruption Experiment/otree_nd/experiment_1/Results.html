@@ -99,8 +99,27 @@
         letter-spacing: 1px;
     }
     
+    .button-container {
+        text-align: center;
+        margin-top: 40px;
+    }
+    
     .otree-btn-next {
-        display: none !important;
+        background: #000000 !important;
+        color: white !important;
+        border: none !important;
+        padding: 18px 50px !important;
+        font-size: 18px !important;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+    }
+    
+    .otree-btn-next:hover {
+        background: #333333 !important;
+        transform: translateY(-2px);
     }
     
     @media (max-width: 768px) {
@@ -154,7 +173,7 @@
         
         <div class="result-row">
             <div class="result-label">The cost of SC resilience:</div>
-            <div class="result-value">{{ total_investment }} (ECU)</div>
+            <div class="result-value">{{ total_spending }} (ECU)</div>
         </div>
         
         <div class="result-row">
@@ -184,6 +203,8 @@
     </div>
 </div>
 
-{{ next_button }}
+<div class="button-container">
+    {{ next_button }}
+</div>
 
 {{ endblock }}
