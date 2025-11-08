@@ -12,209 +12,100 @@ class C(BaseConstants):
     INITIAL_PROFIT = 10000
     DISRUPTION_COST = 2000
     BASIC_PROBABILITY = 5
-    MAX_QUIZ_ATTEMPTS = 3
     
-    # Quiz questions
-    QUIZ_QUESTIONS = [
+    # Quiz questions - 8 multiple choice questions
+    QUIZ_QUESTIONS_MC = [
         {
-            'question': 'Câu hỏi 1: (Đáp án a)',
+            'question': 'How many Rounds do you play in this experiment?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '20 rounds',
+                'b': '100 rounds',
+                'c': '120 rounds'
             },
             'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 2: (Đáp án b)',
+            'question': 'How much Gross profit do you earn each round?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'b'
-        },
-        {
-            'question': 'Câu hỏi 3: (Đáp án c)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'c'
-        },
-        {
-            'question': 'Câu hỏi 4: (Đáp án d)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'd'
-        },
-        {
-            'question': 'Câu hỏi 5: (Đáp án a)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '1000 ECU',
+                'b': '100 ECU',
+                'c': '200 ECU'
             },
             'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 6: (Đáp án b)',
+            'question': 'What is the Probability of disruptions when your SC resilience spending is zero?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'b'
-        },
-        {
-            'question': 'Câu hỏi 7: (Đáp án c)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'c'
-        },
-        {
-            'question': 'Câu hỏi 8: (Đáp án d)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'd'
-        },
-        {
-            'question': 'Câu hỏi 9: (Đáp án a)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '5%',
+                'b': '4%',
+                'c': '4.5%'
             },
             'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 10: (Đáp án b)',
+            'question': 'What is the Impact of disruptions when your SC resilience spending is zero?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'b'
-        },
-        {
-            'question': 'Câu hỏi 11: (Đáp án c)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'c'
-        },
-        {
-            'question': 'Câu hỏi 12: (Đáp án d)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'd'
-        },
-        {
-            'question': 'Câu hỏi 13: (Đáp án a)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '1000 ECU',
+                'b': '2000 ECU',
+                'c': '100 ECU'
             },
             'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 14: (Đáp án b)',
+            'question': 'What is your Profit when you spend 20 ECU on SC resilience and no disruption occurs?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'b'
-        },
-        {
-            'question': 'Câu hỏi 15: (Đáp án c)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'c'
-        },
-        {
-            'question': 'Câu hỏi 16: (Đáp án d)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
-            },
-            'correct': 'd'
-        },
-        {
-            'question': 'Câu hỏi 17: (Đáp án a)',
-            'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '80 ECU',
+                'b': '-20 ECU',
+                'c': '-120 ECU'
             },
             'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 18: (Đáp án b)',
+            'question': 'What is the Maximum amount of spending you can make?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '50 ECU',
+                'b': '2000 ECU',
+                'c': '100 ECU'
             },
-            'correct': 'b'
+            'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 19: (Đáp án c)',
+            'question': 'What is the Probability of disruptions when your SC resilience spending is 100 ECU?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '5%',
+                'b': '0%',
+                'c': '0.5%'
             },
-            'correct': 'c'
+            'correct': 'a'
         },
         {
-            'question': 'Câu hỏi 20: (Đáp án d)',
+            'question': 'What is the Impact of disruptions when your SC resilience spending is 100 ECU?',
             'options': {
-                'a': 'Nội dung câu a',
-                'b': 'Nội dung câu b',
-                'c': 'Nội dung câu c',
-                'd': 'Nội dung câu d'
+                'a': '2000 ECU',
+                'b': '100 ECU',
+                'c': '0 ECU'
             },
-            'correct': 'd'
+            'correct': 'a'
+        }
+    ]
+    
+    # Quiz questions - 2 True/False questions
+    QUIZ_QUESTIONS_TF = [
+        {
+            'question': 'You can decide to spend on SC resilience freely between 0 and 100.',
+            'options': {
+                'a': 'True',
+                'b': 'False'
+            },
+            'correct': 'a'
+        },
+        {
+            'question': 'After spending 50 ECU on SC resilience, you can also be at risk of disruptions.',
+            'options': {
+                'a': 'True',
+                'b': 'False'
+            },
+            'correct': 'a'
         }
     ]
 
@@ -237,7 +128,7 @@ class Player(BasePlayer):
     def make_field():
         return models.StringField(
             blank=True,
-            choices=[['a', 'a'], ['b', 'b'], ['c', 'c'], ['d', 'd']],
+            choices=[['a', 'a'], ['b', 'b'], ['c', 'c']],
             widget=widgets.RadioSelect
         )
     
@@ -248,7 +139,6 @@ class Player(BasePlayer):
     quiz_q5 = make_field()
     quiz_attempts = models.IntegerField(initial=0)
     quiz_failed = models.BooleanField(initial=False)
-    used_question_indices = models.LongStringField(initial='')
     current_question_indices = models.StringField(initial='')
     
     # Task 1 fields - 10 decisions
@@ -312,35 +202,28 @@ class QuizPage(Page):
     
     @staticmethod
     def vars_for_template(player: Player):
-        if player.used_question_indices:
-            used_indices = [int(x) for x in player.used_question_indices.split(',') if x]
-        else:
-            used_indices = []
+        # Select 4 random questions from 8 multiple choice questions
+        mc_indices = random.sample(range(len(C.QUIZ_QUESTIONS_MC)), 4)
         
-        all_indices = list(range(len(C.QUIZ_QUESTIONS)))
-        available_indices = [i for i in all_indices if i not in used_indices]
+        # Select 1 random question from 2 True/False questions
+        tf_index = random.randint(0, len(C.QUIZ_QUESTIONS_TF) - 1)
         
-        if len(available_indices) < 5:
-            available_indices = all_indices
-            used_indices = []
+        # Get selected questions
+        selected_questions = [C.QUIZ_QUESTIONS_MC[i] for i in mc_indices]
+        selected_questions.append(C.QUIZ_QUESTIONS_TF[tf_index])
         
-        selected_indices = random.sample(available_indices, 5)
-        player.current_question_indices = ','.join(map(str, selected_indices))
-        selected_questions = [C.QUIZ_QUESTIONS[i] for i in selected_indices]
-        
-        for i, q in enumerate(selected_questions):
-            q['display_number'] = i + 1
-            q['original_index'] = selected_indices[i]
+        # Store indices for validation (mc indices + tf index with offset)
+        indices_str = ','.join(map(str, mc_indices)) + f',TF{tf_index}'
+        player.current_question_indices = indices_str
         
         return dict(
             questions=selected_questions,
             attempt_number=player.quiz_attempts + 1,
-            max_attempts=C.MAX_QUIZ_ATTEMPTS,
-            remaining_attempts=C.MAX_QUIZ_ATTEMPTS - player.quiz_attempts
         )
     
     @staticmethod
     def error_message(player: Player, values):
+        # Check if all questions are answered
         unanswered = []
         for i in range(1, 6):
             field_name = f'quiz_q{i}'
@@ -350,33 +233,29 @@ class QuizPage(Page):
         if unanswered:
             return "Please answer all questions before submitting"
         
-        current_indices = [int(x) for x in player.current_question_indices.split(',')]
+        # Parse current question indices
+        indices_parts = player.current_question_indices.split(',')
+        mc_indices = [int(x) for x in indices_parts[:4]]
+        tf_index = int(indices_parts[4].replace('TF', ''))
+        
+        # Check answers
         errors = []
-        for i, q_index in enumerate(current_indices, 1):
+        
+        # Check MC questions (questions 1-4)
+        for i, q_index in enumerate(mc_indices, 1):
             field_name = f'quiz_q{i}'
-            correct_answer = C.QUIZ_QUESTIONS[q_index]['correct']
+            correct_answer = C.QUIZ_QUESTIONS_MC[q_index]['correct']
             if values[field_name] != correct_answer:
                 errors.append(str(i))
         
+        # Check TF question (question 5)
+        correct_answer = C.QUIZ_QUESTIONS_TF[tf_index]['correct']
+        if values['quiz_q5'] != correct_answer:
+            errors.append('5')
+        
         if errors:
             player.quiz_attempts += 1
-            
-            if player.quiz_attempts >= C.MAX_QUIZ_ATTEMPTS:
-                player.quiz_failed = True
-                return None
-            
-            if player.used_question_indices:
-                used = player.used_question_indices.split(',')
-            else:
-                used = []
-            used.extend(map(str, current_indices))
-            player.used_question_indices = ','.join(used)
-            
-            remaining = C.MAX_QUIZ_ATTEMPTS - player.quiz_attempts
-            attempt_word = "attempt" if remaining == 1 else "attempts"
-            
-            if len(errors) <= 5:
-                return f"Some answers are incorrect. You have {remaining} {attempt_word} remaining"
+            return f"Some answers are incorrect. Please try again. (Attempt {player.quiz_attempts + 1})"
 
 class Unfortunately(Page):
     @staticmethod
@@ -598,17 +477,15 @@ class Results(Page):
         final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
         average_spending = total_spending // C.NUM_ROUNDS if all_results else 0
         num_disruptions = sum(1 for r in all_results if r.is_disrupted)
-        profit_change = final_profit - C.INITIAL_PROFIT
         
         show_up_fee = 3
-        conversion_rate = 1 / 1000
+        conversion_rate = 1 / 1500
         
-        profit_change = final_profit - C.INITIAL_PROFIT
-        performance_payment = max(0, profit_change * conversion_rate)
-        performance_payment = round(performance_payment, 2)
+        performance_payment = final_profit * conversion_rate
+        performance_payment = round(performance_payment, 1)
         
         total_payment = show_up_fee + performance_payment
-        total_payment = round(total_payment, 2)
+        total_payment = round(total_payment, 1)
         
         player.participant.payoff = total_payment
         
@@ -621,7 +498,6 @@ class Results(Page):
             final_profit=final_profit,
             initial_profit=C.INITIAL_PROFIT,
             average_spending=average_spending,
-            profit_change=profit_change,
             show_up_fee=show_up_fee,
             performance_payment=performance_payment,
             total_payment=total_payment,
@@ -638,31 +514,26 @@ class Task1(Page):
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # Randomly select one decision (1-10)
         player.task1_selected_decision = random.randint(1, 10)
-        
-        # Randomly draw a number (1-10)
         player.task1_random_number = random.randint(1, 10)
         
-        # Get the choice for the selected decision
         decision_field = f'task1_d{player.task1_selected_decision}'
         choice = getattr(player, decision_field)
         
-        # Define payoffs for each decision
+        # Updated payoffs to match new ECU values: 2000, 1600, 3850, 100
         decisions = {
-            1: {'A': {1: 4000, 'other': 3200}, 'B': {1: 7700, 'other': 200}},
-            2: {'A': {1: 4000, 2: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 'other': 200}},
-            3: {'A': {1: 4000, 2: 4000, 3: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 'other': 200}},
-            4: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 'other': 200}},
-            5: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 'other': 200}},
-            6: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 6: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 6: 7700, 'other': 200}},
-            7: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 6: 4000, 7: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 6: 7700, 7: 7700, 'other': 200}},
-            8: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 6: 4000, 7: 4000, 8: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 6: 7700, 7: 7700, 8: 7700, 'other': 200}},
-            9: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 6: 4000, 7: 4000, 8: 4000, 9: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 6: 7700, 7: 7700, 8: 7700, 9: 7700, 'other': 200}},
-            10: {'A': {1: 4000, 2: 4000, 3: 4000, 4: 4000, 5: 4000, 6: 4000, 7: 4000, 8: 4000, 9: 4000, 10: 4000, 'other': 3200}, 'B': {1: 7700, 2: 7700, 3: 7700, 4: 7700, 5: 7700, 6: 7700, 7: 7700, 8: 7700, 9: 7700, 10: 7700, 'other': 200}},
+            1: {'A': {1: 2000, 'other': 1600}, 'B': {1: 3850, 'other': 100}},
+            2: {'A': {1: 2000, 2: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 'other': 100}},
+            3: {'A': {1: 2000, 2: 2000, 3: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 'other': 100}},
+            4: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 'other': 100}},
+            5: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 'other': 100}},
+            6: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 'other': 100}},
+            7: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 'other': 100}},
+            8: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 'other': 100}},
+            9: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 9: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 9: 3850, 'other': 100}},
+            10: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 9: 2000, 10: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 9: 3850, 10: 3850, 'other': 100}},
         }
         
-        # Get payoff
         decision_payoffs = decisions[player.task1_selected_decision][choice]
         if player.task1_random_number in decision_payoffs:
             player.task1_payoff = decision_payoffs[player.task1_random_number]
@@ -671,7 +542,7 @@ class Task1(Page):
 
 class Task2(Page):
     form_model = 'player'
-    form_fields = ['task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6', 'task2_g7']
+    form_fields = ['task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6']
     
     @staticmethod
     def is_displayed(player: Player):
@@ -679,30 +550,25 @@ class Task2(Page):
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        # Randomly select one gamble (1-7)
-        player.task2_selected_gamble = random.randint(1, 7)
+        player.task2_selected_gamble = random.randint(1, 6)
         
-        # Get the choice for the selected gamble
         gamble_field = f'task2_g{player.task2_selected_gamble}'
         choice = getattr(player, gamble_field)
         
-        # Define gambles (loss, win)
         gambles = {
-            1: (-1000, 6000),
-            2: (-2000, 6000),
-            3: (-3000, 6000),
-            4: (-4000, 6000),
-            5: (-5000, 6000),
-            6: (-6000, 6000),
-            7: (-7000, 6000),
+            1: (-2000, 6000),
+            2: (-3000, 6000),
+            3: (-4000, 6000),
+            4: (-5000, 6000),
+            5: (-6000, 6000),
+            6: (-7000, 6000),
         }
         
         if choice == 'reject':
             player.task2_payoff = 0
             player.task2_outcome = 0
         else:
-            # 50% chance for each outcome
-            outcome = random.choice([0, 1])  # 0 = loss, 1 = win
+            outcome = random.choice([0, 1])
             player.task2_outcome = outcome
             
             if outcome == 0:
@@ -710,14 +576,13 @@ class Task2(Page):
             else:
                 player.task2_payoff = gambles[player.task2_selected_gamble][1]
 
-class ResultsTasks(Page):
+class FinalResults(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
     
     @staticmethod
     def vars_for_template(player: Player):
-        # Get all spending game results
         all_players = player.in_all_rounds()
         all_results = []
         for p in all_players:
@@ -729,29 +594,26 @@ class ResultsTasks(Page):
         total_spending = sum(r.spending for r in all_results)
         total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
         final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
-        profit_change = final_profit - C.INITIAL_PROFIT
         
-        # Calculate spending game payment
         show_up_fee = 3
-        conversion_rate = 1 / 1000
-        performance_payment = max(0, profit_change * conversion_rate)
-        performance_payment = round(performance_payment, 2)
+        conversion_rate = 1 / 1500
+        performance_payment = final_profit * conversion_rate
+        performance_payment = round(performance_payment, 1)
         spending_game_payment = show_up_fee + performance_payment
         
-        # Calculate tasks payment (convert francs to dollars)
-        task1_payment = round(player.task1_payoff / 1000, 2)
-        task2_payment = round(player.task2_payoff / 1000, 2)
-        tasks_total_payment = round(task1_payment + task2_payment, 2)
+        # Calculate tasks payment (convert ECU to dollars)
+        task1_payment = round(player.task1_payoff * conversion_rate, 1)
+        task2_payment = round(player.task2_payoff * conversion_rate, 1)
+        tasks_total_payment = round(task1_payment + task2_payment, 1)
         
         # Total payment
-        total_payment = round(spending_game_payment + tasks_total_payment, 2)
+        total_payment = round(spending_game_payment + tasks_total_payment, 1)
         player.participant.payoff = total_payment
         
         return dict(
             # spending game
             final_profit=final_profit,
             initial_profit=C.INITIAL_PROFIT,
-            profit_change=profit_change,
             show_up_fee=show_up_fee,
             performance_payment=performance_payment,
             spending_game_payment=spending_game_payment,
@@ -802,26 +664,17 @@ def custom_export_1(players):
             ]
 
 def custom_export_2(players):
-    # Đảm bảo dữ liệu được sắp xếp theo id_in_group
     players = sorted(players, key=lambda p: (p.id_in_group))
 
-    # 1. Dòng tiêu đề (Header)
     yield [
         'player_id','task1_d1', 'task1_d2', 'task1_d3', 'task1_d4', 'task1_d5',
         'task1_d6', 'task1_d7', 'task1_d8', 'task1_d9', 'task1_d10',
         'task1_selected_decision', 'task1_random_number', 'task1_payoff',
-        'task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6', 'task2_g7',
+        'task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6',
         'task2_selected_gamble', 'task2_outcome', 'task2_payoff',
     ]
 
-    # 2. Xuất dữ liệu cho từng người chơi
     for p in players:
-        # Kiểm tra một trường dữ liệu (ví dụ: task1_payoff). 
-        # Nếu nó KHÔNG phải là None (hoặc 0 nếu bạn chắc chắn 0 là dữ liệu hợp lệ), 
-        # điều đó cho thấy đây là hàng có dữ liệu hoàn chỉnh của người chơi đó.
-        # Dựa trên tệp CSV mẫu, dữ liệu hoàn chỉnh nằm ở hàng cuối cùng của mỗi id_in_group.
-        
-        # Giả sử 'task1_selected_decision' là trường chỉ được điền ở hàng cuối cùng/hàng hoàn chỉnh
         if p.task1_selected_decision is not None:
             yield [
                 p.id_in_group,
@@ -844,10 +697,9 @@ def custom_export_2(players):
                 p.task2_g4,
                 p.task2_g5,
                 p.task2_g6,
-                p.task2_g7,
                 p.task2_selected_gamble,
                 p.task2_outcome,
                 p.task2_payoff,
             ]
 
-page_sequence = [LandingPage, QuizPage, Unfortunately, GamePage, Results, Task1, Task2, ResultsTasks]
+page_sequence = [LandingPage, QuizPage, Unfortunately, GamePage, Results, Task1, Task2, FinalResults]

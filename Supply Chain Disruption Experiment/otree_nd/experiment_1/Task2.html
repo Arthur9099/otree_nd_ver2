@@ -44,24 +44,24 @@
         font-weight: bold;
         color: #333;
     }
-    .number-col {
-        width: 60px;
+    .gamble-col {
+        width: 80px;
         background-color: #e8e8e8;
         font-weight: bold;
     }
-    .gamble-col {
-        text-align: left;
-        padding-left: 15px;
+    .description-col {
+        text-align: center;
+        padding-left: 20px;
+        padding-right: 20px;
         font-size: 14px;
     }
-    .label-cell {
-        width: 60px;
+    .choice-header {
+        background-color: #e8e8e8;
         font-weight: bold;
-        font-size: 16px;
-        background-color: #f8f8f8;
+        width: 80px;
     }
     .radio-col {
-        width: 50px;
+        width: 80px;
         background-color: #fff;
     }
     input[type="radio"] {
@@ -105,7 +105,7 @@
         
         <p>Each of the seven gambles has two possible outcomes with 50% chance of occurring. Your earnings for this task will be determined by: (1) whether you accept or reject a gamble and (2) which of the two possible outcomes occur.</p>
         
-        <p>At the end of the experiment the computer will randomly select one of the seven gambles and will randomly select one of the two possible outcomes for the selected gamble. For example, let's assume the computer randomly selects gamble 1. If you have chosen to accept gamble 1, you lose 1000 francs with 50% chance and you win 6000 francs with 50% chance. If you have chosen to reject gamble 1, you do not win or lose any money.</p>
+        <p>At the end of the experiment the computer will randomly select one of the seven gambles and will randomly select one of the two possible outcomes for the selected gamble. For example, let's assume the computer randomly selects gamble 1. If you have chosen to accept gamble 1, you lose 2000 ECU with 50% chance and you win 6000 ECU with 50% chance. If you have chosen to reject gamble 1, you do not win or lose any money.</p>
         
         <p>Please select for each gamble whether you want to accept or reject it. When you are finished please press submit.</p>
     </div>
@@ -113,77 +113,55 @@
     <table>
         <thead>
             <tr>
-                <th class="number-col">Gamble</th>
-                <th>Description</th>
-                <th class="label-cell">Accept</th>
-                <th class="radio-col"></th>
-                <th class="radio-col"></th>
-                <th class="label-cell">Reject</th>
+                <th class="gamble-col">Gamble</th>
+                <th class="description-col">Description</th>
+                <th class="choice-header">Accept</th>
+                <th class="choice-header">Reject</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="number-col">1</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 1000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">1</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 2000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g1" value="accept" id="id_task2_g1_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g1" value="reject" id="id_task2_g1_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
             <tr>
-                <td class="number-col">2</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 2000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">2</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 3000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g2" value="accept" id="id_task2_g2_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g2" value="reject" id="id_task2_g2_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
             <tr>
-                <td class="number-col">3</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 3000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">3</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 4000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g3" value="accept" id="id_task2_g3_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g3" value="reject" id="id_task2_g3_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
             <tr>
-                <td class="number-col">4</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 4000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">4</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 5000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g4" value="accept" id="id_task2_g4_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g4" value="reject" id="id_task2_g4_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
             <tr>
-                <td class="number-col">5</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 5000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">5</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 6000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g5" value="accept" id="id_task2_g5_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g5" value="reject" id="id_task2_g5_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
             <tr>
-                <td class="number-col">6</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 6000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
+                <td class="gamble-col">6</td>
+                <td class="description-col"><strong>50%</strong> probability of <strong>losing 7000 ECU</strong>, <strong>50%</strong> probability of <strong>winning 6000 ECU</strong></td>
                 <td class="radio-col"><input type="radio" name="task2_g6" value="accept" id="id_task2_g6_accept" required></td>
                 <td class="radio-col"><input type="radio" name="task2_g6" value="reject" id="id_task2_g6_reject" required></td>
-                <td class="label-cell">Reject</td>
             </tr>
             
-            <tr>
-                <td class="number-col">7</td>
-                <td class="gamble-col">With 50% chance, you <strong>lose 7000 francs</strong>. With 50% chance, you <strong>win 6000 francs</strong>.</td>
-                <td class="label-cell">Accept</td>
-                <td class="radio-col"><input type="radio" name="task2_g7" value="accept" id="id_task2_g7_accept" required></td>
-                <td class="radio-col"><input type="radio" name="task2_g7" value="reject" id="id_task2_g7_reject" required></td>
-                <td class="label-cell">Reject</td>
-            </tr>
         </tbody>
     </table>
 
