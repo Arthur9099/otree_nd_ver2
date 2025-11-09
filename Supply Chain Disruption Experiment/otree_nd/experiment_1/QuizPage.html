@@ -283,7 +283,7 @@
             </li>
             <li onclick="document.getElementById('q4_b').checked = true;">
                 <input type="radio" name="quiz_q4" value="b" id="q4_b">
-                <label for="q4_b">b) {{ questions.3.options.b }}</label>
+                <label for="q4_b">{{ questions.3.options.b }}</label>
             </li>
             {% if 'c' in questions.3.options %}
             <li onclick="document.getElementById('q4_c').checked = true;">
