@@ -2,7 +2,7 @@ from otree.api import *
 import random
 
 doc = """
-spending Game - Supply Chain Resilience with Risk Tasks
+Spending Game - Supply Chain Resilience with Risk Tasks
 """
 
 class C(BaseConstants):
@@ -17,75 +17,67 @@ class C(BaseConstants):
     QUIZ_QUESTIONS_MC = [
         {
             'question': 'How many Rounds do you play in this experiment?',
-            'options': {
-                'a': '20 rounds',
-                'b': '100 rounds',
-                'c': '120 rounds'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '20 rounds', 'correct': True},
+                {'text': '100 rounds'},
+                {'text': '120 rounds'}
+            ]
         },
         {
             'question': 'How much Gross profit do you earn each round?',
-            'options': {
-                'a': '1000 ECU',
-                'b': '100 ECU',
-                'c': '200 ECU'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '1000 ECU', 'correct': True},
+                {'text': '100 ECU'},
+                {'text': '200 ECU'}
+            ]
         },
         {
             'question': 'What is the Probability of disruptions when your SC resilience spending is zero?',
-            'options': {
-                'a': '5%',
-                'b': '4%',
-                'c': '4.5%'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '5%', 'correct': True},
+                {'text': '4%'},
+                {'text': '4.5%'}
+            ]
         },
         {
             'question': 'What is the Impact of disruptions when your SC resilience spending is zero?',
-            'options': {
-                'a': '1000 ECU',
-                'b': '2000 ECU',
-                'c': '100 ECU'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '1000 ECU', 'correct': True},
+                {'text': '2000 ECU'},
+                {'text': '100 ECU'}
+            ]
         },
         {
             'question': 'What is your Profit when you spend 20 ECU on SC resilience and no disruption occurs?',
-            'options': {
-                'a': '80 ECU',
-                'b': '-20 ECU',
-                'c': '-120 ECU'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '80 ECU', 'correct': True},
+                {'text': '-20 ECU'},
+                {'text': '-120 ECU'}
+            ]
         },
         {
             'question': 'What is the Maximum amount of spending you can make?',
-            'options': {
-                'a': '50 ECU',
-                'b': '2000 ECU',
-                'c': '100 ECU'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '50 ECU', 'correct': True},
+                {'text': '2000 ECU'},
+                {'text': '100 ECU'}
+            ]
         },
         {
             'question': 'What is the Probability of disruptions when your SC resilience spending is 100 ECU?',
-            'options': {
-                'a': '5%',
-                'b': '0%',
-                'c': '0.5%'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '5%', 'correct': True},
+                {'text': '0%'},
+                {'text': '0.5%'}
+            ]
         },
         {
             'question': 'What is the Impact of disruptions when your SC resilience spending is 100 ECU?',
-            'options': {
-                'a': '2000 ECU',
-                'b': '100 ECU',
-                'c': '0 ECU'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': '2000 ECU', 'correct': True},
+                {'text': '100 ECU'},
+                {'text': '0 ECU'}
+            ]
         }
     ]
     
@@ -93,19 +85,17 @@ class C(BaseConstants):
     QUIZ_QUESTIONS_TF = [
         {
             'question': 'You can decide to spend on SC resilience freely between 0 and 100.',
-            'options': {
-                'a': 'True',
-                'b': 'False'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': 'True', 'correct': True},
+                {'text': 'False'}
+            ]
         },
         {
             'question': 'After spending 50 ECU on SC resilience, you can also be at risk of disruptions.',
-            'options': {
-                'a': 'True',
-                'b': 'False'
-            },
-            'correct': 'a'
+            'options': [
+                {'text': 'True', 'correct': True},
+                {'text': 'False'}
+            ]
         }
     ]
 
@@ -116,7 +106,7 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    # spending game fields
+    # Spending game fields
     money_input = models.IntegerField(min=0, max=100, label="", blank=False)
     is_disrupted = models.BooleanField(initial=False)
     cost_of_disruption = models.IntegerField(initial=0)
@@ -208,13 +198,61 @@ class QuizPage(Page):
         # Select 1 random question from 2 True/False questions
         tf_index = random.randint(0, len(C.QUIZ_QUESTIONS_TF) - 1)
         
-        # Get selected questions
-        selected_questions = [C.QUIZ_QUESTIONS_MC[i] for i in mc_indices]
-        selected_questions.append(C.QUIZ_QUESTIONS_TF[tf_index])
+        # Get selected questions and shuffle their options
+        selected_questions = []
+        option_mappings = []
         
-        # Store indices for validation (mc indices + tf index with offset)
+        # Process MC questions
+        for i in mc_indices:
+            original_q = C.QUIZ_QUESTIONS_MC[i]
+            
+            # Shuffle options
+            shuffled_options = original_q['options'].copy()
+            random.shuffle(shuffled_options)
+            
+            # Convert to dict format for template (a, b, c)
+            options_dict = {}
+            correct_key = None
+            keys = ['a', 'b', 'c']
+            
+            for j, opt in enumerate(shuffled_options):
+                options_dict[keys[j]] = opt['text']
+                if opt.get('correct', False):
+                    correct_key = keys[j]
+            
+            selected_questions.append({
+                'question': original_q['question'],
+                'options': options_dict,
+            })
+            
+            option_mappings.append(correct_key)
+        
+        # Process TF question
+        original_tf = C.QUIZ_QUESTIONS_TF[tf_index]
+        
+        # Shuffle True/False
+        shuffled_tf = original_tf['options'].copy()
+        random.shuffle(shuffled_tf)
+        
+        tf_options_dict = {}
+        tf_correct_key = None
+        
+        for j, opt in enumerate(shuffled_tf):
+            tf_options_dict[['a', 'b'][j]] = opt['text']
+            if opt.get('correct', False):
+                tf_correct_key = ['a', 'b'][j]
+        
+        selected_questions.append({
+            'question': original_tf['question'],
+            'options': tf_options_dict,
+        })
+        
+        option_mappings.append(tf_correct_key)
+        
+        # Store indices and correct answer mappings for validation
         indices_str = ','.join(map(str, mc_indices)) + f',TF{tf_index}'
-        player.current_question_indices = indices_str
+        mappings_str = ','.join(option_mappings)
+        player.current_question_indices = indices_str + '|' + mappings_str
         
         return dict(
             questions=selected_questions,
@@ -233,25 +271,21 @@ class QuizPage(Page):
         if unanswered:
             return "Please answer all questions before submitting"
         
-        # Parse current question indices
-        indices_parts = player.current_question_indices.split(',')
-        mc_indices = [int(x) for x in indices_parts[:4]]
-        tf_index = int(indices_parts[4].replace('TF', ''))
+        # Parse current question indices and mappings
+        parts = player.current_question_indices.split('|')
+        indices_str = parts[0]
+        mappings_str = parts[1]
+        
+        correct_keys = mappings_str.split(',')
         
         # Check answers
         errors = []
         
-        # Check MC questions (questions 1-4)
-        for i, q_index in enumerate(mc_indices, 1):
+        # Check all 5 questions using the stored correct keys
+        for i in range(1, 6):
             field_name = f'quiz_q{i}'
-            correct_answer = C.QUIZ_QUESTIONS_MC[q_index]['correct']
-            if values[field_name] != correct_answer:
+            if values[field_name] != correct_keys[i-1]:
                 errors.append(str(i))
-        
-        # Check TF question (question 5)
-        correct_answer = C.QUIZ_QUESTIONS_TF[tf_index]['correct']
-        if values['quiz_q5'] != correct_answer:
-            errors.append('5')
         
         if errors:
             player.quiz_attempts += 1
@@ -611,7 +645,7 @@ class FinalResults(Page):
         player.participant.payoff = total_payment
         
         return dict(
-            # spending game
+            # Spending game
             final_profit=final_profit,
             initial_profit=C.INITIAL_PROFIT,
             show_up_fee=show_up_fee,
