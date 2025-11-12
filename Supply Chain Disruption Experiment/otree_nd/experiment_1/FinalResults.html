@@ -1,129 +1,197 @@
-
 {{ block content }}
 
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-    <h1 style="text-align: center;">Final Results</h1>
+<style>
+    .otree-title {
+        display: none !important;
+    }
     
-    <hr>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .otree-body {
+        max-width: 100%;
+    }
     
-    <h2>Spending Game Results</h2>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #F5F5F5;
+        padding: 20px;
+    }
+    
+    .results-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px;
+        background-color: #FFFFFF;
+        border: 3px solid #000000;
+    }
+    
+    .main-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #000000;
+        letter-spacing: 2px;
+    }
+    
+    .divider {
+        border: none;
+        border-top: 2px solid #e0e0e0;
+        margin: 30px 0;
+    }
+    
+    .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #000000;
+    }
+    
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+    }
+    
+    .results-table td {
+        padding: 12px 15px;
+        border: none;
+        border-bottom: 2px solid #e0e0e0;
+        font-size: 16px;
+    }
+    
+    .results-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .results-table td:first-child {
+        font-weight: normal;
+        color: #000000;
+    }
+    
+    .results-table td:last-child {
+        text-align: right;
+        font-weight: normal;
+    }
+    
+    .results-table tr.highlight-row {
+        background-color: #f0f0f0;
+    }
+    
+    .results-table tr.highlight-row td {
+        font-weight: bold;
+    }
+    
+    .results-table tr.total-row {
+        background-color: #d4edda;
+    }
+    
+    .results-table tr.total-row td {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    .completion-message {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: #28a745;
+        padding: 25px;
+        background-color: #d4edda;
+        border: 3px solid #28a745;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .submit-container {
+        text-align: center;
+        margin-top: 35px;
+    }
+    
+    
+    @media (max-width: 768px) {
+        .results-container {
+            padding: 30px 20px;
+        }
+        
+        .main-title {
+            font-size: 26px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+        }
+        
+        .results-table td {
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .results-table tr.total-row td {
+            font-size: 16px;
+        }
+        
+        .thank-you, .completion-message {
+            font-size: 16px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .results-container {
+            padding: 20px 15px;
+        }
+        
+        .main-title {
+            font-size: 22px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+        }
+        
+        .otree-btn-next {
+            width: 100%;
+            padding: 15px 30px !important;
+        }
+    }
+</style>
+
+<div class="results-container">
+    <h1 class="main-title">FINAL RESULTS & PAYMENT</h1>
+    <!-- Final Summary -->
+    <h2 class="section-title">Final Payment Breakdown</h2>
+    <table class="results-table">
         <tr>
-            <td><strong>Initial Profit:</strong></td>
-            <td style="text-align: right;">{{ initial_profit }} ECU</td>
+            <td>Spending Game Payment:</td>
+            <td>€{{ spending_game_payment }}</td>
         </tr>
         <tr>
-            <td><strong>Final Profit:</strong></td>
-            <td style="text-align: right;">{{ final_profit }} ECU</td>
+            <td>Task 1.1 Payment:</td>
+            <td>€{{ task1_1_payment }}</td>
         </tr>
         <tr>
-            <td><strong>Show-up Fee:</strong></td>
-            <td style="text-align: right;">${{ show_up_fee }}</td>
+            <td>Task 1.2 Payment:</td>
+            <td>€{{ task1_2_payment }}</td>
         </tr>
         <tr>
-            <td><strong>Performance Payment:</strong></td>
-            <td style="text-align: right;">${{ performance_payment }}</td>
+            <td>Task 2 Payment:</td>
+            <td>€{{ task2_payment }}</td>
         </tr>
-        <tr style="background-color: #f0f0f0;">
-            <td><strong>spending Game Payment:</strong></td>
-            <td style="text-align: right;"><strong>${{ spending_game_payment }}</strong></td>
+        <tr class="total-row">
+            <td>YOUR TOTAL PAYMENT:</td>
+            <td>€{{ total_payment }}</td>
         </tr>
     </table>
     
-    <br><br>
-    
-    <h2>Task 1 Results</h2>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-        <tr>
-            <td><strong>Selected Decision:</strong></td>
-            <td style="text-align: right;">Decision {{ task1_selected_decision }}</td>
-        </tr>
-        <tr>
-            <td><strong>Your Choice:</strong></td>
-            <td style="text-align: right;">Option {{ task1_choice }}</td>
-        </tr>
-        <tr>
-            <td><strong>Random Number Drawn:</strong></td>
-            <td style="text-align: right;">{{ task1_random_number }}</td>
-        </tr>
-        <tr>
-            <td><strong>Payoff:</strong></td>
-            <td style="text-align: right;">{{ task1_payoff }} ECU</td>
-        </tr>
-        <tr style="background-color: #f0f0f0;">
-            <td><strong>Task 1 Payment:</strong></td>
-            <td style="text-align: right;"><strong>${{ task1_payment }}</strong></td>
-        </tr>
-    </table>
-    
-    <br><br>
-    
-    <h2>Task 2 Results</h2>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-        <tr>
-            <td><strong>Selected Gamble:</strong></td>
-            <td style="text-align: right;">Gamble {{ task2_selected_gamble }}</td>
-        </tr>
-        <tr>
-            <td><strong>Your Choice:</strong></td>
-            <td style="text-align: right;">{{ task2_choice }}</td>
-        </tr>
-        {% if task2_choice == 'accept' %}
-        <tr>
-            <td><strong>Outcome:</strong></td>
-            <td style="text-align: right;">{% if task2_outcome == 1 %}Win{% else %}Loss{% endif %}</td>
-        </tr>
-        <tr>
-            <td><strong>Payoff:</strong></td>
-            <td style="text-align: right;">{{ task2_payoff }} ECU</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td><strong>Outcome:</strong></td>
-            <td style="text-align: right;">No gamble played</td>
-        </tr>
-        <tr>
-            <td><strong>Payoff:</strong></td>
-            <td style="text-align: right;">0 ECU</td>
-        </tr>
-        {% endif %}
-        <tr style="background-color: #f0f0f0;">
-            <td><strong>Task 2 Payment:</strong></td>
-            <td style="text-align: right;"><strong>${{ task2_payment }}</strong></td>
-        </tr>
-    </table>
-    
-    <br><br>
-    
-    <h2>Summary</h2>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-        <tr>
-            <td><strong>spending Game Payment:</strong></td>
-            <td style="text-align: right;">${{ spending_game_payment }}</td>
-        </tr>
-        <tr>
-            <td><strong>Task 1 Payment:</strong></td>
-            <td style="text-align: right;">${{ task1_payment }}</td>
-        </tr>
-        <tr>
-            <td><strong>Task 2 Payment:</strong></td>
-            <td style="text-align: right;">${{ task2_payment }}</td>
-        </tr>
-        <tr style="background-color: #d4edda; font-size: 1.2em;">
-            <td><strong>TOTAL PAYMENT:</strong></td>
-            <td style="text-align: right;"><strong>${{ total_payment }}</strong></td>
-        </tr>
-    </table>
-    
-    <br><br>
-    
-    <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
-        <h3>Thank you for participating!</h3>
-        <p>Your total payment is <strong style="color: #28a745; font-size: 1.5em;">${{ total_payment }}</strong></p>
+    <div class="completion-message">
+        🎉 EXPERIMENT COMPLETED! 🎉<br>
+        Thank you for your participation!
     </div>
-    
-    <br>
-    
+
 </div>
 
 {{ endblock }}
