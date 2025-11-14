@@ -95,7 +95,6 @@
         font-size: 18px;
     }
     
-    /* Styles for feedback section */
     .feedback-section {
         margin: 40px 0;
         padding: 30px;
@@ -165,7 +164,7 @@
         margin-top: 35px;
     }
     
-    .otree-btn-next {
+    .submit-button {
         background-color: #007bff;
         color: white;
         border: none;
@@ -177,10 +176,31 @@
         transition: background-color 0.3s;
     }
     
-    .otree-btn-next:hover {
+    .submit-button:hover {
         background-color: #0056b3;
     }
     
+    .submit-button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .success-message {
+        display: none;
+        text-align: center;
+        font-size: 18px;
+        color: #28a745;
+        font-weight: bold;
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #d4edda;
+        border: 2px solid #28a745;
+        border-radius: 5px;
+    }
+    
+    .success-message.show {
+        display: block;
+    }
     
     @media (max-width: 768px) {
         .results-container {
@@ -243,7 +263,7 @@
             padding: 15px;
         }
         
-        .otree-btn-next {
+        .submit-button {
             width: 100%;
             padding: 15px 30px !important;
         }
@@ -285,7 +305,13 @@
             We would appreciate any comments or feedback you have about this experiment. 
             Your input helps us improve future studies. Please share your thoughts below:
         </p>
-        {{ formfield 'feedback_comments' }}
+        <textarea 
+            id="feedback_comments" 
+            name="feedback_comments" 
+            class="feedback-textarea"
+            maxlength="1000"
+            placeholder="Share your thoughts here..."
+        ></textarea>
         <div class="char-counter">
             <span id="charCount">0</span> / 1000 characters
         </div>
@@ -297,25 +323,62 @@
     </div>
     
     <div class="submit-container">
-        {{ next_button }}
+        <button type="button" class="submit-button" id="submitButton">
+            Submit Feedback & Finish
+        </button>
+        <div class="success-message" id="successMessage">
+            ✓ Feedback submitted successfully! You may now close this window.
+        </div>
     </div>
 
 </div>
 
 <script>
-    // Character counter for feedback textarea
     document.addEventListener('DOMContentLoaded', function() {
-        const textarea = document.querySelector('textarea[name="feedback_comments"]');
+        const textarea = document.getElementById('feedback_comments');
         const charCount = document.getElementById('charCount');
+        const submitButton = document.getElementById('submitButton');
+        const successMessage = document.getElementById('successMessage');
         
+        // Character counter
         if (textarea && charCount) {
-            // Update count on input
             textarea.addEventListener('input', function() {
                 charCount.textContent = this.value.length;
             });
-            
-            // Initialize count
             charCount.textContent = textarea.value.length;
+        }
+        
+        // Submit feedback via AJAX
+        submitButton.addEventListener('click', function() {
+            const feedback = textarea.value;
+            
+            // Disable button to prevent double submission
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            
+            // Send via liveSend
+            liveSend({
+                action: 'submit_feedback',
+                feedback: feedback
+            });
+        });
+        
+        // Handle response from server
+        function liveRecv(data) {
+            if (data.status === 'success') {
+                submitButton.textContent = 'Submitted ✓';
+                submitButton.style.backgroundColor = '#28a745';
+                successMessage.classList.add('show');
+                
+                // Optional: Auto-redirect after 3 seconds
+                // setTimeout(function() {
+                //     window.location.href = data.next_url;
+                // }, 3000);
+            } else {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Feedback & Finish';
+                alert('Error submitting feedback. Please try again.');
+            }
         }
     });
 </script>

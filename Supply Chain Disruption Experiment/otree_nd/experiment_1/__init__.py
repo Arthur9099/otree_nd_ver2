@@ -818,6 +818,15 @@ class FinalResults(Page):
         return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
     
     @staticmethod
+    def live_method(player: Player, data):
+        if data.get('action') == 'submit_feedback':
+            player.feedback_comments = data.get('feedback', '')
+            return {
+                'status': 'success',
+                'next_url': player.participant._url_i_should_be_on()  # Optional redirect URL
+            }
+
+    @staticmethod
     def vars_for_template(player: Player):
         all_players = player.in_all_rounds()
         all_results = []
