@@ -247,6 +247,13 @@ class Player(BasePlayer):
         blank=False
     )
 
+    # Feedback field
+    feedback_comments = models.LongStringField(
+        label="",
+        blank=True,
+        initial=""
+    )
+
 class CombinedResult(ExtraModel):
     player = models.Link(Player)
     spending = models.IntegerField()
@@ -803,6 +810,9 @@ class Demographics(Page):
         return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
     
 class FinalResults(Page):
+    form_model = 'player'
+    form_fields = ['feedback_comments']
+
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
@@ -973,6 +983,7 @@ def custom_export_demographics(players):
         'ethnicity',
         'education_status',
         'scr_importance',
+        'feedback_comments'
     ]
     
     for p in players:
@@ -984,6 +995,7 @@ def custom_export_demographics(players):
                 p.ethnicity,
                 p.education_status,
                 p.scr_importance,
+                p.feedback_comments if p.feedback_comments else '',
             ]
 
 page_sequence = [LandingPage, QuizPage, Unfortunately, GamePage, Results_1, Task1_1, Task1_2, Task2, Results_2, Demographics, FinalResults]

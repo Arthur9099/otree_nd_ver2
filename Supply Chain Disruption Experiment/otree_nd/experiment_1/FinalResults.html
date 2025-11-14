@@ -95,6 +95,59 @@
         font-size: 18px;
     }
     
+    /* Styles for feedback section */
+    .feedback-section {
+        margin: 40px 0;
+        padding: 30px;
+        background-color: #f8f9fa;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+    }
+    
+    .feedback-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #000000;
+    }
+    
+    .feedback-description {
+        font-size: 16px;
+        color: #495057;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .feedback-textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 15px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        border: 2px solid #ced4da;
+        border-radius: 5px;
+        resize: vertical;
+        transition: border-color 0.3s;
+    }
+    
+    .feedback-textarea:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    .feedback-textarea::placeholder {
+        color: #6c757d;
+        font-style: italic;
+    }
+    
+    .char-counter {
+        text-align: right;
+        font-size: 14px;
+        color: #6c757d;
+        margin-top: 8px;
+    }
+    
     .completion-message {
         text-align: center;
         font-size: 20px;
@@ -110,6 +163,22 @@
     .submit-container {
         text-align: center;
         margin-top: 35px;
+    }
+    
+    .otree-btn-next {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .otree-btn-next:hover {
+        background-color: #0056b3;
     }
     
     
@@ -135,7 +204,24 @@
             font-size: 16px;
         }
         
-        .thank-you, .completion-message {
+        .feedback-section {
+            padding: 20px;
+        }
+        
+        .feedback-title {
+            font-size: 18px;
+        }
+        
+        .feedback-description {
+            font-size: 14px;
+        }
+        
+        .feedback-textarea {
+            min-height: 120px;
+            font-size: 14px;
+        }
+        
+        .completion-message {
             font-size: 16px;
         }
     }
@@ -153,6 +239,10 @@
             font-size: 18px;
         }
         
+        .feedback-section {
+            padding: 15px;
+        }
+        
         .otree-btn-next {
             width: 100%;
             padding: 15px 30px !important;
@@ -162,6 +252,7 @@
 
 <div class="results-container">
     <h1 class="main-title">FINAL RESULTS & PAYMENT</h1>
+    
     <!-- Final Summary -->
     <h2 class="section-title">Final Payment Breakdown</h2>
     <table class="results-table">
@@ -187,11 +278,46 @@
         </tr>
     </table>
     
+    <!-- Feedback Section -->
+    <div class="feedback-section">
+        <h3 class="feedback-title">📝 Your Feedback (Optional)</h3>
+        <p class="feedback-description">
+            We would appreciate any comments or feedback you have about this experiment. 
+            Your input helps us improve future studies. Please share your thoughts below:
+        </p>
+        {{ formfield 'feedback_comments' }}
+        <div class="char-counter">
+            <span id="charCount">0</span> / 1000 characters
+        </div>
+    </div>
+    
     <div class="completion-message">
         🎉 EXPERIMENT COMPLETED! 🎉<br>
         Thank you for your participation!
     </div>
+    
+    <div class="submit-container">
+        {{ next_button }}
+    </div>
 
 </div>
+
+<script>
+    // Character counter for feedback textarea
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.querySelector('textarea[name="feedback_comments"]');
+        const charCount = document.getElementById('charCount');
+        
+        if (textarea && charCount) {
+            // Update count on input
+            textarea.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
+            
+            // Initialize count
+            charCount.textContent = textarea.value.length;
+        }
+    });
+</script>
 
 {{ endblock }}

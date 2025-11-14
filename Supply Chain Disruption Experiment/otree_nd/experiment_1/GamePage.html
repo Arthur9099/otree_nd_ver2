@@ -5,13 +5,14 @@
     }
     
     * {
-        margin: 0;
+        margin: 0; 
         padding: 0;
         box-sizing: border-box;
     }
 
     .otree-body {
         max-width: 100%;
+        margin-top: 0;
     }
     
     body {
@@ -481,7 +482,120 @@
         border-color: #0000FF !important;
     }
     
-    /* Responsive */
+    /* Responsive for different screen ratios */
+    
+    /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
+    @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
+        .outer-container {
+            max-width: 90%;
+            padding: 15px;
+        }
+        
+        .content-grid {
+            gap: 15px;
+        }
+        
+        .table-container {
+            max-height: 380px;
+        }
+        
+        .performance-table {
+            font-size: 13px;
+        }
+    }
+    
+    /* For 16:9 screens (1920x1080, 1366x768, 1280x720) */
+    @media (min-width: 1200px) and (max-aspect-ratio: 16/9) {
+        .outer-container {
+            max-width: 92%;
+            padding: 12px;
+        }
+        
+        .table-container {
+            max-height: 320px;
+            min-height: 250px;
+        }
+        
+        .performance-table {
+            font-size: 12px;
+        }
+        
+        .performance-table th,
+        .performance-table td {
+            padding: 8px 4px;
+        }
+        
+        .info-box-content {
+            padding: 12px;
+        }
+        
+        .spending-content {
+            padding: 20px 15px;
+        }
+    }
+    
+    /* For smaller 16:9 screens (1366x768, 1280x720) */
+    @media (min-width: 900px) and (max-width: 1400px) {
+        .outer-container {
+            max-width: 95%;
+        }
+        
+        .header {
+            padding: 6px;
+            font-size: 13px;
+        }
+        
+        .header .round-info {
+            font-size: 13px;
+        }
+        
+        .info-box h3 {
+            font-size: 13px;
+            padding: 6px;
+        }
+        
+        .general-info-grid {
+            gap: 10px;
+            font-size: 12px;
+        }
+        
+        .table-container {
+            max-height: 280px;
+            min-height: 220px;
+        }
+        
+        .performance-table {
+            font-size: 11px;
+        }
+        
+        .performance-table th,
+        .performance-table td {
+            padding: 6px 3px;
+        }
+        
+        .spending-instruction {
+            font-size: 11px;
+            margin: 15px 0;
+        }
+        
+        .calculator-icon {
+            width: 30px;
+            height: 30px;
+        }
+        
+        .form-control {
+            width: 100px !important;
+            height: 30px !important;
+            font-size: 14px !important;
+        }
+        
+        .ecu-label {
+            font-size: 14px;
+            line-height: 30px;
+        }
+    }
+    
+    /* Tablet and smaller screens */
     @media (max-width: 900px) {
         .content-grid {
             grid-template-columns: 1fr;
@@ -489,6 +603,31 @@
         
         .general-info-grid {
             grid-template-columns: 1fr;
+        }
+        
+        .table-container {
+            max-height: 300px;
+        }
+    }
+    
+    /* Very small screens */
+    @media (max-width: 600px) {
+        .outer-container {
+            padding: 5px;
+        }
+        
+        .header .round-info {
+            font-size: 11px;
+            left: 10px;
+        }
+        
+        .performance-table {
+            font-size: 10px;
+        }
+        
+        .calculator-modal {
+            width: 90%;
+            max-width: 280px;
         }
     }
 </style>
@@ -504,51 +643,50 @@
             <div class="modal-body">
                 <div class="instruction-section">
                     <h3>Experimental Procedure</h3>
+                    <p class="content-text">
+                        You will play a game in which you need to make decisions in each of 100 identical rounds:
                     </p>
-            <p class="content-text">
-                You will play a game in which you need to make decisions in each of 100 identical rounds:
-            </p>
-            <p class="content-text">
-                • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the amount of money after deducting all direct and indirect costs except for SC resilience spending cost). You need to determine how much to spend on SC resilience; you are free to insert your spending decision <b>between 0 and 100 ECU</b>.
-            </p>
-            <p class="content-text">
-                • Once you submit your decision, the computer will automatically generate whether a disruption happens and the disruption-related cost you incur in the current round.
-            </p>
-            <p class="content-text">
-                • Your net profit in each round will be computed and provided in the performance table. There are two different scenarios:
-            </p>
-            <p class="content-text" style="margin-left: 40px;">
-                ○ If there is no disruption, your net profit will be:<br>
-                <b>Net Profit = Gross Profit – SC Resilience Spending</b>
-            </p>
-            <p class="content-text" style="margin-left: 40px;">
-                ○ If there is a disruption, your net profit will be:<br>
-                <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
-            </p>
-            <p class="content-text">
-                • Your accumulated net profit after 100 rounds will determine your final performance in the game. This performance will be converted to your actual payoff, added to your show-up fee.
-            </p>
+                    <p class="content-text">
+                        • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the amount of money after deducting all direct and indirect costs except for SC resilience spending cost). You need to determine how much to spend on SC resilience; you are free to insert your spending decision <b>between 0 and 100 ECU</b>.
+                    </p>
+                    <p class="content-text">
+                        • Once you submit your decision, the computer will automatically generate whether a disruption happens and the disruption-related cost you incur in the current round.
+                    </p>
+                    <p class="content-text">
+                        • Your net profit in each round will be computed and provided in the performance table. There are two different scenarios:
+                    </p>
+                    <p class="content-text" style="margin-left: 40px;">
+                        ○ If there is no disruption, your net profit will be:<br>
+                        <b>Net Profit = Gross Profit – SC Resilience Spending</b>
+                    </p>
+                    <p class="content-text" style="margin-left: 40px;">
+                        ○ If there is a disruption, your net profit will be:<br>
+                        <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
+                    </p>
+                    <p class="content-text">
+                        • Your accumulated net profit after 100 rounds will determine your final performance in the game. This performance will be converted to your actual payoff, added to your show-up fee.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Supply Chain Disruptions</h3>
                     <p class="content-text">
-                Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a flood in your factory, shipping route blockage, or political unrest). If your business is disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and unable to fulfill their orders), you may fail to meet your customers' demands and consequently incur a substantial cost due to declining sales and losing customers to your competitors.
-            </p>
-            <p class="content-text">
-                <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is independent and does not influence the result of any other rounds.
-            </p>
+                        Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a flood in your factory, shipping route blockage, or political unrest). If your business is disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and unable to fulfill their orders), you may fail to meet your customers' demands and consequently incur a substantial cost due to declining sales and losing customers to your competitors.
+                    </p>
+                    <p class="content-text">
+                        <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is independent and does not influence the result of any other rounds.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>How Supply Chain Resilience Spending Works</h3>
                     <p class="content-text">
-                SC resilience is widely regarded as one of the best strategies that enables your company to proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience allows you to reduce both the probability and the financial impact of possible disruptions. The role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of disruptions occurring, as well as the lower the disruption-related costs if disruptions do happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always available to help you calculate the revised probability and revised impact of disruptions based on your spending amount.
-            </p>
+                        SC resilience is widely regarded as one of the best strategies that enables your company to proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience allows you to reduce both the probability and the financial impact of possible disruptions. The role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of disruptions occurring, as well as the lower the disruption-related costs if disruptions do happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always available to help you calculate the revised probability and revised impact of disruptions based on your spending amount.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Your Objective</h3>
                     <p class="content-text">
-                Your goal in this experiment is to maximize your profit by deciding the right amount to spend on SC resilience that serves you best in preventing SC disruptions, while not eating up your profit due to excessive spending.
-            </p>
+                        Your goal in this experiment is to maximize your profit by deciding the right amount to spend on SC resilience that serves you best in preventing SC disruptions, while not eating up your profit due to excessive spending.
+                    </p>
                 </div>
             </div>
         </div>
