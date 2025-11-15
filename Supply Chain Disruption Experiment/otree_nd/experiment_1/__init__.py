@@ -1,22 +1,26 @@
 from otree.api import *
 import random
 
+
 doc = """
-Spending Game - Supply Chain Resilience with Risk Tasks
+Supply Chain Resilience Spending Game - Test Version
 """
 
+
 class C(BaseConstants):
-    NAME_IN_URL = 'otree_nd'
+    NAME_IN_URL = 'experiment_1'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 10
-    INITIAL_PROFIT = 10000
-    DISRUPTION_COST = 2000
-    BASIC_PROBABILITY = 5
+    NUM_ROUNDS = 5
+    INITIAL_PROFIT = 10000 #(base) total profit for 100 rounds
+    GROSS_PROFIT = 100 #(base) gross profit every round
+    DISRUPTION_COST = 2000 #(base) disruption impact
+    BASIC_PROBABILITY = 5 #(base) disruption probability
     SHOW_UP_FEE = 3
     CONVERSION_RATE = 1 / 1500
 
-    # Quiz questions - 8 multiple choice questions
-    QUIZ_QUESTIONS_MC = [
+
+    # Comprehension Questions - 8 Multiple Choice Questions
+    COMP_QUESTIONS_MC = [
         {
             'question': 'How many Rounds do you play in this experiment?',
             'options': [
@@ -82,9 +86,9 @@ class C(BaseConstants):
             ]
         }
     ]
-    
-    # Quiz questions - 2 True/False questions
-    QUIZ_QUESTIONS_TF = [
+
+    # Comprehension Questions - 2 True/False Questions
+    COMP_QUESTIONS_TF = [
         {
             'question': 'You can decide to spend on SC resilience freely between 0 and 100.',
             'options': [
@@ -101,16 +105,16 @@ class C(BaseConstants):
         }
     ]
 
-    # Demographic options
+    # Demographic questionnaire
     BIRTH_YEARS = list(range(1980, 2011))  # 1980 to 2010
-    
+
     GENDER_CHOICES = [
         ['male', 'Male'],
         ['female', 'Female'],
         ['other', 'Other'],
         ['prefer_not', 'Prefer not to say']
     ]
-    
+
     ETHNICITY_CHOICES = [
         ['asian', 'Asian'],
         ['european', 'European'],
@@ -119,7 +123,7 @@ class C(BaseConstants):
         ['latin_american', 'Latin American'],
         ['mixed', 'Mixed background']
     ]
-    
+
     EDUCATION_CHOICES = [
         ['first_year', 'First-year undergraduate student'],
         ['second_year', 'Second-year undergraduate student'],
@@ -127,7 +131,7 @@ class C(BaseConstants):
         ['masters', 'Masters student'],
         ['doctoral', 'Doctoral/PhD student']
     ]
-    
+
     SCR_IMPORTANCE_CHOICES = [
         [1, '1'],
         [2, '2'],
@@ -138,108 +142,92 @@ class C(BaseConstants):
         [7, '7']
     ]
 
+
 class Subsession(BaseSubsession):
     pass
+
 
 class Group(BaseGroup):
     pass
 
+
 class Player(BasePlayer):
-    # Spending game fields
+    # Spending Game fields
     money_input = models.IntegerField(min=0, max=100, label="", blank=False)
     is_disrupted = models.BooleanField(initial=False)
     cost_of_disruption = models.IntegerField(initial=0)
     total_costs = models.IntegerField(initial=0)
     expected_profit = models.IntegerField(initial=C.INITIAL_PROFIT)
     round_calculated = models.BooleanField(initial=False)
-    
-    # Quiz fields
+
+    # Comprehension question fields
     def make_field():
         return models.StringField(
             blank=True,
             choices=[['a', 'a'], ['b', 'b'], ['c', 'c']],
             widget=widgets.RadioSelect
         )
-    
-    quiz_q1 = make_field()
-    quiz_q2 = make_field()
-    quiz_q3 = make_field()
-    quiz_q4 = make_field()
-    quiz_q5 = make_field()
-    quiz_attempts = models.IntegerField(initial=0)
-    quiz_failed = models.BooleanField(initial=False)
-    current_question_indices = models.StringField(initial='')
-    
-    # Task 1_1 fields - 10 decisions
-    task1_1_d1 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d2 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d3 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d4 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d5 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d6 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d7 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d8 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d9 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_d10 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_1_selected_decision = models.IntegerField()
-    task1_1_random_number = models.IntegerField()
-    task1_1_payoff = models.IntegerField()
 
-    # Task 1_1 fields - 10 decisions
-    task1_2_d1 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d2 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d3 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d4 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d5 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d6 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d7 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d8 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d9 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_d10 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
-    task1_2_selected_decision = models.IntegerField()
-    task1_2_random_number = models.IntegerField()
-    task1_2_payoff = models.IntegerField()
-    
-    # Task 2 fields - 7 gambles
+    # Comprehension questions - 5 random questions drawn from 10
+    comp_q1 = make_field()
+    comp_q2 = make_field()
+    comp_q3 = make_field()
+    comp_q4 = make_field()
+    comp_q5 = make_field()
+    question_attempts = models.IntegerField(initial=0)
+    question_failed = models.BooleanField(initial=False)
+    current_question_indices = models.StringField(initial='')
+
+    # Extra task 1 fields - 10 decisions
+    task1_d1 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d2 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d3 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d4 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d5 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d6 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d7 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d8 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d9 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_d10 = models.StringField(choices=[['A', 'A'], ['B', 'B']], widget=widgets.RadioSelect)
+    task1_selected_decision = models.IntegerField()
+    task1_random_number = models.IntegerField()
+    task1_payoff = models.IntegerField()
+
+    # Extra task 2 fields - 6 gambles
     task2_g1 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_g2 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_g3 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_g4 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_g5 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_g6 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
-    task2_g7 = models.StringField(choices=[['Accept', 'Accept'], ['Reject', 'Reject']], widget=widgets.RadioSelect)
     task2_selected_gamble = models.IntegerField()
     task2_outcome = models.IntegerField()
     task2_payoff = models.IntegerField()
 
-    # Demographic fields
+    # Demographic questionnaire fields - 5 questions
     birth_year = models.IntegerField(
         label="What is your year of birth?",
         choices=[[year, str(year)] for year in C.BIRTH_YEARS],
         blank=False
     )
-    
     gender = models.StringField(
         label="What is your gender?",
         choices=C.GENDER_CHOICES,
         widget=widgets.RadioSelect,
         blank=False
     )
-    
     ethnicity = models.StringField(
         label="Which of the following options best describes your ethnic background?",
         choices=C.ETHNICITY_CHOICES,
         widget=widgets.RadioSelect,
         blank=False
     )
-    
     education_status = models.StringField(
         label="Which of the following options best describes your current educational status?",
         choices=C.EDUCATION_CHOICES,
         widget=widgets.RadioSelect,
         blank=False
     )
-    
     scr_importance = models.IntegerField(
         label="Please indicate the extent to which you think Supply Chain Resilience (or Supply Chain Risk Management) is important nowadays?",
         choices=C.SCR_IMPORTANCE_CHOICES,
@@ -248,11 +236,12 @@ class Player(BasePlayer):
     )
 
     # Feedback field
-    feedback_comments = models.LongStringField(
-        label="",
+    feedback = models.LongStringField(
+        label="Do you have any comments or feedback about this experiment?",
         blank=True,
-        initial=""
+        max_length=1000,
     )
+
 
 class CombinedResult(ExtraModel):
     player = models.Link(Player)
@@ -262,136 +251,133 @@ class CombinedResult(ExtraModel):
     total_costs = models.IntegerField(initial=0)
     expected_profit = models.IntegerField(initial=C.INITIAL_PROFIT)
 
+
 # PAGES
-class LandingPage(Page):
+class WelcomingPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
 
-class QuizPage(Page):
+class QuestionPage(Page):
     form_model = 'player'
-    form_fields = ['quiz_q1', 'quiz_q2', 'quiz_q3', 'quiz_q4', 'quiz_q5']
-    
+    form_fields = ['comp_q1', 'comp_q2', 'comp_q3', 'comp_q4', 'comp_q5']
+
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 1 and not player.quiz_failed
-    
+        return player.round_number == 1 and not player.question_failed
+
     @staticmethod
     def vars_for_template(player: Player):
+        attempt_number = player.question_attempts + 1
         # Select 4 random questions from 8 multiple choice questions
-        mc_indices = random.sample(range(len(C.QUIZ_QUESTIONS_MC)), 4)
-        
+        mc_indices = random.sample(range(len(C.COMP_QUESTIONS_MC)), 4)
+
         # Select 1 random question from 2 True/False questions
-        tf_index = random.randint(0, len(C.QUIZ_QUESTIONS_TF) - 1)
-        
+        tf_index = random.randint(0, len(C.COMP_QUESTIONS_TF) - 1)
+
         # Get selected questions and shuffle their options
         selected_questions = []
         option_mappings = []
-        
+
         # Process MC questions
         for i in mc_indices:
-            original_q = C.QUIZ_QUESTIONS_MC[i]
-            
+            original_q = C.COMP_QUESTIONS_MC[i]
+
             # Shuffle options
             shuffled_options = original_q['options'].copy()
             random.shuffle(shuffled_options)
-            
+
             # Convert to dict format for template (a, b, c)
             options_dict = {}
             correct_key = None
             keys = ['a', 'b', 'c']
-            
+
             for j, opt in enumerate(shuffled_options):
                 options_dict[keys[j]] = opt['text']
                 if opt.get('correct', False):
                     correct_key = keys[j]
-            
+
             selected_questions.append({
                 'question': original_q['question'],
                 'options': options_dict,
             })
-            
+
             option_mappings.append(correct_key)
-        
+
         # Process TF question
-        original_tf = C.QUIZ_QUESTIONS_TF[tf_index]
-        
+        original_tf = C.COMP_QUESTIONS_TF[tf_index]
+
         # Shuffle True/False
         shuffled_tf = original_tf['options'].copy()
         random.shuffle(shuffled_tf)
-        
+
         tf_options_dict = {}
         tf_correct_key = None
-        
+
         for j, opt in enumerate(shuffled_tf):
             tf_options_dict[['a', 'b'][j]] = opt['text']
             if opt.get('correct', False):
                 tf_correct_key = ['a', 'b'][j]
-        
+
         selected_questions.append({
             'question': original_tf['question'],
             'options': tf_options_dict,
         })
-        
+
         option_mappings.append(tf_correct_key)
-        
+
         # Store indices and correct answer mappings for validation
         indices_str = ','.join(map(str, mc_indices)) + f',TF{tf_index}'
         mappings_str = ','.join(option_mappings)
         player.current_question_indices = indices_str + '|' + mappings_str
-        
+
         return dict(
             questions=selected_questions,
-            attempt_number=player.quiz_attempts + 1,
+            attempt_number=attempt_number,
         )
-    
+
     @staticmethod
     def error_message(player: Player, values):
         # Check if all questions are answered
         unanswered = []
         for i in range(1, 6):
-            field_name = f'quiz_q{i}'
+            field_name = f'comp_q{i}'
             if not values.get(field_name):
                 unanswered.append(str(i))
-        
+
         if unanswered:
             return "Please answer all questions before submitting"
-        
+
         # Parse current question indices and mappings
         parts = player.current_question_indices.split('|')
         indices_str = parts[0]
         mappings_str = parts[1]
-        
+
         correct_keys = mappings_str.split(',')
-        
+
         # Check answers
         errors = []
-        
+
         # Check all 5 questions using the stored correct keys
         for i in range(1, 6):
-            field_name = f'quiz_q{i}'
-            if values[field_name] != correct_keys[i-1]:
+            field_name = f'comp_q{i}'
+            if values[field_name] != correct_keys[i - 1]:
                 errors.append(str(i))
-        
-        if errors:
-            player.quiz_attempts += 1
-            return f"Some answers are incorrect. Please try again. (Attempt {player.quiz_attempts + 1})"
 
-class Unfortunately(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1 and player.quiz_failed
+        if errors:
+            player.question_attempts += 1
+            return f"Some answers are incorrect. Please try again. (Attempt {player.question_attempts + 1})"
 
 class GamePage(Page):
     form_model = 'player'
     form_fields = ['money_input']
-    
+
     @staticmethod
     def is_displayed(player: Player):
         if player.round_number == 1:
-            return not player.quiz_failed
+            return not player.question_failed
         return True
-    
+
     @staticmethod
     def vars_for_template(player: Player):
         all_players = player.in_all_rounds()
@@ -402,36 +388,36 @@ class GamePage(Page):
                 r.round_total_costs = r.spending + r.cost_of_disruption
                 r.round_profit = 100 - r.spending - r.cost_of_disruption
             results.extend(player_results)
-        
+
         results = sorted(results, key=lambda x: x.player.round_number, reverse=True)
-        
+
         current_round_result = None
         if player.round_calculated:
             current_results = CombinedResult.filter(player=player)
             if current_results:
                 current_round_result = current_results[0]
-        
+
         last_result = results[0] if results else None
-        
+
         accumulative_costs = 0
         if results:
             accumulative_costs = sum(r.spending + r.cost_of_disruption for r in results)
-        
+
         accumulative_profit = 0
         if results:
             accumulative_profit = sum(100 - r.spending - r.cost_of_disruption for r in results)
-        
+
         current_profit = last_result.expected_profit if last_result else C.INITIAL_PROFIT
-        
-        game_completed = (player.round_number == C.NUM_ROUNDS and 
-                         len(CombinedResult.filter(player=player)) > 0)
-        
+
+        game_completed = (player.round_number == C.NUM_ROUNDS and
+                          len(CombinedResult.filter(player=player)) > 0)
+
         final_stats = None
         if game_completed:
             total_spending = sum(r.spending for r in results)
             total_disruption_cost = sum(r.cost_of_disruption for r in results)
             final_profit = results[0].expected_profit if results else C.INITIAL_PROFIT
-            
+
             final_stats = {
                 'total_spending': total_spending,
                 'total_disruption_cost': total_disruption_cost,
@@ -439,7 +425,7 @@ class GamePage(Page):
                 'initial_profit': C.INITIAL_PROFIT,
                 'all_results': results,
             }
-        
+
         return dict(
             combined_result=results,
             current_round_result=current_round_result,
@@ -453,32 +439,32 @@ class GamePage(Page):
             final_stats=final_stats,
             round_calculated=player.round_calculated,
         )
-    
+
     @staticmethod
     def live_method(player: Player, data):
         if data['action'] == 'calculate_result':
             spending = data['spending']
-            
+
             if spending < 0 or spending > 100:
                 return {'status': 'error', 'message': 'spending must be between 0 and 100'}
-            
+
             player.money_input = spending
-            
+
             disruption_probability = C.BASIC_PROBABILITY * (1 - spending / 100)
             disruption_probability = max(0, disruption_probability)
-            
+
             disruption_impact = C.DISRUPTION_COST * (1 - spending / 100)
             disruption_impact = max(0, int(disruption_impact))
-            
+
             random_number = random.uniform(0, 100)
-            
+
             if random_number < disruption_probability:
                 player.is_disrupted = True
                 player.cost_of_disruption = disruption_impact
             else:
                 player.is_disrupted = False
                 player.cost_of_disruption = 0
-            
+
             if player.round_number > 1:
                 prev_player = player.in_round(player.round_number - 1)
                 prev_results = CombinedResult.filter(player=prev_player)
@@ -488,17 +474,17 @@ class GamePage(Page):
                 else:
                     prev_expected_profit = C.INITIAL_PROFIT
                     prev_total_costs = 0
-                
+
                 player.expected_profit = prev_expected_profit - spending - player.cost_of_disruption
                 player.total_costs = prev_total_costs + spending + player.cost_of_disruption
             else:
                 player.expected_profit = C.INITIAL_PROFIT - spending - player.cost_of_disruption
                 player.total_costs = spending + player.cost_of_disruption
-            
+
             existing_results = CombinedResult.filter(player=player)
             for result in existing_results:
                 result.delete()
-            
+
             CombinedResult.create(
                 player=player,
                 spending=spending,
@@ -507,9 +493,9 @@ class GamePage(Page):
                 total_costs=player.total_costs,
                 expected_profit=player.expected_profit,
             )
-            
+
             player.round_calculated = True
-            
+
             return {
                 'status': 'success',
                 'result': {
@@ -523,31 +509,31 @@ class GamePage(Page):
                     'expected_profit': player.expected_profit,
                 }
             }
-        
+
         elif data['action'] == 'next_round':
             player.round_calculated = False
             return {'status': 'next_round'}
-    
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         if not player.round_calculated and player.money_input is not None:
             spending = player.money_input
-            
+
             disruption_probability = C.BASIC_PROBABILITY * (1 - spending / 100)
             disruption_probability = max(0, disruption_probability)
-            
+
             disruption_impact = C.DISRUPTION_COST * (1 - spending / 100)
             disruption_impact = max(0, int(disruption_impact))
-            
+
             random_number = random.uniform(0, 100)
-            
+
             if random_number < disruption_probability:
                 player.is_disrupted = True
                 player.cost_of_disruption = disruption_impact
             else:
                 player.is_disrupted = False
                 player.cost_of_disruption = 0
-            
+
             if player.round_number > 1:
                 prev_player = player.in_round(player.round_number - 1)
                 prev_results = CombinedResult.filter(player=prev_player)
@@ -557,17 +543,17 @@ class GamePage(Page):
                 else:
                     prev_expected_profit = C.INITIAL_PROFIT
                     prev_total_costs = 0
-                
+
                 player.expected_profit = prev_expected_profit - spending - player.cost_of_disruption
                 player.total_costs = prev_total_costs + spending + player.cost_of_disruption
             else:
                 player.expected_profit = C.INITIAL_PROFIT - spending - player.cost_of_disruption
                 player.total_costs = spending + player.cost_of_disruption
-            
+
             existing_results = CombinedResult.filter(player=player)
             for result in existing_results:
                 result.delete()
-            
+
             CombinedResult.create(
                 player=player,
                 spending=spending,
@@ -577,11 +563,12 @@ class GamePage(Page):
                 expected_profit=player.expected_profit,
             )
 
-class Results_1(Page):
+
+class GameResultPage(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
+
     @staticmethod
     def vars_for_template(player: Player):
         all_players = player.in_all_rounds()
@@ -591,23 +578,24 @@ class Results_1(Page):
             all_results.extend(player_results)
 
         all_results = sorted(all_results, key=lambda x: x.player.round_number)
-        
+
         total_spending = sum(r.spending for r in all_results)
         total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
         final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
         average_spending = total_spending // C.NUM_ROUNDS if all_results else 0
         num_disruptions = sum(1 for r in all_results if r.is_disrupted)
 
-        
+        # Calculate the payoff relative to performance
         performance_payment = final_profit * C.CONVERSION_RATE
         performance_payment = round(performance_payment, 1)
         if performance_payment <= 0: performance_payment = 0
-        
+
+        # Calculate the total game payment
         total_payment = C.SHOW_UP_FEE + performance_payment
         total_payment = round(total_payment, 1)
-        
+
         player.participant.payoff = total_payment
-        
+
         return dict(
             all_results=all_results,
             total_results=len(all_results),
@@ -622,95 +610,62 @@ class Results_1(Page):
             total_payment=total_payment,
         )
 
-class Task1_1(Page):
+
+class ExtraTask1(Page):
     form_model = 'player'
-    form_fields = ['task1_1_d1', 'task1_1_d2', 'task1_1_d3', 'task1_1_d4', 'task1_1_d5',
-                   'task1_1_d6', 'task1_1_d7', 'task1_1_d8', 'task1_1_d9', 'task1_1_d10']
-    
+    form_fields = ['task1_d1', 'task1_d2', 'task1_d3', 'task1_d4', 'task1_d5',
+                   'task1_d6', 'task1_d7', 'task1_d8', 'task1_d9', 'task1_d10']
+
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        player.task1_1_selected_decision = random.randint(1, 10)
-        player.task1_1_random_number = random.randint(1, 10)
-        
-        decision_field = f'task1_1_d{player.task1_1_selected_decision}'
-        choice = getattr(player, decision_field)
-        
-        # Updated payoffs to match new ECU values: 2000, 1600, 3850, 100
-        decisions = {
-            1: {'A': {1: 2000, 'other': 1600}, 'B': {1: 3850, 'other': 100}},
-            2: {'A': {1: 2000, 2: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 'other': 100}},
-            3: {'A': {1: 2000, 2: 2000, 3: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 'other': 100}},
-            4: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 'other': 100}},
-            5: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 'other': 100}},
-            6: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 'other': 100}},
-            7: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 'other': 100}},
-            8: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 'other': 100}},
-            9: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 9: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 9: 3850, 'other': 100}},
-            10: {'A': {1: 2000, 2: 2000, 3: 2000, 4: 2000, 5: 2000, 6: 2000, 7: 2000, 8: 2000, 9: 2000, 10: 2000, 'other': 1600}, 'B': {1: 3850, 2: 3850, 3: 3850, 4: 3850, 5: 3850, 6: 3850, 7: 3850, 8: 3850, 9: 3850, 10: 3850, 'other': 100}},
-        }
-        
-        decision_payoffs = decisions[player.task1_1_selected_decision][choice]
-        if player.task1_1_random_number in decision_payoffs:
-            player.task1_1_payoff = decision_payoffs[player.task1_1_random_number]
-        else:
-            player.task1_1_payoff = decision_payoffs['other']
+        player.task1_selected_decision = random.randint(1, 10)
+        player.task1_random_number = random.randint(1, 10)
 
-class Task1_2(Page):
-    form_model = 'player'
-    form_fields = ['task1_2_d1', 'task1_2_d2', 'task1_2_d3', 'task1_2_d4', 'task1_2_d5',
-                   'task1_2_d6', 'task1_2_d7', 'task1_2_d8', 'task1_2_d9', 'task1_2_d10']
-    
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        player.task1_2_selected_decision = random.randint(1, 10)
-        player.task1_2_random_number = random.randint(1, 10)
-        
-        decision_field = f'task1_2_d{player.task1_2_selected_decision}'
+        decision_field = f'task1_d{player.task1_selected_decision}'
         choice = getattr(player, decision_field)
-        
+
         decisions = {
-            1:  {'A': {'other': 750}, 'B': {1: 1750, 'other': 0}},
-            2:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 'other': 0}},
-            3:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 'other': 0}},
-            4:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 'other': 0}},
-            5:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 'other': 0}},
-            6:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 'other': 0}},
-            7:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 'other': 0}},
-            8:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 'other': 0}},
-            9:  {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 9: 1750, 'other': 0}},
-            10: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 9: 1750, 10: 1750, 'other': 0}},
+            1: {'A': {'other': 750}, 'B': {1: 1750, 'other': 0}},
+            2: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 'other': 0}},
+            3: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 'other': 0}},
+            4: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 'other': 0}},
+            5: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 'other': 0}},
+            6: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 'other': 0}},
+            7: {'A': {'other': 750}, 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 'other': 0}},
+            8: {'A': {'other': 750},
+                'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 'other': 0}},
+            9: {'A': {'other': 750},
+                'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 9: 1750, 'other': 0}},
+            10: {'A': {'other': 750},
+                 'B': {1: 1750, 2: 1750, 3: 1750, 4: 1750, 5: 1750, 6: 1750, 7: 1750, 8: 1750, 9: 1750, 10: 1750,
+                       'other': 0}},
         }
 
-        decision_payoffs = decisions[player.task1_2_selected_decision][choice]
-        if player.task1_2_random_number in decision_payoffs:
-            player.task1_2_payoff = decision_payoffs[player.task1_2_random_number]
+        decision_payoffs = decisions[player.task1_selected_decision][choice]
+        if player.task1_random_number in decision_payoffs:
+            player.task1_payoff = decision_payoffs[player.task1_random_number]
         else:
-            player.task1_2_payoff = decision_payoffs['other']
+            player.task1_payoff = decision_payoffs['other']
 
-
-class Task2(Page):
+class ExtraTask2 (Page):
     form_model = 'player'
     form_fields = ['task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6']
-    
+
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.task2_selected_gamble = random.randint(1, 6)
-        
+
         gamble_field = f'task2_g{player.task2_selected_gamble}'
         choice = getattr(player, gamble_field)
-        
+
         gambles = {
             1: (-2000, 6000),
             2: (-3000, 6000),
@@ -719,24 +674,25 @@ class Task2(Page):
             5: (-6000, 6000),
             6: (-7000, 6000),
         }
-        
+
         if choice == 'Reject':
             player.task2_payoff = 0
             player.task2_outcome = 0
         else:
             outcome = random.choice([0, 1])
             player.task2_outcome = outcome
-            
+
             if outcome == 0:
                 player.task2_payoff = gambles[player.task2_selected_gamble][0]
             else:
                 player.task2_payoff = gambles[player.task2_selected_gamble][1]
 
-class Results_2(Page):
+
+class ExtraTaskResult(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
+
     @staticmethod
     def vars_for_template(player: Player):
         all_players = player.in_all_rounds()
@@ -746,27 +702,25 @@ class Results_2(Page):
             all_results.extend(player_results)
 
         all_results = sorted(all_results, key=lambda x: x.player.round_number)
-        
+
         total_spending = sum(r.spending for r in all_results)
         total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
         final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
-        
 
         performance_payment = final_profit * C.CONVERSION_RATE
         performance_payment = round(performance_payment, 1)
         if performance_payment <= 0: performance_payment = 0
         spending_game_payment = C.SHOW_UP_FEE + performance_payment
-        
+
         # Calculate tasks payment (convert ECU to Euro)
-        task1_1_payment = round(player.task1_1_payoff * C.CONVERSION_RATE, 1)
-        task1_2_payment = round(player.task1_2_payoff * C.CONVERSION_RATE, 1)
+        task1_payment = round(player.task1_payoff * C.CONVERSION_RATE, 1)
         task2_payment = round(player.task2_payoff * C.CONVERSION_RATE, 1)
-        tasks_total_payment = round(task1_1_payment + task1_2_payment + task2_payment, 1)
-        
+        tasks_total_payment = round(task1_payment + task2_payment, 1)
+
         # Total payment
         total_payment = round(spending_game_payment + tasks_total_payment, 1)
         player.participant.payoff = total_payment
-        
+
         return dict(
             # Spending game
             final_profit=final_profit,
@@ -774,57 +728,40 @@ class Results_2(Page):
             show_up_fee=C.SHOW_UP_FEE,
             performance_payment=performance_payment,
             spending_game_payment=spending_game_payment,
-            
-            # Task 1_1
-            task1_1_selected_decision=player.task1_1_selected_decision,
-            task1_1_random_number=player.task1_1_random_number,
-            task1_1_choice=getattr(player, f'task1_1_d{player.task1_1_selected_decision}'),
-            task1_1_payoff=player.task1_1_payoff,
-            task1_1_payment=task1_1_payment,
 
-            # Task 1_2
-            task1_2_selected_decision=player.task1_2_selected_decision,
-            task1_2_random_number=player.task1_2_random_number,
-            task1_2_choice=getattr(player, f'task1_2_d{player.task1_2_selected_decision}'),
-            task1_2_payoff=player.task1_2_payoff,
-            task1_2_payment=task1_2_payment,
-            
+            # Extra task 1
+            task1_selected_decision=player.task1_selected_decision,
+            task1_random_number=player.task1_random_number,
+            task1_choice=getattr(player, f'task1_d{player.task1_selected_decision}'),
+            task1_payoff=player.task1_payoff,
+            task1_payment=task1_payment,
+
             # Task 2
             task2_selected_gamble=player.task2_selected_gamble,
             task2_choice=getattr(player, f'task2_g{player.task2_selected_gamble}'),
             task2_outcome=player.task2_outcome,
             task2_payoff=player.task2_payoff,
             task2_payment=task2_payment,
-            
+
             # Totals
             tasks_total_payment=tasks_total_payment,
             total_payment=total_payment,
         )
-    
-class Demographics(Page):
+
+
+class DemographicPage(Page):
     form_model = 'player'
-    form_fields = ['birth_year', 'gender', 'ethnicity', 'education_status', 'scr_importance']
-    
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
-class FinalResults(Page):
-    form_model = 'player'
-    form_fields = ['feedback_comments']
+    form_fields = ['birth_year', 'gender', 'ethnicity', 'education_status', 'scr_importance', 'feedback']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).quiz_failed
-    
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
+
+
+class EndingPage(Page):
     @staticmethod
-    def live_method(player: Player, data):
-        if data.get('action') == 'submit_feedback':
-            player.feedback_comments = data.get('feedback', '')
-            return {
-                'status': 'success',
-                'next_url': player.participant._url_i_should_be_on()  # Optional redirect URL
-            }
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS and not player.in_round(1).question_failed
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -835,31 +772,30 @@ class FinalResults(Page):
             all_results.extend(player_results)
 
         all_results = sorted(all_results, key=lambda x: x.player.round_number)
-        
+
         total_spending = sum(r.spending for r in all_results)
         total_disruption_cost = sum(r.cost_of_disruption for r in all_results)
         final_profit = all_results[-1].expected_profit if all_results else C.INITIAL_PROFIT
-        
-        # Calculate payments
+
+        # Calculate game payments
         performance_payment = final_profit * C.CONVERSION_RATE
         performance_payment = round(performance_payment, 1)
         if performance_payment <= 0: performance_payment = 0
         spending_game_payment = C.SHOW_UP_FEE + performance_payment
-        
+
         # Calculate tasks payment
-        task1_1_payment = round(player.task1_1_payoff * C.CONVERSION_RATE, 1)
-        task1_2_payment = round(player.task1_2_payoff * C.CONVERSION_RATE, 1)
+        task1_payment = round(player.task1_payoff * C.CONVERSION_RATE, 1)
         task2_payment = round(player.task2_payoff * C.CONVERSION_RATE, 1)
-        tasks_total_payment = round(task1_1_payment + task1_2_payment + task2_payment, 1)
-        
+        tasks_total_payment = round(task1_payment + task2_payment, 1)
+
         # Total payment
         total_payment = round(spending_game_payment + tasks_total_payment, 1)
-        
-        # Get demographic data with labels
+
+        # Get demographic data
         gender_labels = dict(C.GENDER_CHOICES)
         ethnicity_labels = dict(C.ETHNICITY_CHOICES)
         education_labels = dict(C.EDUCATION_CHOICES)
-        
+
         return dict(
             # Spending game
             final_profit=final_profit,
@@ -867,41 +803,35 @@ class FinalResults(Page):
             show_up_fee=C.SHOW_UP_FEE,
             performance_payment=performance_payment,
             spending_game_payment=spending_game_payment,
-            
-            # Task 1_1
-            task1_1_selected_decision=player.task1_1_selected_decision,
-            task1_1_random_number=player.task1_1_random_number,
-            task1_1_choice=getattr(player, f'task1_1_d{player.task1_1_selected_decision}'),
-            task1_1_payoff=player.task1_1_payoff,
-            task1_1_payment=task1_1_payment,
 
-            # Task 1_2
-            task1_2_selected_decision=player.task1_2_selected_decision,
-            task1_2_random_number=player.task1_2_random_number,
-            task1_2_choice=getattr(player, f'task1_2_d{player.task1_2_selected_decision}'),
-            task1_2_payoff=player.task1_2_payoff,
-            task1_2_payment=task1_2_payment,
-            
+            # Task 1
+            task1_selected_decision=player.task1_selected_decision,
+            task1_random_number=player.task1_random_number,
+            task1_choice=getattr(player, f'task1_d{player.task1_selected_decision}'),
+            task1_payoff=player.task1_payoff,
+            task1_payment=task1_payment,
+
             # Task 2
             task2_selected_gamble=player.task2_selected_gamble,
             task2_choice=getattr(player, f'task2_g{player.task2_selected_gamble}'),
             task2_outcome=player.task2_outcome,
             task2_payoff=player.task2_payoff,
             task2_payment=task2_payment,
-            
+
             # Totals
             tasks_total_payment=tasks_total_payment,
             total_payment=total_payment,
-            
+
             # Demographics
             birth_year=player.birth_year,
             gender=gender_labels.get(player.gender, player.gender) if player.gender else 'Not provided',
             ethnicity=ethnicity_labels.get(player.ethnicity, player.ethnicity) if player.ethnicity else 'Not provided',
-            education_status=education_labels.get(player.education_status, player.education_status) if player.education_status else 'Not provided',
+            education_status=education_labels.get(player.education_status,
+                                                  player.education_status) if player.education_status else 'Not provided',
             scr_importance=player.scr_importance if player.scr_importance else 'Not provided',
         )
 
-def custom_export_1(players):
+def custom_export_game(players):
     players = sorted(players, key=lambda p: (p.id_in_group, p.round_number))
 
     yield [
@@ -927,50 +857,33 @@ def custom_export_1(players):
                 r.expected_profit
             ]
 
-def custom_export_2(players):
+def custom_export_tasks(players):
     players = sorted(players, key=lambda p: (p.id_in_group))
 
     yield [
-        'player_id','task1_1_d1', 'task1_1_d2', 'task1_1_d3', 'task1_1_d4', 'task1_1_d5',
-        'task1_1_d6', 'task1_1_d7', 'task1_1_d8', 'task1_1_d9', 'task1_1_d10',
-        'task1_1_selected_decision', 'task1_1_random_number', 'task1_1_payoff',
-        'task1_2_d1', 'task1_2_d2', 'task1_2_d3', 'task1_2_d4', 'task1_2_d5',
-        'task1_2_d6', 'task1_2_d7', 'task1_2_d8', 'task1_2_d9', 'task1_2_d10',
-        'task1_2_selected_decision', 'task1_2_random_number', 'task1_2_payoff',
+        'player_id', 'task1_d1', 'task1_d2', 'task1_d3', 'task1_d4', 'task1_d5',
+        'task1_d6', 'task1_d7', 'task1_d8', 'task1_d9', 'task1_d10',
+        'task1_selected_decision', 'task1_random_number', 'task1_payoff',
         'task2_g1', 'task2_g2', 'task2_g3', 'task2_g4', 'task2_g5', 'task2_g6',
         'task2_selected_gamble', 'task2_outcome', 'task2_payoff',
     ]
-
     for p in players:
-        if p.task1_1_selected_decision is not None:
+        if p.task1_selected_decision is not None:
             yield [
                 p.id_in_group,
-                p.task1_1_d1,
-                p.task1_1_d2,
-                p.task1_1_d3,
-                p.task1_1_d4,
-                p.task1_1_d5,
-                p.task1_1_d6,
-                p.task1_1_d7,
-                p.task1_1_d8,
-                p.task1_1_d9,
-                p.task1_1_d10,
-                p.task1_1_selected_decision,
-                p.task1_1_random_number,
-                p.task1_1_payoff,
-                p.task1_2_d1,
-                p.task1_2_d2,
-                p.task1_2_d3,
-                p.task1_2_d4,
-                p.task1_2_d5,
-                p.task1_2_d6,
-                p.task1_2_d7,
-                p.task1_2_d8,
-                p.task1_2_d9,
-                p.task1_2_d10,
-                p.task1_2_selected_decision,
-                p.task1_2_random_number,
-                p.task1_2_payoff,
+                p.task1_d1,
+                p.task1_d2,
+                p.task1_d3,
+                p.task1_d4,
+                p.task1_d5,
+                p.task1_d6,
+                p.task1_d7,
+                p.task1_d8,
+                p.task1_d9,
+                p.task1_d10,
+                p.task1_selected_decision,
+                p.task1_random_number,
+                p.task1_payoff,
                 p.task2_g1,
                 p.task2_g2,
                 p.task2_g3,
@@ -984,7 +897,7 @@ def custom_export_2(players):
 
 def custom_export_demographics(players):
     players = sorted(players, key=lambda p: (p.id_in_group))
-    
+
     yield [
         'player_id',
         'birth_year',
@@ -992,11 +905,11 @@ def custom_export_demographics(players):
         'ethnicity',
         'education_status',
         'scr_importance',
-        'feedback_comments'
+        'feedback'
     ]
-    
+
     for p in players:
-        if p.task1_1_selected_decision is not None:
+        if p.task1_selected_decision is not None:
             yield [
                 p.id_in_group,
                 p.birth_year,
@@ -1004,7 +917,8 @@ def custom_export_demographics(players):
                 p.ethnicity,
                 p.education_status,
                 p.scr_importance,
-                p.feedback_comments if p.feedback_comments else '',
+                p.feedback if p.feedback else 'None',
             ]
 
-page_sequence = [LandingPage, QuizPage, Unfortunately, GamePage, Results_1, Task1_1, Task1_2, Task2, Results_2, Demographics, FinalResults]
+
+page_sequence = [WelcomingPage, QuestionPage, GamePage, GameResultPage, ExtraTask1, ExtraTask2, ExtraTaskResult, DemographicPage, EndingPage]

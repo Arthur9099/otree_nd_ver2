@@ -1,26 +1,28 @@
 {{ block content }}
+
 <style>
     .otree-title {
         display: none !important;
     }
-    
+
     * {
-        margin: 0; 
+        margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
 
     .otree-body {
-        max-width: 100%;
         margin-top: 0;
+        margin-bottom: 0;
+        max-width: 100%;
     }
-    
+
     body {
         font-family: Arial, sans-serif;
         background-color: #FFFFFF;
         padding: 10px;
     }
-    
+
     .outer-container {
         background-color: #FFFFFF;
         border: 2px solid #696969;
@@ -29,7 +31,7 @@
         max-width: 1400px;
         margin: 0 auto;
     }
-    
+
     /* Header */
     .header {
         background-color: #4A5F7F;
@@ -43,21 +45,21 @@
         align-items: center;
         position: relative;
     }
-    
+
     .header .round-info {
         font-size: 14px;
         font-weight: normal;
         position: absolute;
         left: 20px;
     }
-    
+
     .header .instructions-link {
         color: #87CEEB;
         text-decoration: underline;
         cursor: pointer;
         font-size: 14px;
     }
-    
+
     /* Modal styles */
     .modal-overlay {
         display: none;
@@ -71,11 +73,11 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     .modal-overlay.active {
         display: flex;
     }
-    
+
     .modal-content {
         background-color: white;
         border: 3px solid #000;
@@ -88,7 +90,7 @@
         flex-direction: column;
         text-align: justify;
     }
-    
+
     .modal-header {
         background-color: #D3D3D3;
         padding: 20px;
@@ -99,13 +101,13 @@
         justify-content: center;
         align-items: center;
     }
-    
+
     .modal-header h2 {
         margin: 0;
         font-size: 20px;
         font-weight: bold;
     }
-    
+
     .modal-close {
         position: absolute;
         top: 50%;
@@ -121,11 +123,11 @@
         height: 30px;
         line-height: 30px;
     }
-    
+
     .modal-close:hover {
         color: #666;
     }
-    
+
     .modal-body {
         padding: 30px;
         display: grid;
@@ -134,26 +136,26 @@
         max-height: calc(90vh - 100px);
         overflow-y: auto;
     }
-    
+
     .instruction-section {
         border: 2px dashed #000;
         padding: 20px;
         background-color: #FAFAFA;
     }
-    
+
     .instruction-section h3 {
         margin: 0 0 15px 0;
         text-align: center;
         font-size: 18px;
         font-weight: bold;
     }
-    
+
     .instruction-section p {
         margin: 10px 0;
         line-height: 1.6;
         font-size: 14px;
     }
-    
+
     /* Main Grid */
     .content-grid {
         display: grid;
@@ -161,7 +163,7 @@
         gap: 10px;
         margin-bottom: 10px;
     }
-    
+
     /* Box styling */
     .info-box {
         background-color: #FFFFFF;
@@ -170,7 +172,7 @@
         display: flex;
         flex-direction: column;
     }
-    
+
     .info-box h3 {
         text-align: center;
         background-color: #FFFFFF;
@@ -181,14 +183,14 @@
         border-bottom: 2px solid #000000;
         flex-shrink: 0;
     }
-    
+
     .info-box-content {
         padding: 15px;
         flex: 1;
         display: flex;
         flex-direction: column;
     }
-    
+
     /* General Information */
     .general-info-grid {
         display: grid;
@@ -196,54 +198,54 @@
         gap: 15px;
         font-size: 13px;
     }
-    
+
     .info-row {
         display: flex;
         justify-content: space-between;
         padding: 4px 0;
     }
-    
+
     .info-label {
         color: #000;
     }
-    
+
     .info-value {
         font-weight: normal;
         color: #0000FF;
     }
-    
+
     .info-value.highlight {
         color: #8B0000;
     }
-    
+
     /* Disruption Information */
     .disruption-content {
         text-align: center;
         padding: 20px 0;
     }
-    
+
     .disruption-status {
         font-size: 14px;
         margin-bottom: 15px;
     }
-    
+
     .disruption-status .status-text {
         font-weight: bold;
         font-size: 16px;
     }
-    
+
     .status-yes {
         color: #FF0000;
     }
-    
+
     .status-no {
         color: #0000FF;
     }
-    
+
     .disruption-cost {
         font-size: 14px;
     }
-    
+
     .cost-value-yes {
         font-weight: bold;
         color: #FF0000;
@@ -252,7 +254,7 @@
         font-weight: bold;
         color: #0000FF;
     }
-    
+
     /* Performance History Table */
     .table-container {
         overflow-x: auto;
@@ -262,7 +264,7 @@
         min-height: 300px;
         max-height: 450px;
     }
-    
+
     .performance-table {
         width: 100%;
         border-collapse: separate;
@@ -270,7 +272,7 @@
         font-size: 12px;
         background-color: white;
     }
-    
+
     .performance-table th {
         background-color: #C0C0C0;
         padding: 10px 4px;
@@ -283,11 +285,11 @@
         position: sticky;
         top: 0;
     }
-    
+
     .performance-table th:last-child {
         border-right: none;
     }
-    
+
     .performance-table td {
         padding: 10px 4px;
         text-align: center;
@@ -297,15 +299,15 @@
         border-bottom: 1px solid #808080;
         background-color: #FFFFFF;
     }
-    
+
     .performance-table td:last-child {
         border-right: none;
     }
-    
+
     .performance-table tbody tr:nth-child(odd) td {
         background-color: #F0F0F0;
     }
-    
+
     .performance-table tbody tr:first-child td {
         background-color: #f8e9d0 !important;
         font-weight: bold;
@@ -315,7 +317,7 @@
         background-color: #FFFFE0 !important;
         font-weight: bold;
     }
-    
+
     /* Spending Decision */
     .spending-content {
         text-align: center;
@@ -325,7 +327,7 @@
         flex-direction: column;
         justify-content: center;
     }
-    
+
     .spending-input-wrapper {
         margin: 30px 0;
         display: flex;
@@ -334,7 +336,7 @@
         gap: 12px;
         position: relative;
     }
-    
+
     .calculator-icon {
         width: 35px;
         height: 35px;
@@ -344,24 +346,24 @@
         flex-shrink: 0;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
-    
+
     .calculator-icon:hover {
         fill: #2E3D54;
         transform: scale(1.1);
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     }
-    
+
     .calculator-icon:active {
         transform: scale(0.95);
     }
-    
+
     .ecu-label {
         display: inline-block;
         font-weight: bold;
         font-size: 16px;
         line-height: 35px;
     }
-    
+
     /* Calculator Modal */
     .calculator-modal {
         display: none;
@@ -379,11 +381,11 @@
         width: 300px;
         min-height: 100px;
     }
-    
+
     .calculator-modal.active {
         display: block;
     }
-    
+
     .calculator-modal-header {
         display: flex;
         justify-content: center;
@@ -393,13 +395,13 @@
         border-bottom: 1px solid #ddd;
         position: relative;
     }
-    
+
     .calculator-modal-title {
         font-weight: bold;
         font-size: 16px;
         text-align: center;
     }
-    
+
     .calculator-modal-close {
         background: none;
         border: none;
@@ -414,11 +416,11 @@
         right: 0;
         top: 0;
     }
-    
+
     .calculator-modal-close:hover {
         color: #000;
     }
-    
+
     .calculator-modal-content {
         text-align: center;
         font-size: 14px;
@@ -428,22 +430,22 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .calculator-result {
         width: 100%;
     }
-    
+
     .spending-instruction {
         font-size: 12px;
         line-height: 1.6;
         margin: 20px 0;
         color: #333;
     }
-    
+
     .spending-instruction strong {
         font-weight: bold;
     }
-    
+
     /* Next button styling */
     .otree-btn-next {
         background-color: #D3D3D3 !important;
@@ -455,17 +457,17 @@
         border-radius: 4px !important;
         cursor: pointer !important;
     }
-    
+
     .otree-btn-next:hover {
         background-color: #C0C0C0 !important;
     }
-    
+
     /* Form fields */
     .form-group {
         margin: 0;
         display: inline-block;
     }
-    
+
     .form-control {
         width: 120px !important;
         height: 35px !important;
@@ -476,160 +478,136 @@
         background-color: #E0F0FF !important;
         display: inline-block !important;
     }
-    
+
     .form-control:focus {
         outline: none !important;
         border-color: #0000FF !important;
     }
-    
-    /* Responsive for different screen ratios */
-    
+
+/* Responsive for different screen ratios */
     /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
     @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
         .outer-container {
             max-width: 90%;
             padding: 15px;
         }
-        
         .content-grid {
             gap: 15px;
         }
-        
         .table-container {
             max-height: 380px;
         }
-        
         .performance-table {
             font-size: 13px;
         }
     }
-    
+
     /* For 16:9 screens (1920x1080, 1366x768, 1280x720) */
     @media (min-width: 1200px) and (max-aspect-ratio: 16/9) {
         .outer-container {
             max-width: 92%;
             padding: 12px;
         }
-        
         .table-container {
             max-height: 320px;
             min-height: 250px;
         }
-        
         .performance-table {
             font-size: 12px;
         }
-        
         .performance-table th,
         .performance-table td {
             padding: 8px 4px;
         }
-        
         .info-box-content {
             padding: 12px;
         }
-        
         .spending-content {
             padding: 20px 15px;
         }
     }
-    
+
     /* For smaller 16:9 screens (1366x768, 1280x720) */
     @media (min-width: 900px) and (max-width: 1400px) {
         .outer-container {
             max-width: 95%;
         }
-        
         .header {
             padding: 6px;
             font-size: 13px;
         }
-        
         .header .round-info {
             font-size: 13px;
         }
-        
         .info-box h3 {
             font-size: 13px;
             padding: 6px;
         }
-        
         .general-info-grid {
             gap: 10px;
             font-size: 12px;
         }
-        
         .table-container {
             max-height: 280px;
             min-height: 220px;
         }
-        
         .performance-table {
             font-size: 11px;
         }
-        
         .performance-table th,
         .performance-table td {
             padding: 6px 3px;
         }
-        
         .spending-instruction {
             font-size: 11px;
             margin: 15px 0;
         }
-        
         .calculator-icon {
             width: 30px;
             height: 30px;
         }
-        
         .form-control {
             width: 100px !important;
             height: 30px !important;
             font-size: 14px !important;
         }
-        
         .ecu-label {
             font-size: 14px;
             line-height: 30px;
         }
     }
-    
+
     /* Tablet and smaller screens */
     @media (max-width: 900px) {
         .content-grid {
             grid-template-columns: 1fr;
         }
-        
         .general-info-grid {
             grid-template-columns: 1fr;
         }
-        
         .table-container {
             max-height: 300px;
         }
     }
-    
+
     /* Very small screens */
     @media (max-width: 600px) {
         .outer-container {
             padding: 5px;
         }
-        
         .header .round-info {
             font-size: 11px;
             left: 10px;
         }
-        
         .performance-table {
             font-size: 10px;
         }
-        
         .calculator-modal {
             width: 90%;
             max-width: 280px;
         }
     }
+
 </style>
 
 <div class="outer-container">
@@ -643,61 +621,62 @@
             <div class="modal-body">
                 <div class="instruction-section">
                     <h3>Experimental Procedure</h3>
-                    <p class="content-text">
-                        You will play a game in which you need to make decisions in each of 100 identical rounds:
                     </p>
-                    <p class="content-text">
-                        • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the amount of money after deducting all direct and indirect costs except for SC resilience spending cost). You need to determine how much to spend on SC resilience; you are free to insert your spending decision <b>between 0 and 100 ECU</b>.
-                    </p>
-                    <p class="content-text">
-                        • Once you submit your decision, the computer will automatically generate whether a disruption happens and the disruption-related cost you incur in the current round.
-                    </p>
-                    <p class="content-text">
-                        • Your net profit in each round will be computed and provided in the performance table. There are two different scenarios:
-                    </p>
-                    <p class="content-text" style="margin-left: 40px;">
-                        ○ If there is no disruption, your net profit will be:<br>
-                        <b>Net Profit = Gross Profit – SC Resilience Spending</b>
-                    </p>
-                    <p class="content-text" style="margin-left: 40px;">
-                        ○ If there is a disruption, your net profit will be:<br>
-                        <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
-                    </p>
-                    <p class="content-text">
-                        • Your accumulated net profit after 100 rounds will determine your final performance in the game. This performance will be converted to your actual payoff, added to your show-up fee.
-                    </p>
+            <p class="content-text">
+                You will play a game in which you need to make decisions in each of 100 identical rounds:
+            </p>
+            <p class="content-text">
+                • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the amount of money after deducting all direct and indirect costs except for SC resilience spending cost). You need to determine how much to spend on SC resilience; you are free to insert your spending decision <b>between 0 and 100 ECU</b>.
+            </p>
+            <p class="content-text">
+                • Once you submit your decision, the computer will automatically generate whether a disruption happens and the disruption-related cost you incur in the current round.
+            </p>
+            <p class="content-text">
+                • Your net profit in each round will be computed and provided in the performance table. There are two different scenarios:
+            </p>
+            <p class="content-text" style="margin-left: 40px;">
+                ○ If there is no disruption, your net profit will be:<br>
+                <b>Net Profit = Gross Profit – SC Resilience Spending</b>
+            </p>
+            <p class="content-text" style="margin-left: 40px;">
+                ○ If there is a disruption, your net profit will be:<br>
+                <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
+            </p>
+            <p class="content-text">
+                • Your accumulated net profit after 100 rounds will determine your final performance in the game. This performance will be converted to your actual payoff, added to your show-up fee.
+            </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Supply Chain Disruptions</h3>
                     <p class="content-text">
-                        Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a flood in your factory, shipping route blockage, or political unrest). If your business is disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and unable to fulfill their orders), you may fail to meet your customers' demands and consequently incur a substantial cost due to declining sales and losing customers to your competitors.
-                    </p>
-                    <p class="content-text">
-                        <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is independent and does not influence the result of any other rounds.
-                    </p>
+                Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a flood in your factory, shipping route blockage, or political unrest). If your business is disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and unable to fulfill their orders), you may fail to meet your customers' demands and consequently incur a substantial cost due to declining sales and losing customers to your competitors.
+            </p>
+            <p class="content-text">
+                <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is independent and does not influence the result of any other rounds.
+            </p>
                 </div>
                 <div class="instruction-section">
                     <h3>How Supply Chain Resilience Spending Works</h3>
                     <p class="content-text">
-                        SC resilience is widely regarded as one of the best strategies that enables your company to proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience allows you to reduce both the probability and the financial impact of possible disruptions. The role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of disruptions occurring, as well as the lower the disruption-related costs if disruptions do happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always available to help you calculate the revised probability and revised impact of disruptions based on your spending amount.
-                    </p>
+                SC resilience is widely regarded as one of the best strategies that enables your company to proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience allows you to reduce both the probability and the financial impact of possible disruptions. The role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of disruptions occurring, as well as the lower the disruption-related costs if disruptions do happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always available to help you calculate the revised probability and revised impact of disruptions based on your spending amount.
+            </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Your Objective</h3>
                     <p class="content-text">
-                        Your goal in this experiment is to maximize your profit by deciding the right amount to spend on SC resilience that serves you best in preventing SC disruptions, while not eating up your profit due to excessive spending.
-                    </p>
+                Your goal in this experiment is to maximize your profit by deciding the right amount to spend on SC resilience that serves you best in preventing SC disruptions, while not eating up your profit due to excessive spending.
+            </p>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Header -->
     <div class="header">
         <div class="round-info">Round: {{ player.round_number }} / {{ C.NUM_ROUNDS }}</div>
         <div class="instructions-link">Instructions</div>
     </div>
-    
+
     <!-- Main Content Grid -->
     <div class="content-grid">
         <!-- General Information -->
@@ -736,14 +715,14 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Disruption Information -->
         <div class="info-box">
             <h3>DISRUPTION INFORMATION</h3>
             <div class="info-box-content">
                 <div class="disruption-content">
                     <div class="disruption-status">
-                        Disruption happening in this round: 
+                        Disruption happening in this round:
                         {{ if last_result }}
                             {{ if last_result.is_disrupted }}
                                 <span class="status-text status-yes">YES</span>
@@ -755,7 +734,7 @@
                         {{ endif }}
                     </div>
                     <div class="disruption-cost">
-                        Disruption cost in this round: 
+                        Disruption cost in this round:
                         {{ if last_result }}
                             {{ if last_result.is_disrupted }}
                             <span class="cost-value-yes">{{ last_result.cost_of_disruption }} ECU</span>
@@ -770,7 +749,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Second Row Grid -->
     <div class="content-grid">
         <!-- Performance History -->
@@ -782,11 +761,11 @@
                         <thead>
                             <tr>
                                 <th>Round</th>
-                                <th>Revenue</th>
-                                <th>SC resilience<br>cost</th>
-                                <th>Cost of<br>disruption</th>
-                                <th>Total<br>costs</th>
-                                <th>Profit this<br>round</th>
+                                <th>Gross Profit</th>
+                                <th>SC Resilience<br>cost</th>
+                                <th>Cost of<br>Disruption</th>
+                                <th>Total<br>Costs</th>
+                                <th>Net Profit<br>(this round)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -805,7 +784,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Spending Decision -->
         <div class="info-box">
             <h3>YOUR SPENDING DECISION</h3>
@@ -817,11 +796,11 @@
                         </svg>
                         {{ formfields }}
                         <span class="ecu-label">(ECU)</span>
-                        
+
                         <!-- Calculator Modal -->
                         <div class="calculator-modal" id="calculatorModal">
                             <div class="calculator-modal-header">
-                                <span class="calculator-modal-title">Calculator</span>
+                                <span class="calculator-modal-title">Decision support tool</span>
                                 <button class="calculator-modal-close" id="closeCalculatorModal">&times;</button>
                             </div>
                             <div class="calculator-modal-content">
@@ -839,13 +818,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="spending-instruction">
-                        Enter the amount (from 0 to 100) that you would like to<br>
-                        spend to reduce both the <strong>probability</strong> and the <strong>impact</strong> of<br>
-                        disruption to <strong>maximize your profit</strong>
+                        Enter the amount (from 0 to 100) you want to spend<br>
+                        to reduce both the <strong>probability</strong> and the <strong>impact</strong> of<br>
+                        disruption that <strong>maximizes your profit</strong>
                     </div>
-                    
+
                     {{ next_button }}
                 </div>
             </div>
@@ -859,81 +838,81 @@
         const modal = document.getElementById('instructionsModal');
         const instructionsLink = document.querySelector('.instructions-link');
         const closeModal = document.getElementById('closeModal');
-        
+
         // Open modal
         instructionsLink.addEventListener('click', function(e) {
             e.preventDefault();
             modal.classList.add('active');
         });
-        
+
         // Close modal with X button
         closeModal.addEventListener('click', function() {
             modal.classList.remove('active');
         });
-        
+
         // Close modal when clicking outside
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 modal.classList.remove('active');
             }
         });
-        
+
         // Calculator Modal functionality
         const calculatorModal = document.getElementById('calculatorModal');
         const calculatorIcon = document.getElementById('calculatorIcon');
         const closeCalculatorModal = document.getElementById('closeCalculatorModal');
         let isCalculatorOpen = false;
-        
+
         // Open calculator modal
         calculatorIcon.addEventListener('click', function(e) {
             e.stopPropagation();
             calculatorModal.classList.add('active');
             isCalculatorOpen = true;
         });
-        
+
         // Close calculator modal with X button only
         closeCalculatorModal.addEventListener('click', function(e) {
             e.stopPropagation();
             calculatorModal.classList.remove('active');
             isCalculatorOpen = false;
         });
-        
+
         // Prevent modal from closing when clicking inside it
         calculatorModal.addEventListener('click', function(e) {
             e.stopPropagation();
         });
-        
+
         // Calculator function
         function calculateDisruption(spending) {
             const BASIC_PROBABILITY = 5;
             const DISRUPTION_COST = 2000;
-            
+
             // p(x) = p₀ * (1 - x/100)
             const probability = BASIC_PROBABILITY * (1 - spending / 100);
-            
+
             // C_I(x) = C_I * (1 - x/100)
             const impact = DISRUPTION_COST * (1 - spending / 100);
-            
+
             return {
                 probability: Math.max(0, probability).toFixed(2),
                 impact: Math.max(0, Math.round(impact))
             };
         }
-        
+
         // Handle Enter key submission and calculator update
         const moneyInput = document.querySelector('input[name="money_input"]');
         const calculatorResult = document.getElementById('calculatorResult');
         const calculatorPlaceholder = document.getElementById('calculatorPlaceholder');
         const calcProbability = document.getElementById('calcProbability');
         const calcImpact = document.getElementById('calcImpact');
-        
+
         if (moneyInput) {
             // Input validation and calculator update
             moneyInput.addEventListener('input', function(e) {
                 let value = parseInt(e.target.value);
                 if (value < 0) e.target.value = 0;
                 if (value > 100) e.target.value = 100;
-                
+
                 // Update calculator
                 if (e.target.value === '' || isNaN(value)) {
                     calculatorResult.style.display = 'none';
@@ -946,7 +925,7 @@
                     calculatorPlaceholder.style.display = 'none';
                 }
             });
-            
+
             // Enter key handling
             moneyInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
@@ -958,10 +937,10 @@
                     }
                 }
             });
-            
+
             // Focus the input
             moneyInput.focus();
-            
+
             // Initialize calculator if there's already a value
             if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
                 const value = parseInt(moneyInput.value);
@@ -972,13 +951,13 @@
                 calculatorPlaceholder.style.display = 'none';
             }
         }
-        
+
         // Change button text and prevent modal closing on submit
         const nextBtn = document.querySelector('.otree-btn-next');
         if (nextBtn) {
             nextBtn.textContent = 'Submit';
         }
-        
+
         // Handle form submission to keep calculator open
         const form = document.querySelector('form');
         if (form) {
@@ -989,14 +968,14 @@
                 }
             });
         }
-        
+
         // Restore calculator state after page load
         if (sessionStorage.getItem('calculatorWasOpen') === 'true') {
             calculatorModal.classList.add('active');
             isCalculatorOpen = true;
             sessionStorage.removeItem('calculatorWasOpen');
         }
-        
+
     });
 </script>
 
