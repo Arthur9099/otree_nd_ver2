@@ -261,6 +261,7 @@ class WelcomingPage(Page):
 class QuestionPage(Page):
     form_model = 'player'
     form_fields = ['comp_q1', 'comp_q2', 'comp_q3', 'comp_q4', 'comp_q5']
+    allow_back_button = True
 
     @staticmethod
     def is_displayed(player: Player):
