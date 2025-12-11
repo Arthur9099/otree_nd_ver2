@@ -262,7 +262,7 @@
         border: none;
         height: 100%;
         min-height: 300px;
-        max-height: 450px;
+        max-height: 600px;
     }
 
     .performance-table {
@@ -326,6 +326,11 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+
+    /* Extra vertical room so popup doesn't overlap submit */
+    .spending-info-box {
+        padding-bottom: 320px;
     }
 
     .spending-input-wrapper {
@@ -435,10 +440,124 @@
         width: 100%;
     }
 
+    /* Disruption Info Popup */
+    .disruption-info-popup {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 10px;
+        background-color: white;
+        border: 2px solid #00AA00;
+        border-radius: 8px;
+        padding: 15px 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 99;
+        width: 280px;
+        min-height: 60px;
+    }
+
+    .disruption-info-popup.active {
+        display: block;
+    }
+
+    .disruption-info-popup.status-yes {
+        border: 2px solid #FF0000;
+    }
+
+    .disruption-info-popup.status-yes .disruption-info-title {
+        color: #FF0000;
+    }
+
+    .disruption-info-popup.status-yes .disruption-info-message {
+        color: #FF0000;
+    }
+
+    .disruption-info-popup.status-no {
+        border: 2px solid #00AA00;
+        width: 280px;
+        min-height: 60px;
+        padding: 15px 20px;
+    }
+
+    .disruption-info-popup.status-no .disruption-info-message {
+        color: #00AA00;
+    }
+
+    .disruption-info-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        position: relative;
+    }
+
+    .disruption-info-title {
+        font-weight: bold;
+        font-size: 16px;
+        text-align: center;
+        color: #000000;
+    }
+
+    .disruption-info-close {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: #00AA00;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .disruption-info-close:hover {
+        color: #008800;
+    }
+
+    .disruption-info-popup.status-yes .disruption-info-close {
+        color: #FF0000;
+    }
+
+    .disruption-info-popup.status-yes .disruption-info-close:hover {
+        color: #CC0000;
+    }
+
+    .disruption-info-content {
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.8;
+        min-height: 50px;
+    }
+
+    .disruption-info-message {
+        font-weight: bold;
+        color: #00AA00;
+    }
+
+    .disruption-info-message.status-yes {
+        color: #FF0000;
+    }
+
+    .disruption-info-row {
+        margin: 8px 0;
+    }
+
+    .disruption-info-row strong {
+        display: inline-block;
+        min-width: 160px;
+        color: #000000;
+    }
+
     .spending-instruction {
         font-size: 12px;
         line-height: 1.6;
-        margin: 20px 0;
+        margin: 40px 0;
         color: #333;
     }
 
@@ -484,7 +603,7 @@
         border-color: #0000FF !important;
     }
 
-/* Responsive for different screen ratios */
+    /* Responsive for different screen ratios */
     /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
     @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
         .outer-container {
@@ -495,7 +614,7 @@
             gap: 15px;
         }
         .table-container {
-            max-height: 380px;
+            max-height: 450px;
         }
         .performance-table {
             font-size: 13px;
@@ -509,7 +628,7 @@
             padding: 12px;
         }
         .table-container {
-            max-height: 320px;
+            max-height: 450px;
             min-height: 250px;
         }
         .performance-table {
@@ -548,7 +667,7 @@
             font-size: 12px;
         }
         .table-container {
-            max-height: 280px;
+            max-height: 450px;
             min-height: 220px;
         }
         .performance-table {
@@ -560,7 +679,7 @@
         }
         .spending-instruction {
             font-size: 11px;
-            margin: 15px 0;
+            margin: 35px 0;
         }
         .calculator-icon {
             width: 30px;
@@ -586,7 +705,7 @@
             grid-template-columns: 1fr;
         }
         .table-container {
-            max-height: 300px;
+            max-height: 450px;
         }
     }
 
@@ -605,6 +724,10 @@
         .calculator-modal {
             width: 90%;
             max-width: 280px;
+        }
+        .disruption-info-popup {
+            width: 90%;
+            max-width: 320px;
         }
     }
 
@@ -788,7 +911,7 @@
         <!-- Spending Decision -->
         <div class="info-box">
             <h3>YOUR SPENDING DECISION</h3>
-            <div class="info-box-content">
+            <div class="info-box-content spending-info-box">
                 <div class="spending-content">
                     <div class="spending-input-wrapper">
                         <svg class="calculator-icon" id="calculatorIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -817,6 +940,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Disruption Info Popup -->
+                        <div class="disruption-info-popup" id="disruptionInfoPopup">
+                            <div class="disruption-info-header">
+                                <button class="disruption-info-close" id="closeDisruptionInfo">&times;</button>
+                            </div>
+                            <div class="disruption-info-content">
+                                <div class="disruption-info-message" id="disruptionInfoMessage">
+                                    No disruption happened
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="spending-instruction">
@@ -832,8 +967,16 @@
     </div>
 </div>
 
+<!-- Data attributes for server-side template rendering -->
+<div id="disruption-data" data-is-disrupted="{% if last_result %}{% if last_result.is_disrupted %}true{% else %}false{% endif %}{% else %}false{% endif %}" data-cost="{% if last_result %}{% if last_result.is_disrupted %}{{ last_result.cost_of_disruption }}{% else %}0{% endif %}{% else %}0{% endif %}" style="display:none;"></div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Get disruption data from data attributes
+        const disruptionDataEl = document.getElementById('disruption-data');
+        window.lastResultIsDisrupted = disruptionDataEl.dataset.isDisrupted === 'true';
+        window.lastResultCost = parseInt(disruptionDataEl.dataset.cost) || 0;
+        
         // Modal functionality
         const modal = document.getElementById('instructionsModal');
         const instructionsLink = document.querySelector('.instructions-link');
@@ -846,13 +989,17 @@
         });
 
         // Close modal with X button
-        closeModal.addEventListener('click', function() {
+        closeModal.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             modal.classList.remove('active');
         });
 
         // Close modal when clicking outside
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
+                e.preventDefault();
+                e.stopPropagation();
                 modal.classList.remove('active');
             }
         });
@@ -872,6 +1019,7 @@
 
         // Close calculator modal with X button only
         closeCalculatorModal.addEventListener('click', function(e) {
+            e.preventDefault();
             e.stopPropagation();
             calculatorModal.classList.remove('active');
             isCalculatorOpen = false;
@@ -879,6 +1027,24 @@
 
         // Prevent modal from closing when clicking inside it
         calculatorModal.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Disruption Info Popup functionality
+        const disruptionInfoPopup = document.getElementById('disruptionInfoPopup');
+        const closeDisruptionInfo = document.getElementById('closeDisruptionInfo');
+        let isDisruptionInfoOpen = false;
+
+        // Close disruption info popup
+        closeDisruptionInfo.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            disruptionInfoPopup.classList.remove('active');
+            isDisruptionInfoOpen = false;
+        });
+
+        // Prevent popup from closing when clicking inside it
+        disruptionInfoPopup.addEventListener('click', function(e) {
             e.stopPropagation();
         });
 
@@ -899,6 +1065,30 @@
             };
         }
 
+        // Get disruption data from last result (from server)
+        const lastResultData = {
+            isDisrupted: window.lastResultIsDisrupted || false,
+            costOfDisruption: window.lastResultCost || 0
+        };
+
+        // Update disruption info popup with actual data from server
+        function updateDisruptionInfo() {
+            const disruptionInfoMessage = document.getElementById('disruptionInfoMessage');
+            const disruptionPopup = document.getElementById('disruptionInfoPopup');
+
+            if (lastResultData.isDisrupted) {
+                disruptionInfoMessage.textContent = 'Disruption happened with the impact of ' + lastResultData.costOfDisruption + ' ECU';
+                disruptionInfoMessage.className = 'disruption-info-message status-yes';
+                disruptionPopup.classList.remove('status-no');
+                disruptionPopup.classList.add('status-yes');
+            } else {
+                disruptionInfoMessage.textContent = 'No disruption happened';
+                disruptionInfoMessage.className = 'disruption-info-message';
+                disruptionPopup.classList.remove('status-yes');
+                disruptionPopup.classList.add('status-no');
+            }
+        }
+
         // Handle Enter key submission and calculator update
         const moneyInput = document.querySelector('input[name="money_input"]');
         const calculatorResult = document.getElementById('calculatorResult');
@@ -907,7 +1097,7 @@
         const calcImpact = document.getElementById('calcImpact');
 
         if (moneyInput) {
-            // Input validation and calculator update
+            // Input validation and updates
             moneyInput.addEventListener('input', function(e) {
                 let value = parseInt(e.target.value);
                 if (value < 0) e.target.value = 0;
@@ -918,30 +1108,52 @@
                     calculatorResult.style.display = 'none';
                     calculatorPlaceholder.style.display = 'block';
                 } else {
+                    // Update calculator modal
                     const result = calculateDisruption(value);
                     calcProbability.textContent = result.probability;
                     calcImpact.textContent = result.impact;
                     calculatorResult.style.display = 'block';
                     calculatorPlaceholder.style.display = 'none';
+
+                    // Update disruption info popup but don't auto-close it
+                    updateDisruptionInfo();
+                    if (!isDisruptionInfoOpen) {
+                        disruptionInfoPopup.classList.add('active');
+                        isDisruptionInfoOpen = true;
+                    }
                 }
             });
 
-            // Enter key handling
+            // Enter key handling - update disruption info
             moneyInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
-                    const submitButton = document.querySelector('.otree-btn-next');
-                    if (submitButton && !submitButton.disabled) {
-                        submitButton.click();
+                    
+                    // Update disruption info one more time before submit
+                    const value = parseInt(e.target.value);
+                    if (!isNaN(value) && value >= 0 && value <= 100) {
+                        updateDisruptionInfo();
+                        if (!isDisruptionInfoOpen) {
+                            disruptionInfoPopup.classList.add('active');
+                            isDisruptionInfoOpen = true;
+                        }
                     }
+                    
+                    // Small delay to show the update before submitting
+                    setTimeout(() => {
+                        const submitButton = document.querySelector('.otree-btn-next');
+                        if (submitButton && !submitButton.disabled) {
+                            submitButton.click();
+                        }
+                    }, 300);
                 }
             });
 
             // Focus the input
             moneyInput.focus();
 
-            // Initialize calculator if there's already a value
+            // Initialize calculator and disruption info if there's already a value
             if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
                 const value = parseInt(moneyInput.value);
                 const result = calculateDisruption(value);
@@ -949,31 +1161,44 @@
                 calcImpact.textContent = result.impact;
                 calculatorResult.style.display = 'block';
                 calculatorPlaceholder.style.display = 'none';
+                
+                // Show disruption info
+                updateDisruptionInfo();
+                disruptionInfoPopup.classList.add('active');
+                isDisruptionInfoOpen = true;
             }
         }
 
-        // Change button text and prevent modal closing on submit
+        // Change button text
         const nextBtn = document.querySelector('.otree-btn-next');
         if (nextBtn) {
             nextBtn.textContent = 'Submit';
         }
 
-        // Handle form submission to keep calculator open
-        const form = document.querySelector('form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
+        // Handle form submission to keep popups open
+        let formElement = document.querySelector('form');
+        if (formElement) {
+            formElement.addEventListener('submit', function(e) {
                 if (isCalculatorOpen) {
-                    // Store calculator state before form submission
                     sessionStorage.setItem('calculatorWasOpen', 'true');
+                }
+                if (isDisruptionInfoOpen) {
+                    sessionStorage.setItem('disruptionInfoWasOpen', 'true');
                 }
             });
         }
 
-        // Restore calculator state after page load
+        // Restore popup states after page load
         if (sessionStorage.getItem('calculatorWasOpen') === 'true') {
             calculatorModal.classList.add('active');
             isCalculatorOpen = true;
             sessionStorage.removeItem('calculatorWasOpen');
+        }
+        
+        if (sessionStorage.getItem('disruptionInfoWasOpen') === 'true') {
+            disruptionInfoPopup.classList.add('active');
+            isDisruptionInfoOpen = true;
+            sessionStorage.removeItem('disruptionInfoWasOpen');
         }
 
     });
@@ -990,9 +1215,9 @@
     };
     
     // Intercept form submission
-    const form = document.querySelector('form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
+    let formNode = document.querySelector('form');
+    if (formNode) {
+        formNode.addEventListener('submit', function(e) {
             getTime();
         });
     }
