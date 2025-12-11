@@ -959,12 +959,13 @@
 </div>
 
 <!-- Data attributes for server-side template rendering -->
-<div id="disruption-data" data-is-disrupted="{% if last_result %}{% if last_result.is_disrupted %}true{% else %}false{% endif %}{% else %}false{% endif %}" data-cost="{% if last_result %}{% if last_result.is_disrupted %}{{ last_result.cost_of_disruption }}{% else %}0{% endif %}{% else %}0{% endif %}" style="display:none;"></div>
+<div id="disruption-data" data-last-result="{% if last_result %}true{% else %}false{% endif %}" data-is-disrupted="{% if last_result %}{% if last_result.is_disrupted %}true{% else %}false{% endif %}{% else %}false{% endif %}" data-cost="{% if last_result %}{% if last_result.is_disrupted %}{{ last_result.cost_of_disruption }}{% else %}0{% endif %}{% else %}0{% endif %}" style="display:none;"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Get disruption data from data attributes
         const disruptionDataEl = document.getElementById('disruption-data');
+        const hasLastResult = disruptionDataEl.dataset.lastResult === 'true';
         window.lastResultIsDisrupted = disruptionDataEl.dataset.isDisrupted === 'true';
         window.lastResultCost = parseInt(disruptionDataEl.dataset.cost) || 0;
         
@@ -1158,8 +1159,6 @@
                 if (isCalculatorOpen) {
                     sessionStorage.setItem('calculatorWasOpen', 'true');
                 }
-                // Set flag to show disruption popup after submit
-                sessionStorage.setItem('disruptionPopupShow', 'true');
             });
         }
 
@@ -1170,12 +1169,11 @@
             sessionStorage.removeItem('calculatorWasOpen');
         }
         
-        // Show disruption info popup only if coming from submit
-        if (sessionStorage.getItem('disruptionPopupShow') === 'true') {
+        // Show disruption info popup only if last_result exists (not first round)
+        if (hasLastResult) {
             updateDisruptionInfo();
             disruptionInfoPopup.classList.add('active');
             isDisruptionInfoOpen = true;
-            sessionStorage.removeItem('disruptionPopupShow');
         }
 
     });
