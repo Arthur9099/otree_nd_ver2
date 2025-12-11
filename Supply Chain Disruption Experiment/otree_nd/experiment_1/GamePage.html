@@ -262,7 +262,7 @@
         border: none;
         height: 100%;
         min-height: 300px;
-        max-height: 600px;
+        max-height: 450px;
     }
 
     .performance-table {
@@ -328,11 +328,6 @@
         justify-content: center;
     }
 
-    /* Extra vertical room so popup doesn't overlap submit */
-    .spending-info-box {
-        padding-bottom: 320px;
-    }
-
     .spending-input-wrapper {
         margin: 30px 0;
         display: flex;
@@ -373,10 +368,10 @@
     .calculator-modal {
         display: none;
         position: absolute;
-        bottom: 100%;
+        top: 100%;
         left: 50%;
         transform: translateX(-50%);
-        margin-bottom: 10px;
+        margin-top: 10px;
         background-color: white;
         border: 2px solid #000;
         border-radius: 8px;
@@ -444,10 +439,10 @@
     .disruption-info-popup {
         display: none;
         position: absolute;
-        top: 100%;
+        bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
-        margin-top: 10px;
+        margin-bottom: 10px;
         background-color: white;
         border: 2px solid #00AA00;
         border-radius: 8px;
@@ -557,7 +552,7 @@
     .spending-instruction {
         font-size: 12px;
         line-height: 1.6;
-        margin: 40px 0;
+        margin: 20px 0;
         color: #333;
     }
 
@@ -603,7 +598,7 @@
         border-color: #0000FF !important;
     }
 
-    /* Responsive for different screen ratios */
+/* Responsive for different screen ratios */
     /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
     @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
         .outer-container {
@@ -614,7 +609,7 @@
             gap: 15px;
         }
         .table-container {
-            max-height: 450px;
+            max-height: 380px;
         }
         .performance-table {
             font-size: 13px;
@@ -628,7 +623,7 @@
             padding: 12px;
         }
         .table-container {
-            max-height: 450px;
+            max-height: 320px;
             min-height: 250px;
         }
         .performance-table {
@@ -667,7 +662,7 @@
             font-size: 12px;
         }
         .table-container {
-            max-height: 450px;
+            max-height: 280px;
             min-height: 220px;
         }
         .performance-table {
@@ -679,7 +674,7 @@
         }
         .spending-instruction {
             font-size: 11px;
-            margin: 35px 0;
+            margin: 15px 0;
         }
         .calculator-icon {
             width: 30px;
@@ -705,7 +700,7 @@
             grid-template-columns: 1fr;
         }
         .table-container {
-            max-height: 450px;
+            max-height: 300px;
         }
     }
 
@@ -724,10 +719,6 @@
         .calculator-modal {
             width: 90%;
             max-width: 280px;
-        }
-        .disruption-info-popup {
-            width: 90%;
-            max-width: 320px;
         }
     }
 
@@ -911,7 +902,7 @@
         <!-- Spending Decision -->
         <div class="info-box">
             <h3>YOUR SPENDING DECISION</h3>
-            <div class="info-box-content spending-info-box">
+            <div class="info-box-content">
                 <div class="spending-content">
                     <div class="spending-input-wrapper">
                         <svg class="calculator-icon" id="calculatorIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -919,6 +910,18 @@
                         </svg>
                         {{ formfields }}
                         <span class="ecu-label">(ECU)</span>
+
+                        <!-- Disruption Info Popup -->
+                        <div class="disruption-info-popup" id="disruptionInfoPopup">
+                            <div class="disruption-info-header">
+                                <button class="disruption-info-close" id="closeDisruptionInfo">&times;</button>
+                            </div>
+                            <div class="disruption-info-content">
+                                <div class="disruption-info-message" id="disruptionInfoMessage">
+                                    No disruption happened
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Calculator Modal -->
                         <div class="calculator-modal" id="calculatorModal">
@@ -937,18 +940,6 @@
                                 </div>
                                 <div id="calculatorPlaceholder" style="color: #999;">
                                     Enter an amount to see calculations
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Disruption Info Popup -->
-                        <div class="disruption-info-popup" id="disruptionInfoPopup">
-                            <div class="disruption-info-header">
-                                <button class="disruption-info-close" id="closeDisruptionInfo">&times;</button>
-                            </div>
-                            <div class="disruption-info-content">
-                                <div class="disruption-info-message" id="disruptionInfoMessage">
-                                    No disruption happened
                                 </div>
                             </div>
                         </div>
@@ -1103,6 +1094,10 @@
                 if (value < 0) e.target.value = 0;
                 if (value > 100) e.target.value = 100;
 
+                // Hide disruption info popup when user is typing
+                disruptionInfoPopup.classList.remove('active');
+                isDisruptionInfoOpen = false;
+
                 // Update calculator
                 if (e.target.value === '' || isNaN(value)) {
                     calculatorResult.style.display = 'none';
@@ -1114,46 +1109,32 @@
                     calcImpact.textContent = result.impact;
                     calculatorResult.style.display = 'block';
                     calculatorPlaceholder.style.display = 'none';
-
-                    // Update disruption info popup but don't auto-close it
-                    updateDisruptionInfo();
-                    if (!isDisruptionInfoOpen) {
-                        disruptionInfoPopup.classList.add('active');
-                        isDisruptionInfoOpen = true;
-                    }
                 }
             });
 
-            // Enter key handling - update disruption info
+            // Hide popup when user focuses on input
+            moneyInput.addEventListener('focus', function(e) {
+                disruptionInfoPopup.classList.remove('active');
+                isDisruptionInfoOpen = false;
+            });
+
+            // Enter key handling
             moneyInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    // Update disruption info one more time before submit
-                    const value = parseInt(e.target.value);
-                    if (!isNaN(value) && value >= 0 && value <= 100) {
-                        updateDisruptionInfo();
-                        if (!isDisruptionInfoOpen) {
-                            disruptionInfoPopup.classList.add('active');
-                            isDisruptionInfoOpen = true;
-                        }
+                    const submitButton = document.querySelector('.otree-btn-next');
+                    if (submitButton && !submitButton.disabled) {
+                        submitButton.click();
                     }
-                    
-                    // Small delay to show the update before submitting
-                    setTimeout(() => {
-                        const submitButton = document.querySelector('.otree-btn-next');
-                        if (submitButton && !submitButton.disabled) {
-                            submitButton.click();
-                        }
-                    }, 300);
                 }
             });
 
             // Focus the input
             moneyInput.focus();
 
-            // Initialize calculator and disruption info if there's already a value
+            // Initialize calculator if there's already a value
             if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
                 const value = parseInt(moneyInput.value);
                 const result = calculateDisruption(value);
@@ -1161,11 +1142,6 @@
                 calcImpact.textContent = result.impact;
                 calculatorResult.style.display = 'block';
                 calculatorPlaceholder.style.display = 'none';
-                
-                // Show disruption info
-                updateDisruptionInfo();
-                disruptionInfoPopup.classList.add('active');
-                isDisruptionInfoOpen = true;
             }
         }
 
@@ -1182,9 +1158,8 @@
                 if (isCalculatorOpen) {
                     sessionStorage.setItem('calculatorWasOpen', 'true');
                 }
-                if (isDisruptionInfoOpen) {
-                    sessionStorage.setItem('disruptionInfoWasOpen', 'true');
-                }
+                // Set flag to show disruption popup after submit
+                sessionStorage.setItem('disruptionPopupShow', 'true');
             });
         }
 
@@ -1195,10 +1170,12 @@
             sessionStorage.removeItem('calculatorWasOpen');
         }
         
-        if (sessionStorage.getItem('disruptionInfoWasOpen') === 'true') {
+        // Show disruption info popup only if coming from submit
+        if (sessionStorage.getItem('disruptionPopupShow') === 'true') {
+            updateDisruptionInfo();
             disruptionInfoPopup.classList.add('active');
             isDisruptionInfoOpen = true;
-            sessionStorage.removeItem('disruptionInfoWasOpen');
+            sessionStorage.removeItem('disruptionPopupShow');
         }
 
     });
