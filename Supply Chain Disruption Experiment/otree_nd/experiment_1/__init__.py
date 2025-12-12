@@ -491,8 +491,10 @@ class GamePage(Page):
     def live_method(player: Player, data):
         if "page_loaded" in data:
             player.game_page_loaded = player.field_maybe_none('game_page_loaded') + str(data['page_loaded']) + ", "
+            return # Thêm dòng này
         if "form_submitted" in data:
             player.game_form_submitted = player.field_maybe_none('game_form_submitted') + str(data['form_submitted']) + ", "
+            return # Thêm dòng này
         if 'action' in data and data['action'] == 'calculate_result':
             spending = data['spending']
 
