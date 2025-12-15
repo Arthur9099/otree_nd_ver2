@@ -421,7 +421,7 @@ class GamePage(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number > 1
+        return player.round_number > 0
 
     @staticmethod
     def vars_for_template(player: Player):
