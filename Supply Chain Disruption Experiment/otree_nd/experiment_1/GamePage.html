@@ -599,31 +599,6 @@
         border-color: #0000FF !important;
     }
 
-    /* Animation for value rounding feedback */
-    @keyframes roundingPulse {
-        0% {
-            background-color: #E0F0FF !important;
-            box-shadow: 0 0 0 0 rgba(0, 200, 0, 0.7);
-            transform: scale(1);
-        }
-
-        50% {
-            background-color: #90EE90 !important;
-            box-shadow: 0 0 15px 5px rgba(0, 200, 0, 0.5);
-            transform: scale(1.08);
-        }
-
-        100% {
-            background-color: #E0F0FF !important;
-            box-shadow: 0 0 0 0 rgba(0, 200, 0, 0);
-            transform: scale(1);
-        }
-    }
-
-    .form-control.rounding {
-        animation: roundingPulse 0.4s ease-out !important;
-    }
-
     /* Responsive for different screen ratios */
     /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
     @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
@@ -1225,94 +1200,36 @@
         const calcImpact = document.getElementById('calcImpact');
 
         if (moneyInput) {
-            // Set attributes for multiples of 10
-            moneyInput.setAttribute('step', '10');
-            moneyInput.setAttribute('min', '0');
-            moneyInput.setAttribute('max', '100');
-
-            // Function to round value to nearest 10
-            function roundToNearest10(val) {
-                if (isNaN(val)) return 0;
-                if (val < 0) val = 0;
-                if (val > 100) val = 100;
-                return Math.round(val / 10) * 10;
-            }
-
-            // Debounce timer for auto-rounding
-            let roundingTimer = null;
-
-            // Input event - allow free typing, auto-round after 500ms
+            // Input validation and calculator update
             moneyInput.addEventListener('input', function (e) {
                 let value = parseInt(e.target.value);
 
-                // Validate range during typing
-                if (!isNaN(value)) {
-                    if (value < 0) e.target.value = 0;
-                    if (value > 100) e.target.value = 100;
-                    value = parseInt(e.target.value);
-                }
+                // Validate range
+                if (value < 0) e.target.value = 0;
+                if (value > 100) e.target.value = 100;
 
                 // Mark user has interacted and hide disruption popup when typing
                 markUserInteraction();
                 hideDisruptionInfoPopup();
 
-                // Update calculator display with rounded value preview
+                // Update calculator display
                 if (e.target.value === '' || isNaN(value)) {
                     calculatorResult.style.display = 'none';
                     calculatorPlaceholder.style.display = 'block';
                 } else {
-                    const roundedValue = roundToNearest10(value);
-                    const result = calculateDisruption(roundedValue);
+                    const result = calculateDisruption(value);
                     calcProbability.textContent = result.probability;
                     calcImpact.textContent = result.impact;
                     calculatorResult.style.display = 'block';
                     calculatorPlaceholder.style.display = 'none';
                 }
-
-                // Clear previous timer and set new one to auto-round after 500ms
-                clearTimeout(roundingTimer);
-                roundingTimer = setTimeout(function () {
-                    let currentValue = parseInt(moneyInput.value);
-                    if (!isNaN(currentValue)) {
-                        const rounded = roundToNearest10(currentValue);
-                        if (rounded !== currentValue) {
-                            moneyInput.value = rounded;
-                            // Trigger animation
-                            moneyInput.classList.remove('rounding');
-                            void moneyInput.offsetWidth; // Force reflow
-                            moneyInput.classList.add('rounding');
-                        }
-                    }
-                }, 500);
             });
 
-            // Blur event - round immediately when leaving the field
-            moneyInput.addEventListener('blur', function (e) {
-                clearTimeout(roundingTimer); // Cancel pending timer
-                let value = parseInt(e.target.value);
-                if (!isNaN(value)) {
-                    const rounded = roundToNearest10(value);
-                    if (rounded !== value) {
-                        e.target.value = rounded;
-                        // Trigger animation
-                        moneyInput.classList.remove('rounding');
-                        void moneyInput.offsetWidth; // Force reflow
-                        moneyInput.classList.add('rounding');
-                    }
-                }
-            });
-
-            // Enter key to submit (round before submitting)
+            // Enter key to submit
             moneyInput.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
-
-                    // Round value before submit
-                    let value = parseInt(moneyInput.value);
-                    if (!isNaN(value)) {
-                        moneyInput.value = roundToNearest10(value);
-                    }
 
                     const submitButton = document.querySelector('.otree-btn-next');
                     if (submitButton && !submitButton.disabled) {
