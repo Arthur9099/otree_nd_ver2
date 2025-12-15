@@ -262,6 +262,7 @@
         overflow-y: auto;
         border: none;
         max-height: 450px;
+        flex: 1;
     }
 
     .performance-table {
@@ -443,7 +444,7 @@
         transform: translateX(-50%);
         margin-bottom: 10px;
         background-color: white;
-        border: 2px solid #00AA00;
+        border: 2px solid #0000FF;
         border-radius: 8px;
         padding: 20px 30px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -469,14 +470,14 @@
     }
 
     .disruption-info-popup.status-no {
-        border: 2px solid #00AA00;
+        border: 2px solid #0000FF;
         width: 350px;
         min-height: 80px;
         padding: 20px 30px;
     }
 
     .disruption-info-popup.status-no .disruption-info-message {
-        color: #00AA00;
+        color: #0000FF;
     }
 
     .disruption-info-header {
@@ -504,14 +505,14 @@
         width: 20px;
         height: 20px;
         line-height: 20px;
-        color: #00AA00;
+        color: #0000FF;
         position: absolute;
         right: 0;
         top: 0;
     }
 
     .disruption-info-close:hover {
-        color: #008800;
+        color: #0000FF;
     }
 
     .disruption-info-popup.status-yes .disruption-info-close {
@@ -531,7 +532,7 @@
 
     .disruption-info-message {
         font-weight: bold;
-        color: #00AA00;
+        color: #0000FF;
     }
 
     .disruption-info-message.status-yes {
@@ -557,6 +558,12 @@
 
     .spending-instruction strong {
         font-weight: bold;
+    }
+
+    .calc-reminder {
+        margin-top: 1px;
+        font-size: 13px;
+        font-style: italic;
     }
 
     /* Next button styling */
@@ -609,9 +616,6 @@
             gap: 15px;
         }
 
-        .table-container {
-            max-height: 380px;
-        }
 
         .performance-table {
             font-size: 13px;
@@ -625,9 +629,6 @@
             padding: 12px;
         }
 
-        .table-container {
-            max-height: 320px;
-        }
 
         .performance-table {
             font-size: 12px;
@@ -672,9 +673,6 @@
             font-size: 12px;
         }
 
-        .table-container {
-            max-height: 280px;
-        }
 
         .performance-table {
             font-size: 11px;
@@ -717,9 +715,6 @@
             grid-template-columns: 1fr;
         }
 
-        .table-container {
-            max-height: 300px;
-        }
     }
 
     /* Very small screens */
@@ -878,7 +873,7 @@
             <div class="info-box-content">
                 <div class="disruption-content">
                     <div class="disruption-status">
-                        Disruption happening in this round:
+                        Disruption happened in the last round:
                         {{ if last_result }}
                         {{ if last_result.is_disrupted }}
                         <span class="status-text status-yes">YES</span>
@@ -890,7 +885,7 @@
                         {{ endif }}
                     </div>
                     <div class="disruption-cost">
-                        Disruption cost in this round:
+                        Disruption impact in the last round:
                         {{ if last_result }}
                         {{ if last_result.is_disrupted }}
                         <span class="cost-value-yes">{{ last_result.cost_of_disruption }} ECU</span>
@@ -963,7 +958,7 @@
                             </div>
                             <div class="disruption-info-content">
                                 <div class="disruption-info-message" id="disruptionInfoMessage">
-                                    No disruption happened
+                                    No disruption happened last round.
                                 </div>
                             </div>
                         </div>
@@ -989,7 +984,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="calc-reminder">
+                        Use the calculator to check the revised disruption probability and
+                        impact for your chosen spending level
+                    </div>
                     <div class="spending-instruction">
                         Enter the amount (from 0 to 100) you want to spend<br>
                         to reduce both the <strong>probability</strong> and the <strong>impact</strong> of<br>
@@ -1111,14 +1109,14 @@
 
             if (window.lastResultData.isDisrupted) {
                 // RED - Disruption happened
-                disruptionInfoMessage.textContent = 'Disruption happened with the impact of ' +
-                    window.lastResultData.costOfDisruption + ' ECU';
+                disruptionInfoMessage.textContent = 'Disruption happened last round with the impact of ' +
+                    window.lastResultData.costOfDisruption + ' ECU. Be careful in future spending!';
                 disruptionInfoMessage.className = 'disruption-info-message status-yes';
                 disruptionInfoPopup.classList.remove('status-no');
                 disruptionInfoPopup.classList.add('status-yes');
             } else {
-                // GREEN - No disruption
-                disruptionInfoMessage.textContent = 'No disruption happened';
+                // BLUE - No disruption
+                disruptionInfoMessage.textContent = 'No disruption happened last round.';
                 disruptionInfoMessage.className = 'disruption-info-message';
                 disruptionInfoPopup.classList.remove('status-yes');
                 disruptionInfoPopup.classList.add('status-no');
