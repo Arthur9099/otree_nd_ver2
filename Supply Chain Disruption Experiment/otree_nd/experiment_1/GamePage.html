@@ -196,13 +196,26 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
-        font-size: 13px;
+        font-size: 15px;
+        text-align: center;
+        align-items: center;
+        height: 100%;
+        align-content: center;
+        justify-items: center;
     }
 
     .info-row {
         display: flex;
-        justify-content: space-between;
-        padding: 4px 0;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 5px 0;
+        text-align: left;
+    }
+
+    .general-info-grid>div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .info-label {
@@ -646,7 +659,7 @@
 
         .general-info-grid {
             gap: 10px;
-            font-size: 12px;
+            font-size: 13px;
         }
 
 
@@ -813,30 +826,22 @@
                 <div class="general-info-grid">
                     <div>
                         <div class="info-row">
-                            <span class="info-label">Disruption probability:</span>
+                            <span class="info-label">Base disruption probability:</span>
                             <span class="info-value">5%</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Disruption impact:</span>
+                            <span class="info-label">Base disruption impact:</span>
                             <span class="info-value">2000 ECU</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Revenue each round:</span>
-                            <span class="info-value">100 ECU</span>
                         </div>
                     </div>
                     <div>
                         <div class="info-row">
-                            <span class="info-label">Accumulative costs:</span>
+                            <span class="info-label">Additive costs up to this round:</span>
                             <span class="info-value">{{ accumulative_costs }} ECU</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Accumulative profit:</span>
-                            <span class="info-value">{{ accumulative_profit }} ECU</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Potential final profit:</span>
-                            <span class="info-value highlight">{{ current_profit }} ECU</span>
+                            <span class="info-label">Additive profit up to this round:</span>
+                            <span class="info-value highlight">{{ accumulative_profit }} ECU</span>
                         </div>
                     </div>
                 </div>
