@@ -250,6 +250,7 @@
         font-weight: bold;
         color: #FF0000;
     }
+
     .cost-value-no {
         font-weight: bold;
         color: #0000FF;
@@ -598,19 +599,47 @@
         border-color: #0000FF !important;
     }
 
-/* Responsive for different screen ratios */
+    /* Animation for value rounding feedback */
+    @keyframes roundingPulse {
+        0% {
+            background-color: #E0F0FF !important;
+            box-shadow: 0 0 0 0 rgba(0, 200, 0, 0.7);
+            transform: scale(1);
+        }
+
+        50% {
+            background-color: #90EE90 !important;
+            box-shadow: 0 0 15px 5px rgba(0, 200, 0, 0.5);
+            transform: scale(1.08);
+        }
+
+        100% {
+            background-color: #E0F0FF !important;
+            box-shadow: 0 0 0 0 rgba(0, 200, 0, 0);
+            transform: scale(1);
+        }
+    }
+
+    .form-control.rounding {
+        animation: roundingPulse 0.4s ease-out !important;
+    }
+
+    /* Responsive for different screen ratios */
     /* For 16:10 screens (1920x1200, 1680x1050, 1440x900) */
     @media (min-width: 1200px) and (max-width: 1920px) and (min-aspect-ratio: 8/5) and (max-aspect-ratio: 16/10) {
         .outer-container {
             max-width: 90%;
             padding: 15px;
         }
+
         .content-grid {
             gap: 15px;
         }
+
         .table-container {
             max-height: 380px;
         }
+
         .performance-table {
             font-size: 13px;
         }
@@ -622,20 +651,25 @@
             max-width: 92%;
             padding: 12px;
         }
+
         .table-container {
             max-height: 320px;
             min-height: 250px;
         }
+
         .performance-table {
             font-size: 12px;
         }
+
         .performance-table th,
         .performance-table td {
             padding: 8px 4px;
         }
+
         .info-box-content {
             padding: 12px;
         }
+
         .spending-content {
             padding: 20px 15px;
         }
@@ -646,45 +680,56 @@
         .outer-container {
             max-width: 95%;
         }
+
         .header {
             padding: 6px;
             font-size: 13px;
         }
+
         .header .round-info {
             font-size: 13px;
         }
+
         .info-box h3 {
             font-size: 13px;
             padding: 6px;
         }
+
         .general-info-grid {
             gap: 10px;
             font-size: 12px;
         }
+
         .table-container {
             max-height: 280px;
             min-height: 220px;
         }
+
         .performance-table {
             font-size: 11px;
         }
+
         .performance-table th,
         .performance-table td {
             padding: 6px 3px;
         }
+
         .spending-instruction {
             font-size: 11px;
             margin: 15px 0;
         }
+
         .calculator-icon {
             width: 30px;
             height: 30px;
         }
+
         .form-control {
             width: 100px !important;
             height: 30px !important;
             font-size: 14px !important;
         }
+
         .ecu-label {
             font-size: 14px;
             line-height: 30px;
@@ -696,9 +741,11 @@
         .content-grid {
             grid-template-columns: 1fr;
         }
+
         .general-info-grid {
             grid-template-columns: 1fr;
         }
+
         .table-container {
             max-height: 300px;
         }
@@ -709,19 +756,21 @@
         .outer-container {
             padding: 5px;
         }
+
         .header .round-info {
             font-size: 11px;
             left: 10px;
         }
+
         .performance-table {
             font-size: 10px;
         }
+
         .calculator-modal {
             width: 90%;
             max-width: 280px;
         }
     }
-
 </style>
 
 <div class="outer-container">
@@ -736,50 +785,72 @@
                 <div class="instruction-section">
                     <h3>Experimental Procedure</h3>
                     </p>
-            <p class="content-text">
-                You will play a game in which you need to make decisions in each of 100 identical rounds:
-            </p>
-            <p class="content-text">
-                • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the amount of money after deducting all direct and indirect costs except for SC resilience spending cost). You need to determine how much to spend on SC resilience; you are free to insert your spending decision <b>between 0 and 100 ECU</b>.
-            </p>
-            <p class="content-text">
-                • Once you submit your decision, the computer will automatically generate whether a disruption happens and the disruption-related cost you incur in the current round.
-            </p>
-            <p class="content-text">
-                • Your net profit in each round will be computed and provided in the performance table. There are two different scenarios:
-            </p>
-            <p class="content-text" style="margin-left: 40px;">
-                ○ If there is no disruption, your net profit will be:<br>
-                <b>Net Profit = Gross Profit – SC Resilience Spending</b>
-            </p>
-            <p class="content-text" style="margin-left: 40px;">
-                ○ If there is a disruption, your net profit will be:<br>
-                <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
-            </p>
-            <p class="content-text">
-                • Your accumulated net profit after 100 rounds will determine your final performance in the game. This performance will be converted to your actual payoff, added to your show-up fee.
-            </p>
+                    <p class="content-text">
+                        You will play a game in which you need to make decisions in each of 100 identical rounds:
+                    </p>
+                    <p class="content-text">
+                        • At the beginning of each round, you will certainly earn 100 ECU of gross profit (i.e., the
+                        amount of money after deducting all direct and indirect costs except for SC resilience spending
+                        cost). You need to determine how much to spend on SC resilience; you are free to insert your
+                        spending decision <b>between 0 and 100 ECU</b>.
+                    </p>
+                    <p class="content-text">
+                        • Once you submit your decision, the computer will automatically generate whether a disruption
+                        happens and the disruption-related cost you incur in the current round.
+                    </p>
+                    <p class="content-text">
+                        • Your net profit in each round will be computed and provided in the performance table. There
+                        are two different scenarios:
+                    </p>
+                    <p class="content-text" style="margin-left: 40px;">
+                        ○ If there is no disruption, your net profit will be:<br>
+                        <b>Net Profit = Gross Profit – SC Resilience Spending</b>
+                    </p>
+                    <p class="content-text" style="margin-left: 40px;">
+                        ○ If there is a disruption, your net profit will be:<br>
+                        <b>Net Profit = Gross Profit – SC Resilience Spending – Disruption-related Cost</b>
+                    </p>
+                    <p class="content-text">
+                        • Your accumulated net profit after 100 rounds will determine your final performance in the
+                        game. This performance will be converted to your actual payoff, added to your show-up fee.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Supply Chain Disruptions</h3>
                     <p class="content-text">
-                Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a flood in your factory, shipping route blockage, or political unrest). If your business is disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and unable to fulfill their orders), you may fail to meet your customers' demands and consequently incur a substantial cost due to declining sales and losing customers to your competitors.
-            </p>
-            <p class="content-text">
-                <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is independent and does not influence the result of any other rounds.
-            </p>
+                        Your corporation is constantly at risk of being affected by supply chain disruptions (e.g., a
+                        flood in your factory, shipping route blockage, or political unrest). If your business is
+                        disrupted or indirectly affected by these adverse events (e.g., your suppliers are shut down and
+                        unable to fulfill their orders), you may fail to meet your customers' demands and consequently
+                        incur a substantial cost due to declining sales and losing customers to your competitors.
+                    </p>
+                    <p class="content-text">
+                        <b>Disruptions are unpredictable, but you do know that without supply chain resilience (zero
+                            spending), the probability of a disruption occurring is 5% and it costs you 2000 ECU once a
+                            disruption occurs.</b> Keep in mind that the disruption occurring (or not) in one round is
+                        independent and does not influence the result of any other rounds.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>How Supply Chain Resilience Spending Works</h3>
                     <p class="content-text">
-                SC resilience is widely regarded as one of the best strategies that enables your company to proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience allows you to reduce both the probability and the financial impact of possible disruptions. The role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of disruptions occurring, as well as the lower the disruption-related costs if disruptions do happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always available to help you calculate the revised probability and revised impact of disruptions based on your spending amount.
-            </p>
+                        SC resilience is widely regarded as one of the best strategies that enables your company to
+                        proactively prepare for unforeseen disruptions. In this experiment, spending on SC resilience
+                        allows you to reduce both the probability and the financial impact of possible disruptions. The
+                        role is simple: <b>the higher you spend on SC resilience, the lower the likelihood of
+                            disruptions occurring, as well as the lower the disruption-related costs if disruptions do
+                            happen</b>. A decision support tool (i.e., a calculator icon next to an input box) is always
+                        available to help you calculate the revised probability and revised impact of disruptions based
+                        on your spending amount.
+                    </p>
                 </div>
                 <div class="instruction-section">
                     <h3>Your Objective</h3>
                     <p class="content-text">
-                Your goal in this experiment is to maximize your profit by deciding the right amount to spend on SC resilience that serves you best in preventing SC disruptions, while not eating up your profit due to excessive spending.
-            </p>
+                        Your goal in this experiment is to maximize your profit by deciding the right amount to spend on
+                        SC resilience that serves you best in preventing SC disruptions, while not eating up your profit
+                        due to excessive spending.
+                    </p>
                 </div>
             </div>
         </div>
@@ -838,25 +909,25 @@
                     <div class="disruption-status">
                         Disruption happening in this round:
                         {{ if last_result }}
-                            {{ if last_result.is_disrupted }}
-                                <span class="status-text status-yes">YES</span>
-                            {{ else }}
-                                <span class="status-text status-no">NO</span>
-                            {{ endif }}
+                        {{ if last_result.is_disrupted }}
+                        <span class="status-text status-yes">YES</span>
                         {{ else }}
-                            <span class="status-text status-no">NO</span>
+                        <span class="status-text status-no">NO</span>
+                        {{ endif }}
+                        {{ else }}
+                        <span class="status-text status-no">NO</span>
                         {{ endif }}
                     </div>
                     <div class="disruption-cost">
                         Disruption cost in this round:
                         {{ if last_result }}
-                            {{ if last_result.is_disrupted }}
-                            <span class="cost-value-yes">{{ last_result.cost_of_disruption }} ECU</span>
-                            {{ else }}
-                            <span class="cost-value-no">0 ECU</span>
-                            {{ endif }}
+                        {{ if last_result.is_disrupted }}
+                        <span class="cost-value-yes">{{ last_result.cost_of_disruption }} ECU</span>
                         {{ else }}
-                            <span class="cost-value-no">0 ECU</span>
+                        <span class="cost-value-no">0 ECU</span>
+                        {{ endif }}
+                        {{ else }}
+                        <span class="cost-value-no">0 ECU</span>
                         {{ endif }}
                     </div>
                 </div>
@@ -884,11 +955,12 @@
                         </thead>
                         <tbody>
                             {{ for result in combined_result }}
-                            <tr {{ if result.player.round_number == player.round_number }}class="current-round"{{ endif }}>
+                            <tr data-round="{{ result.player.round_number }}">
                                 <td>{{ result.player.round_number }}</td>
                                 <td>100</td>
                                 <td>{{ result.spending }}</td>
-                                <td>{{ if result.cost_of_disruption == 0 }}-{{ else }}{{ result.cost_of_disruption }}{{ endif }}</td>
+                                <td>{{ if result.cost_of_disruption == 0 }}-{{ else }}{{ result.cost_of_disruption }}{{
+                                    endif }}</td>
                                 <td>{{ result.round_total_costs }}</td>
                                 <td>{{ result.round_profit }}</td>
                             </tr>
@@ -905,8 +977,10 @@
             <div class="info-box-content">
                 <div class="spending-content">
                     <div class="spending-input-wrapper">
-                        <svg class="calculator-icon" id="calculatorIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path d="M192 64C156.7 64 128 92.7 128 128L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 128C512 92.7 483.3 64 448 64L192 64zM224 128L416 128C433.7 128 448 142.3 448 160L448 192C448 209.7 433.7 224 416 224L224 224C206.3 224 192 209.7 192 192L192 160C192 142.3 206.3 128 224 128zM240 296C240 309.3 229.3 320 216 320C202.7 320 192 309.3 192 296C192 282.7 202.7 272 216 272C229.3 272 240 282.7 240 296zM320 320C306.7 320 296 309.3 296 296C296 282.7 306.7 272 320 272C333.3 272 344 282.7 344 296C344 309.3 333.3 320 320 320zM448 296C448 309.3 437.3 320 424 320C410.7 320 400 309.3 400 296C400 282.7 410.7 272 424 272C437.3 272 448 282.7 448 296zM216 416C202.7 416 192 405.3 192 392C192 378.7 202.7 368 216 368C229.3 368 240 378.7 240 392C240 405.3 229.3 416 216 416zM344 392C344 405.3 333.3 416 320 416C306.7 416 296 405.3 296 392C296 378.7 306.7 368 320 368C333.3 368 344 378.7 344 392zM424 416C410.7 416 400 405.3 400 392C400 378.7 410.7 368 424 368C437.3 368 448 378.7 448 392C448 405.3 437.3 416 424 416zM192 488C192 474.7 202.7 464 216 464L328 464C341.3 464 352 474.7 352 488C352 501.3 341.3 512 328 512L216 512C202.7 512 192 501.3 192 488zM424 464C437.3 464 448 474.7 448 488C448 501.3 437.3 512 424 512C410.7 512 400 501.3 400 488C400 474.7 410.7 464 424 464z"/>
+                        <svg class="calculator-icon" id="calculatorIcon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 640">
+                            <path
+                                d="M192 64C156.7 64 128 92.7 128 128L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 128C512 92.7 483.3 64 448 64L192 64zM224 128L416 128C433.7 128 448 142.3 448 160L448 192C448 209.7 433.7 224 416 224L224 224C206.3 224 192 209.7 192 192L192 160C192 142.3 206.3 128 224 128zM240 296C240 309.3 229.3 320 216 320C202.7 320 192 309.3 192 296C192 282.7 202.7 272 216 272C229.3 272 240 282.7 240 296zM320 320C306.7 320 296 309.3 296 296C296 282.7 306.7 272 320 272C333.3 272 344 282.7 344 296C344 309.3 333.3 320 320 320zM448 296C448 309.3 437.3 320 424 320C410.7 320 400 309.3 400 296C400 282.7 410.7 272 424 272C437.3 272 448 282.7 448 296zM216 416C202.7 416 192 405.3 192 392C192 378.7 202.7 368 216 368C229.3 368 240 378.7 240 392C240 405.3 229.3 416 216 416zM344 392C344 405.3 333.3 416 320 416C306.7 416 296 405.3 296 392C296 378.7 306.7 368 320 368C333.3 368 344 378.7 344 392zM424 416C410.7 416 400 405.3 400 392C400 378.7 410.7 368 424 368C437.3 368 448 378.7 448 392C448 405.3 437.3 416 424 416zM192 488C192 474.7 202.7 464 216 464L328 464C341.3 464 352 474.7 352 488C352 501.3 341.3 512 328 512L216 512C202.7 512 192 501.3 192 488zM424 464C437.3 464 448 474.7 448 488C448 501.3 437.3 512 424 512C410.7 512 400 501.3 400 488C400 474.7 410.7 464 424 464z" />
                         </svg>
                         {{ formfields }}
                         <span class="ecu-label">(ECU)</span>
@@ -959,10 +1033,13 @@
 </div>
 
 <!-- Data attributes for server-side template rendering -->
-<div id="disruption-data" data-last-result="{% if last_result %}true{% else %}false{% endif %}" data-is-disrupted="{% if last_result %}{% if last_result.is_disrupted %}true{% else %}false{% endif %}{% else %}false{% endif %}" data-cost="{% if last_result %}{% if last_result.is_disrupted %}{{ last_result.cost_of_disruption }}{% else %}0{% endif %}{% else %}0{% endif %}" style="display:none;"></div>
+<div id="disruption-data" data-last-result="{{ if last_result }}true{{ else }}false{{ endif }}"
+    data-is-disrupted="{{ if last_result }}{{ if last_result.is_disrupted }}true{{ else }}false{{ endif }}{{ else }}false{{ endif }}"
+    data-cost="{{ if last_result }}{{ if last_result.is_disrupted }}{{ last_result.cost_of_disruption }}{{ else }}0{{ endif }}{{ else }}0{{ endif }}"
+    data-current-round="{{ player.round_number }}" style="display:none;"></div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // ============================================
         // 1. GET DISRUPTION DATA FROM SERVER
         // ============================================
@@ -970,13 +1047,23 @@
         const hasLastResult = disruptionDataEl && disruptionDataEl.dataset.lastResult === 'true';
         const lastResultIsDisrupted = disruptionDataEl && disruptionDataEl.dataset.isDisrupted === 'true';
         const lastResultCost = disruptionDataEl ? (parseInt(disruptionDataEl.dataset.cost) || 0) : 0;
-        
+        const currentRound = disruptionDataEl ? (parseInt(disruptionDataEl.dataset.currentRound) || 1) : 1;
+
         // Store in global scope for access
         window.lastResultData = {
             hasResult: hasLastResult,
             isDisrupted: lastResultIsDisrupted,
             costOfDisruption: lastResultCost
         };
+
+        // Highlight current round in table
+        const rows = document.querySelectorAll('.performance-table tbody tr');
+        rows.forEach(function (row) {
+            const rowRound = parseInt(row.dataset.round);
+            if (rowRound === currentRound) {
+                row.classList.add('current-round');
+            }
+        });
 
         // ============================================
         // 2. INSTRUCTIONS MODAL
@@ -986,18 +1073,18 @@
         const closeModal = document.getElementById('closeModal');
 
         if (instructionsLink && modal && closeModal) {
-            instructionsLink.addEventListener('click', function(e) {
+            instructionsLink.addEventListener('click', function (e) {
                 e.preventDefault();
                 modal.classList.add('active');
             });
 
-            closeModal.addEventListener('click', function(e) {
+            closeModal.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 modal.classList.remove('active');
             });
 
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1016,14 +1103,14 @@
 
         if (calculatorIcon && calculatorModal && closeCalculatorModal) {
             // Open calculator
-            calculatorIcon.addEventListener('click', function(e) {
+            calculatorIcon.addEventListener('click', function (e) {
                 e.stopPropagation();
                 calculatorModal.classList.add('active');
                 isCalculatorOpen = true;
             });
 
             // Close calculator with X button
-            closeCalculatorModal.addEventListener('click', function(e) {
+            closeCalculatorModal.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 calculatorModal.classList.remove('active');
@@ -1031,7 +1118,7 @@
             });
 
             // Prevent closing when clicking inside
-            calculatorModal.addEventListener('click', function(e) {
+            calculatorModal.addEventListener('click', function (e) {
                 e.stopPropagation();
             });
         }
@@ -1043,13 +1130,17 @@
         const closeDisruptionInfo = document.getElementById('closeDisruptionInfo');
         const disruptionInfoMessage = document.getElementById('disruptionInfoMessage');
 
+        // Flags to control popup behavior
+        let popupAutoShown = false;
+        let userHasInteracted = false;
+
         // Function to update popup content and styling
         function updateDisruptionInfoPopup() {
             if (!disruptionInfoPopup || !disruptionInfoMessage) return;
 
             if (window.lastResultData.isDisrupted) {
                 // RED - Disruption happened
-                disruptionInfoMessage.textContent = 'Disruption happened with the impact of ' + 
+                disruptionInfoMessage.textContent = 'Disruption happened with the impact of ' +
                     window.lastResultData.costOfDisruption + ' ECU';
                 disruptionInfoMessage.className = 'disruption-info-message status-yes';
                 disruptionInfoPopup.classList.remove('status-no');
@@ -1066,28 +1157,41 @@
         // Function to show popup
         function showDisruptionInfoPopup() {
             if (!disruptionInfoPopup) return;
-            
+
             updateDisruptionInfoPopup();
             disruptionInfoPopup.classList.add('active');
+            popupAutoShown = true;
         }
 
-        // Function to hide popup
-        function hideDisruptionInfoPopup() {
+        // Function to hide popup - respects initial auto-show state
+        function hideDisruptionInfoPopup(force) {
             if (!disruptionInfoPopup) return;
-            
+
+            // Don't hide if popup was just auto-shown and user hasn't truly interacted yet
+            // Unless force is true (used by close button)
+            if (!force && popupAutoShown && !userHasInteracted) {
+                return;
+            }
+
             disruptionInfoPopup.classList.remove('active');
+        }
+
+        // Function to mark user interaction
+        function markUserInteraction() {
+            userHasInteracted = true;
         }
 
         // Close button handler
         if (closeDisruptionInfo && disruptionInfoPopup) {
-            closeDisruptionInfo.addEventListener('click', function(e) {
+            closeDisruptionInfo.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                hideDisruptionInfoPopup();
+                markUserInteraction();
+                hideDisruptionInfoPopup(true); // Force hide
             });
 
             // Prevent closing when clicking inside popup
-            disruptionInfoPopup.addEventListener('click', function(e) {
+            disruptionInfoPopup.addEventListener('click', function (e) {
                 e.stopPropagation();
             });
         }
@@ -1121,41 +1225,95 @@
         const calcImpact = document.getElementById('calcImpact');
 
         if (moneyInput) {
-            // Input validation and calculator update
-            moneyInput.addEventListener('input', function(e) {
-                let value = parseInt(e.target.value);
-                
-                // Validate range
-                if (value < 0) e.target.value = 0;
-                if (value > 100) e.target.value = 100;
+            // Set attributes for multiples of 10
+            moneyInput.setAttribute('step', '10');
+            moneyInput.setAttribute('min', '0');
+            moneyInput.setAttribute('max', '100');
 
-                // Hide disruption popup when typing
+            // Function to round value to nearest 10
+            function roundToNearest10(val) {
+                if (isNaN(val)) return 0;
+                if (val < 0) val = 0;
+                if (val > 100) val = 100;
+                return Math.round(val / 10) * 10;
+            }
+
+            // Debounce timer for auto-rounding
+            let roundingTimer = null;
+
+            // Input event - allow free typing, auto-round after 500ms
+            moneyInput.addEventListener('input', function (e) {
+                let value = parseInt(e.target.value);
+
+                // Validate range during typing
+                if (!isNaN(value)) {
+                    if (value < 0) e.target.value = 0;
+                    if (value > 100) e.target.value = 100;
+                    value = parseInt(e.target.value);
+                }
+
+                // Mark user has interacted and hide disruption popup when typing
+                markUserInteraction();
                 hideDisruptionInfoPopup();
 
-                // Update calculator display
+                // Update calculator display with rounded value preview
                 if (e.target.value === '' || isNaN(value)) {
                     calculatorResult.style.display = 'none';
                     calculatorPlaceholder.style.display = 'block';
                 } else {
-                    const result = calculateDisruption(value);
+                    const roundedValue = roundToNearest10(value);
+                    const result = calculateDisruption(roundedValue);
                     calcProbability.textContent = result.probability;
                     calcImpact.textContent = result.impact;
                     calculatorResult.style.display = 'block';
                     calculatorPlaceholder.style.display = 'none';
                 }
+
+                // Clear previous timer and set new one to auto-round after 500ms
+                clearTimeout(roundingTimer);
+                roundingTimer = setTimeout(function () {
+                    let currentValue = parseInt(moneyInput.value);
+                    if (!isNaN(currentValue)) {
+                        const rounded = roundToNearest10(currentValue);
+                        if (rounded !== currentValue) {
+                            moneyInput.value = rounded;
+                            // Trigger animation
+                            moneyInput.classList.remove('rounding');
+                            void moneyInput.offsetWidth; // Force reflow
+                            moneyInput.classList.add('rounding');
+                        }
+                    }
+                }, 500);
             });
 
-            // Hide popup when user focuses on input
-            moneyInput.addEventListener('focus', function(e) {
-                hideDisruptionInfoPopup();
+            // Blur event - round immediately when leaving the field
+            moneyInput.addEventListener('blur', function (e) {
+                clearTimeout(roundingTimer); // Cancel pending timer
+                let value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                    const rounded = roundToNearest10(value);
+                    if (rounded !== value) {
+                        e.target.value = rounded;
+                        // Trigger animation
+                        moneyInput.classList.remove('rounding');
+                        void moneyInput.offsetWidth; // Force reflow
+                        moneyInput.classList.add('rounding');
+                    }
+                }
             });
 
-            // Enter key to submit
-            moneyInput.addEventListener('keydown', function(e) {
+            // Enter key to submit (round before submitting)
+            moneyInput.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
+                    // Round value before submit
+                    let value = parseInt(moneyInput.value);
+                    if (!isNaN(value)) {
+                        moneyInput.value = roundToNearest10(value);
+                    }
+
                     const submitButton = document.querySelector('.otree-btn-next');
                     if (submitButton && !submitButton.disabled) {
                         submitButton.click();
@@ -1163,31 +1321,25 @@
                 }
             });
 
-            // Initialize calculator if there's a value
-            setTimeout(function() {
-                if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
-                    const value = parseInt(moneyInput.value);
-                    const result = calculateDisruption(value);
-                    calcProbability.textContent = result.probability;
-                    calcImpact.textContent = result.impact;
-                    calculatorResult.style.display = 'block';
-                    calculatorPlaceholder.style.display = 'none';
-                }
-            }, 100);
+            // Initialize calculator if there's a value (sync, no delay needed)
+            if (moneyInput.value && !isNaN(parseInt(moneyInput.value))) {
+                const value = parseInt(moneyInput.value);
+                const result = calculateDisruption(value);
+                calcProbability.textContent = result.probability;
+                calcImpact.textContent = result.impact;
+                calculatorResult.style.display = 'block';
+                calculatorPlaceholder.style.display = 'none';
+            }
 
-            // Focus input
-            moneyInput.focus();
-        }
-
-        // ============================================
-        // 7. SHOW DISRUPTION POPUP ON PAGE LOAD
-        // ============================================
-        // Show popup only if we have a last result (not first round)
-        setTimeout(function() {
+            // Show disruption popup BEFORE focusing input
+            // This ensures popupAutoShown is true before focus event triggers
             if (window.lastResultData.hasResult) {
                 showDisruptionInfoPopup();
             }
-        }, 200); // Small delay to ensure DOM is ready
+
+            // Focus input (after showing popup so it won't hide immediately)
+            moneyInput.focus();
+        }
 
         // ============================================
         // 8. BUTTON TEXT
@@ -1198,53 +1350,38 @@
         }
 
         // ============================================
-        // 9. FORM SUBMISSION HANDLING
+        // 9. FORM SUBMISSION & TIME TRACKING (merged)
         // ============================================
-        let formElement = document.querySelector('form');
+        const formElement = document.querySelector('form');
+        let startTime = Date.now();
+
+        // Send page loaded time
+        if (typeof liveSend !== 'undefined') {
+            liveSend({ 'page_loaded': startTime });
+        }
+
         if (formElement) {
-            formElement.addEventListener('submit', function(e) {
+            formElement.addEventListener('submit', function (e) {
+                // Save calculator state
                 if (isCalculatorOpen) {
                     sessionStorage.setItem('calculatorWasOpen', 'true');
+                }
+                // Send form submitted time
+                if (typeof liveSend !== 'undefined') {
+                    liveSend({ 'form_submitted': Date.now() });
                 }
             });
         }
 
-        // Restore calculator state after page load
+        // Restore calculator state (sync, no delay needed after DOMContentLoaded)
         if (sessionStorage.getItem('calculatorWasOpen') === 'true') {
-            setTimeout(function() {
-                if (calculatorModal) {
-                    calculatorModal.classList.add('active');
-                    isCalculatorOpen = true;
-                }
-                sessionStorage.removeItem('calculatorWasOpen');
-            }, 100);
+            if (calculatorModal) {
+                calculatorModal.classList.add('active');
+                isCalculatorOpen = true;
+            }
+            sessionStorage.removeItem('calculatorWasOpen');
         }
     });
-
-    // ============================================
-    // 10. TIME TRACKING
-    // ============================================
-    window.onload = function() {
-        startTime = Date.now();
-        if (typeof liveSend !== 'undefined') {
-            liveSend({'page_loaded': startTime});
-        }
-    };
-    
-    function getTime() {
-        endTime = Date.now();
-        if (typeof liveSend !== 'undefined') {
-            liveSend({'form_submitted': endTime});
-        }
-    };
-    
-    // Intercept form submission for time tracking
-    let formNode = document.querySelector('form');
-    if (formNode) {
-        formNode.addEventListener('submit', function(e) {
-            getTime();
-        });
-    }
 </script>
 
 {{ endblock }}
