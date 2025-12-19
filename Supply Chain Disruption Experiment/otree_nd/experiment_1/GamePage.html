@@ -167,7 +167,7 @@
     /* Box styling */
     .info-box {
         background-color: #FFFFFF;
-        border: 2px solid #000000;
+        border: 1px solid #000000;
         border-radius: 0;
         display: flex;
         flex-direction: column;
@@ -185,7 +185,7 @@
     }
 
     .info-box-content {
-        padding: 15px;
+        padding: 5px;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -193,9 +193,6 @@
 
     /* General Information */
     .general-info-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
         font-size: 15px;
         text-align: center;
         align-items: center;
@@ -207,15 +204,9 @@
     .info-row {
         display: flex;
         justify-content: flex-start;
-        gap: 10px;
-        padding: 5px 0;
+        gap: 5px;
+        padding: 8px 0;
         text-align: left;
-    }
-
-    .general-info-grid>div {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
     }
 
     .info-label {
@@ -223,7 +214,8 @@
     }
 
     .info-value {
-        font-weight: normal;
+        font-weight: bold;
+        font-size: 16px;
         color: #0000FF;
     }
 
@@ -699,11 +691,6 @@
         .content-grid {
             grid-template-columns: 1fr;
         }
-
-        .general-info-grid {
-            grid-template-columns: 1fr;
-        }
-
     }
 
     /* Very small screens */
@@ -834,16 +821,6 @@
                             <span class="info-value">2000 ECU</span>
                         </div>
                     </div>
-                    <div>
-                        <div class="info-row">
-                            <span class="info-label">Additive costs up to this round:</span>
-                            <span class="info-value">{{ accumulative_costs }} ECU</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Additive profit up to this round:</span>
-                            <span class="info-value highlight">{{ accumulative_profit }} ECU</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -897,7 +874,7 @@
                                 <th>SC Resilience<br>cost</th>
                                 <th>Cost of<br>Disruption</th>
                                 <th>Total<br>Costs</th>
-                                <th>Net Profit<br>(this round)</th>
+                                <th>Net Profit<br>(or Loss)</th>
                             </tr>
                         </thead>
                         <tbody>
